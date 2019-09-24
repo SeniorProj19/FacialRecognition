@@ -1,5 +1,6 @@
 fungt1.github.io/ProfileForm
- 
+
+Jquery extnesion was used for the camera/photo upload in the profile section.
 This is a profile form for a senior project I am working on with a group. There are three types of forms, login, regsitration and profile. This form will handle all the information a user will input and send it to a database where it can process within a mobile appliation that communicates with the Google Glass facial recognition.
 NOTE: This is just a front-end represnetation of the website. There is no database yet so pressing the 
 registration button or inputting something and pressing it will do nothing. Although the same goes for login I have made a dummy test to communicate between the login and profile form by creating a custom username and password. It is marked on the website. 
