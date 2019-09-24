@@ -1,0 +1,153 @@
+<!--Profiling Form
+This is a profile form for a senior project I am working on with a group. There are three types of forms, login, regsitration and profile. This form will handle all the information a user will input and send it to a database where it can process within a mobile appliation that communicates with the Google Glass facial recognition.
+
+NOTE: This is just a front-end represnetation of the website. There is no database yet so pressing the 
+registration button or inputting something and pressing it will do nothing. Although the same goes for login I have made a dummy test to communicate between the login and profile form by creating a custom username and password. It is marked on the website. 
+
+Future Implementations: Database to create users, For profile picture taking a picture with your camera. Fixing the picture orientation when uploading certain pictures. Other functions such as forget password, remember password etc. 
+
+Creator:Tyler Fung
+Date Created: 09/23/19
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<title>Profiling Form for Google Glass</title>
+</head>
+  <link href="fungt1.github.io-ProfileForm/style.css" rel="stylesheet">
+<body>
+ <span><b class="note">Note : </b>Since there is no database I have made custom username and password. Use following username and password. <br/><b class="valid">User Name : a<br/>Password : b</b></span>
+<!--Login container-->
+<form action="login" method="post" class="loginform">
+     <div class=whitetop>
+       <h3> Login information</h3>
+     </div>
+     <div class="login">Login</div>
+     <div class="register">Register</div>
+     <input type="Utext" name="username" placeholder="username" id="username"/>
+        <br>
+     <input type="password" name="password" placeholder="password" id="password"/>
+        <br>
+     <input type="logButton" value="Login" id="submit" onclick="validate()"/>
+     
+</form>
+<!--Registration Container-->
+<form action="register" method="post" class="registerform">
+    <div class=whitetop>
+       <h3> Register information</h3>
+    </div>
+    <div class="login">Login</div>
+    <div class="register">Register</div>
+    <input class="user" type="rText" name="username" placeholder="username" required >
+       <br>
+    <input class="pass" type="rPass" name="password" placeholder="password" required>
+    <input class="pass" type="rPass" name="password" placeholder="repeat password" required>
+      <br>
+  <input class="submit" type="rButton" value="Register">
+</form>
+<!--Profile Container-->
+<form action="login" id="id01" method="post" class="profileForm">
+     <div class=whitetop>
+       <h3> Profile information</h3>
+       <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+     <div class="pic-upload">
+        <div class="pic-edit">
+            <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" />
+            <label for="imageUpload"></label>
+        </div>
+        <div class="pic-preview">
+            <div id="imagePreview" style="background-image: url(https://www.pngkey.com/png/detail/230-2301779_best-classified-apps-default-user-profile.png);">
+            </div>
+        </div>
+    </div>
+
+     <input class="firstName" type="text" name="first" placeholder="first name" required >
+        <br>
+     <input class="lastName" type="text" name="last" placeholder="last name" required >
+        <br>
+     <input class="occu" type="text" name="occupation" placeholder="occupation" required >
+        <br>
+     <input class="age" type="text" name="age" placeholder="age" required >
+        <br>
+     <input class="phone" type="text" name="phone number" placeholder="phone number" required>
+        <br>
+     <input class="city" type="text" name="city" placeholder="city" required>
+        <br>
+     <input class="state" type="text" name="state" placeholder="state" required>
+        <br>
+     <input class="zip" type="text" name="zip" placeholder="zip" required>
+        <br>
+     <input class="pSubmit" type="submit" value="Submit"/>
+     
+     <button type="button" onclick="document.getElementById('id01').style.display='none'"                     class="cancelbtn">Cancel</button>
+</form>
+</body>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+
+var attempt = 5; // Variable to count number of attempts.
+//Executes on click of login button.
+$( "#submit" ).on( "click", function() {
+var username = document.getElementById("username").value;
+var password = document.getElementById("password").value;
+if ( username == "a" && password == "b"){
+alert ("Login successfully");
+ $('.profileForm').toggle(); //Show user Profile and hide the other forms
+ $('.loginform').hide();
+ $('.registerform').hide();
+}
+else{
+attempt --;// Decrementing by one.
+alert("You have left "+attempt+" attempt;");
+// Disabling fields after 5 attempts.
+if( attempt == 0){
+document.getElementById("username").disabled = true;
+document.getElementById("password").disabled = true;
+document.getElementById("submit").disabled = true;
+return false;
+}
+}
+});
+
+//show form again
+$( ".close" ).on( "click", function() {
+  $('.loginform').show();
+  $('.registerform').show();
+});
+
+$( ".cancelbtn" ).on( "click", function() {
+  $('.loginform').show();
+  $('.registerform').show();
+});
+
+//switch function for registration and login
+$('.register').each(function(i){
+  $(this).click(function(){
+  $('.registerform').addClass('registerform-active');
+  $('.login').css('background-color','#A9E2F3');
+  $('.register').css('color','#A9E2F3');
+  });
+});
+$('.login').each(function(i){
+  $(this).click(function(){
+  $('.registerform').removeClass('registerform-active');
+   $('.register').css('background-color','#0B4C5F');
+  });
+});
+
+//uploading picture function
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $('#imagePreview').css('background-image', 'url('+e.target.result +')');
+            $('#imagePreview').fadeIn(650);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+$("#imageUpload").change(function() {
+    readURL(this);
+});
+</script>
+</html>
