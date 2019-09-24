@@ -1,5 +1,7 @@
 fungt1.github.io/ProfileForm
 
+Creator: Tyler Fung
+
 Jquery extnesion was used for the camera/photo upload in the profile section.
 This is a profile form for a senior project I am working on with a group. There are three types of forms, login, regsitration and profile. This form will handle all the information a user will input and send it to a database where it can process within a mobile appliation that communicates with the Google Glass facial recognition.
 NOTE: This is just a front-end represnetation of the website. There is no database yet so pressing the 
