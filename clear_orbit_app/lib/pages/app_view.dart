@@ -6,6 +6,8 @@ import 'package:clear_orbit_app/pages/card_view.dart';
 class app_view extends StatelessWidget {
 
   final PageController controller = new PageController();
+
+  //List of pages
   final List<Widget> widgetList = <Widget> [
     connections_view(),
     camera_view(),
@@ -19,6 +21,12 @@ class app_view extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text('Clear Orbit Prototype'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.clear),
+            tooltip: 'Sign Out',
+          )
+        ],
       ),
       body: Stack(
         alignment: AlignmentDirectional.bottomCenter,
@@ -31,8 +39,6 @@ class app_view extends StatelessWidget {
                 return widgetList[index];
               }
           ),
-
-
         ],
       ),
     );
