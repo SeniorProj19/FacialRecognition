@@ -4,11 +4,10 @@ import 'package:clear_orbit_app/pages/app_view.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Clear Orbit Prototype',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
