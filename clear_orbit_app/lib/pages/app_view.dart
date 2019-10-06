@@ -18,7 +18,7 @@ class app_view extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Weatherby Prototype'),
+        title: Text('Clear Orbit Prototype'),
       ),
       body: Stack(
         alignment: AlignmentDirectional.bottomCenter,
