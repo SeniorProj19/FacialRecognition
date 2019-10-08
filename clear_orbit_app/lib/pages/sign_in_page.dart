@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:clear_orbit_app/services/account_sign_in.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -11,7 +12,10 @@ class _ListPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Weatherby Prototype')),
+      appBar: AppBar(
+          title: Text('Clear Orbit'), 
+          centerTitle: true,
+      ),
       body: SafeArea(
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 24.0),
@@ -41,7 +45,9 @@ class _ListPageState extends State<LoginPage> {
             ),
             FlatButton(
               child: Text('Sign In'),
-              onPressed: (){},
+              onPressed: (){
+                Navigator.pushNamedAndRemoveUntil(context, newRouteName, predicate)
+              },
             )
           ],
         ),
