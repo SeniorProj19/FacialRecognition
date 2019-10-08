@@ -46,7 +46,7 @@ class _ListPageState extends State<LoginPage> {
             FlatButton(
               child: Text('Sign In'),
               onPressed: (){
-                Navigator.pushNamedAndRemoveUntil(context, newRouteName, predicate)
+                Navigator.pushNamedAndRemoveUntil(context, '/main', (Route<dynamic> route) => false);
               },
             )
           ],
