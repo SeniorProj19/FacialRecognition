@@ -12,10 +12,6 @@ class _ListPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text('Clear Orbit'), 
-          centerTitle: true,
-      ),
       body: SafeArea(
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 24.0),
@@ -23,12 +19,17 @@ class _ListPageState extends State<LoginPage> {
             SizedBox(height: 80.0),
             Column(
               children: <Widget>[
-                Image.asset("code_planet_logo.jpg"),
-                SizedBox(height: 20.0,),
-                Text('Clear Orbit')
+                Image.asset("assets/lock.png",
+                scale: 1.5),
+                SizedBox(height: 30.0,),
+                Text('Clear Orbit',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 40
+                ),)
               ],
             ),
-            SizedBox(height: 120.0),
+            SizedBox(height: 100.0),
             TextField(
               decoration: InputDecoration(
                 labelText: 'Username',
