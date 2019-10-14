@@ -1,3 +1,3 @@
-Senior Project. 
+Senior Project Github. 
 
 Name: Clear Orbit
