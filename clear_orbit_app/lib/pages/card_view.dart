@@ -1,3 +1,4 @@
+import 'package:clear_orbit_app/services/global.dart';
 import 'package:flutter/material.dart';
 
 class card_view extends StatefulWidget{
@@ -19,7 +20,7 @@ class card_view_state extends State<card_view > {
               child: CircleAvatar(
                 backgroundColor: Colors.blue,
                 child: Text(
-                  "AW",
+                  account_viewing.getInitials(),
                 style: TextStyle(fontSize: 70),
                 ),
                 radius: 100,
@@ -29,21 +30,21 @@ class card_view_state extends State<card_view > {
               child: Column(
                 children: <Widget>[
                   Text(
-                    "Andrew Weatherby",
+                    account_viewing.name_first + " " + account_viewing.name_last,
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 35
                     ),
                   ),
                   Text(
-                    "Veracity Engineering",
+                    account_viewing.company,
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 25
                     ),
                   ),
                   Text(
-                    "Summer-Fall Intern",
+                    account_viewing.title,
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 25
@@ -65,7 +66,7 @@ class card_view_state extends State<card_view > {
                     ),
                   ),
                   Text(
-                    "andrew-h-weatherby",
+                    account_viewing.account_linkedin,
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 20
@@ -86,7 +87,7 @@ class card_view_state extends State<card_view > {
                   ),
                   ),
                   Text(
-                  "weatherba0@students.rowan.edu",
+                  account_viewing.account_email,
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 20
