@@ -8,4 +8,8 @@ class Account {
 
   Account(
       {this.name_first, this.name_last, this.company, this.title, this.account_email, this.account_linkedin});
+
+  String getInitials(){
+    return name_first.substring(0,1)+name_last.substring(0,1);
+  }
 }
