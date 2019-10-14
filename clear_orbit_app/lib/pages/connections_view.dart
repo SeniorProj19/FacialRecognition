@@ -1,3 +1,4 @@
+import 'package:clear_orbit_app/services/global.dart';
 import 'package:flutter/material.dart';
 import 'package:clear_orbit_app/models/account.dart';
 
@@ -39,7 +40,13 @@ class connections_view_state extends State<connections_view> {
                     entries[index].company + " - " + entries[index].title,
                     style: TextStyle(color: Colors.white),
                   ),
-                  trailing: Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30.0,),
+                  trailing: IconButton(
+                    icon: Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30.0),
+                    onPressed: (){
+                      account_viewing = entries[index];
+                      Navigator.pushNamed(context, '/card');
+                    }
+                  ),
             ),
           ),
         );
