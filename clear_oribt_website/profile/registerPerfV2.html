@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="static\css\style.css">
+    <!--<link rel="stylesheet" href="http://localhost/Profile/css/style.css">-->
+
+</head>
+<style>
+.login-dark {
+    height:1000px;
+    background: url(https://i2.wp.com/spacetourismguide.com/wp-content/uploads/2019/04/Zodiacal-Light-Willi-Winzig-via-Flickr.jpg?fit=862%2C573&ssl=1);
+    background-position: center center;
+      background-repeat:  no-repeat;
+      background-attachment: fixed;
+      background-size:  cover;
+  }
+  
+  .login-dark form {
+    max-width:320px;
+    width:90%;
+    background-color:#1e2833;
+    padding:40px;
+    border-radius:4px;
+    transform:translate(-50%, -50%);
+    position:absolute;
+    top:50%;
+    left:50%;
+    color:#fff;
+    box-shadow:3px 3px 4px rgba(0,0,0,0.2);
+  }
+  
+  .login-dark .illustration {
+    text-align:center;
+    padding:15px 0 20px;
+    font-size:100px;
+    color:#2980ef;
+  }
+  
+  .login-dark form .form-control {
+    background:none;
+    border:none;
+    border-bottom:1px solid #ffffff;
+    border-radius:0;
+    box-shadow:none;
+    outline:none;
+    color:inherit;
+  }
+  
+  .login-dark form .btn-primary {
+    background:#214a80;
+    border:none;
+    border-radius:4px;
+    padding:11px;
+    box-shadow:none;
+    margin-top:26px;
+    text-shadow:none;
+    outline:none;
+  }
+  
+  .login-dark form .btn-primary:hover, .login-dark form .btn-primary:active {
+    background:#214a80;
+    outline:none;
+  }
+  
+  .login-dark form .forgot {
+    display:block;
+    text-align:center;
+    font-size:12px;
+    color:#6f7a85;
+    opacity:0.9;
+    text-decoration:none;
+  }
+  
+  .login-dark form .forgot:hover, .login-dark form .forgot:active {
+    opacity:1;
+    text-decoration:none;
+  }
+  
+  .login-dark form .btn-primary:active {
+    transform:translateY(1px);
+  }
+  
+  .btn-primary:active :hover
+    {
+      background-color: #088A85;
+      color: white;
+    }
+  .button-forgot {
+    position: absolute;
+    bottom: 55px;
+    left: 215px;
+    border: none;
+    background-color: #214a80;
+    padding: 2px 4px;
+    font-size: 10px;
+    cursor: pointer;
+    display: inline-block;
+    color: rgb(245, 245, 245)
+  }
+  
+  .button-forgot:hover
+    {
+      background-color: #088A85;
+      color: white;
+      border-radius: 10px;
+    }
+  
+  .btn-reg {
+    position: absolute;
+    bottom: 55px;
+    left: 210px;
+    border: none;
+    background-color: #214a80;
+    padding: 2px 4px;
+    font-size: 10px;
+    cursor: pointer;
+    display: inline-block;
+    color: rgb(245, 245, 245)
+  }
+  
+  .btn-reg:hover
+    {
+      background-color: #088A85;
+      color: white;
+      border-radius: 10px;
+    }
+  
+  /* Extra styles for the cancel button */
+  .cancelbtn {
+    position: absolute;
+    left: 2px;
+     top: 605px;
+     border: none;
+      background-color: #214a80;
+      padding: 5px 10px;
+      color: White;
+      font-size: 10px;
+      font-weight: bold;
+      transition: all 0.5s;
+    }
+    
+    .cancelbtn:hover
+    {
+      background-color: #088A85;
+      color: white;
+    }
+  
+    .back {
+      position: absolute;
+      left: 3px;
+       top: 570px;
+       border: none;
+        background-color: #214a80;
+        padding: 5px 10px;
+        color: White;
+        font-size: 10px;
+        font-weight: bold;
+        transition: all 0.5s;
+      }
+      
+      .back:hover
+      {
+        background-color: #088A85;
+        color: white;
+      }
+  
+      .plogout {
+        position: absolute;
+        left: 3px;
+         top: 705px;
+         border: none;
+          background-color: #214a80;
+          padding: 5px 10px;
+          color: White;
+          font-size: 10px;
+          font-weight: bold;
+          transition: all 0.5s;
+        }
+        
+        .plogout:hover
+        {
+          background-color: #088A85;
+          color: white;
+        }
+  
+      /*picture upload*/
+  .pic-upload {
+    position: relative;
+    max-width: 205px;
+    margin: 50px auto;
+  }
+  .pic-upload .pic-edit {
+    position: absolute;
+    right: 0px;
+    z-index: 1;
+    top: 10px;
+  }
+  .pic-upload .pic-edit input {
+    display: none;
+  }
+  .pic-upload .pic-edit input + label {
+    display: inline-block;
+    width: 44px;
+    height: 44px;
+    margin-bottom: 0;
+    border-radius: 100%;
+    background: #214a80;
+    border: 1px solid transparent;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    font-weight: normal;
+    transition: all 0.2s ease-in-out;
+  }
+  .pic-upload .pic-edit input + label:hover {
+    background: #f1f1f1;
+    border-color: #d6d6d6;
+  }
+  .pic-upload .pic-edit input + label:after {
+    content: "\f040";
+    font-family: 'FontAwesome';
+    color: #757575;
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    margin: auto;
+  }
+  .pic-upload .pic-preview {
+    width: 292px;
+    height: 292px;
+    right: 50px;
+    position: relative;
+    border-radius: 100%;
+    border: 6px solid #F8F8F8;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+  }
+  .pic-upload .pic-preview > div {
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  /*end of picture upload*/
+  #img_div{
+    width: 80%;
+    padding: 5px;
+    margin: 15px auto;
+    border: 1px solid #cbcbcb;
+  }
+.btn-gen {
+    position: absolute;
+    left: 170px;
+     top: 342px;
+     border: none;
+      background-color: #214a80;
+      padding: 5px 10px;
+      color: White;
+      font-size: 10px;
+      font-weight: bold;
+      transition: all 0.5s;
+    }
+    
+    .btn-gen:hover
+    {
+      background-color: #088A85;
+      color: white;
+    }
+</style>
+<body>
+    {% from "_formhelpers.html" import render_field%}
+    <div class="login-dark">
+            <form method="post" name="register">
+            <input type="hidden" name="length" value="10">
+                 <b id="welcome">Register Form</b>
+                <div class="illustration"><i class="icon icon ion-planet"></i></div>
+                <div class="form-group"><input class="form-control" type="text" id=form.username placeholder="Username" required></div>
+                
+                <div class="form-group"><input class="form-control" name="genPass" type="password" id=form.password placeholder="Password" style="margin-bottom:30px" required><button type="button" class="btn-gen" onClick="generate()" tabindex="1">Generate Password</div>
+                
+                <div class="form-group"><input class="form-control" type="password" id=form.confirm placeholder="Confirm Password" required><input type="checkbox" onclick="showPassFunction()">Show Password</div>
+                <div class="form-group"><button class="btn btn-primary btn-block" input type="submit" value="Submit">Submit</button></div>
+                
+                <a href="#" class="forgot">Forgot your email or password?</a>
+                <br>
+                <a href="#"  class="forgot"><p style="text-align:center">Already registered?</p>  </a><button id="login" type="button" class=" button-forgot" >Back to Login</button>
+                <button type="button" class="cancelbtn" id="back">Back to Homepage</button>
+            </form>
+            
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
+<script type="text/javascript">
+    document.getElementById("login").onclick = function () {
+        window.location.href = "{{ url_for('profLoginPage') }}";
+    };
+    document.getElementById("back").onclick = function () {
+        window.location.href = "{{ url_for('profPage') }}";
+    };
+    //generate password
+    function randomPassword(length) {
+    var chars = "abcdefghijklmnopqrstuvwxyz!@#$%^&*()-+<>ABCDEFGHIJKLMNOP1234567890";
+    var pass = "";
+    for (var x = 0; x < length; x++) {
+        var i = Math.floor(Math.random() * chars.length);
+        pass += chars.charAt(i);
+    }
+    return pass;
+}
+
+function generate() {
+    register.genPass.value = randomPassword(register.length.value);
+    
+}
+//show the password
+function showPassFunction() {
+  var x = document.getElementById("form.password");
+  var y = document.getElementById("form.confirm");
+  if (x.type && y.type === "password") {
+    x.type = "text";
+    y.type = "text";
+  } else {
+    x.type = "password";
+    y.type = "password";
+  }
+}
+</script>
+</html>
