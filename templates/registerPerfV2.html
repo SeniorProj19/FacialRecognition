@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="static\css\styleV2.css">
+    <!--<link rel="stylesheet" href="http://localhost/Profile/css/styleV2.css">-->
+
+</head>
+
+<body>
+    {% from "_formhelpers.html" import render_field%}
+    <div class="login-dark">
+            <form method="post" name="register">
+            <input type="hidden" name="length" value="10">
+                 <b id="welcome">Register Form</b>
+                <div class="illustration"><i class="icon icon ion-planet"></i></div>
+                <div class="form-group"><input class="form-control" type="text" id=form.username placeholder="Username" required></div>
+                
+                <div class="form-group"><input class="form-control" name="genPass" type="password" id=form.password placeholder="Password" style="margin-bottom:30px" required><button type="button" class="btn-gen" onClick="generate()" tabindex="1">Generate Password</div>
+                
+                <div class="form-group"><input class="form-control" type="password" id=form.confirm placeholder="Confirm Password" required><input type="checkbox" onclick="showPassFunction()">Show Password</div>
+                <div class="form-group"><button class="btn btn-primary btn-block" input type="submit" value="Submit">Submit</button></div>
+                
+                <a href="#" class="forgot">Forgot your email or password?</a>
+                <br>
+                <a href="#"  class="forgot"><p style="text-align:center">Already registered?</p>  </a><button id="login" type="button" class=" button-forgot" >Back to Login</button>
+                <button type="button" class="cancelbtn" id="back">Back to Homepage</button>
+            </form>
+            
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
+<script type="text/javascript">
+    document.getElementById("login").onclick = function () {
+        window.location.href = "{{ url_for('profLoginPage') }}";
+    };
+    document.getElementById("back").onclick = function () {
+        window.location.href = "{{ url_for('profPage') }}";
+    };
+    //generate password
+    function randomPassword(length) {
+    var chars = "abcdefghijklmnopqrstuvwxyz!@#$%^&*()-+<>ABCDEFGHIJKLMNOP1234567890";
+    var pass = "";
+    for (var x = 0; x < length; x++) {
+        var i = Math.floor(Math.random() * chars.length);
+        pass += chars.charAt(i);
+    }
+    return pass;
+}
+
+function generate() {
+    register.genPass.value = randomPassword(register.length.value);
+    
+}
+//show the password
+function showPassFunction() {
+  var x = document.getElementById("form.password");
+  var y = document.getElementById("form.confirm");
+  if (x.type && y.type === "password") {
+    x.type = "text";
+    y.type = "text";
+  } else {
+    x.type = "password";
+    y.type = "password";
+  }
+}
+</script>
+</html>
