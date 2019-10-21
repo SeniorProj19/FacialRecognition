@@ -1,11 +1,13 @@
+import 'package:clear_orbit_app/services/global.dart';
 import 'package:flutter/material.dart';
 import 'package:clear_orbit_app/pages/camera_view.dart';
 import 'package:clear_orbit_app/pages/connections_view.dart';
 import 'package:clear_orbit_app/pages/card_view.dart';
+import 'package:clear_orbit_app/services/global.dart';
 
 class app_view extends StatelessWidget {
 
-  final PageController controller = new PageController();
+  final PageController controller = new PageController(initialPage: 1);
 
   //List of pages
   final List<Widget> widgetList = <Widget> [
