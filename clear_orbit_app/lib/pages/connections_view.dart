@@ -1,7 +1,9 @@
+import 'package:clear_orbit_app/pages/card_view.dart';
 import 'package:clear_orbit_app/services/global.dart';
 import 'package:flutter/material.dart';
 import 'package:clear_orbit_app/models/account.dart';
 
+import 'package:expandable/expandable.dart';
 class connections_view extends StatefulWidget{
   @override
   connections_view_state createState() => connections_view_state();
@@ -16,39 +18,77 @@ class connections_view_state extends State<connections_view> {
       padding: const EdgeInsets.only(top: 20.0),
       itemCount: entries.length,
       itemBuilder: (BuildContext context, int index){
-        return Card(
-          elevation: 8.0,
-          margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-          child: Container(
-            decoration: (
-            BoxDecoration(color: Colors.black)),
-                child: ListTile(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                  leading: Container(
-                    padding: EdgeInsets.only(right: 12.0),
-                    child: CircleAvatar(
-                      backgroundColor: Colors.blue,
-                      child: Text(
-                        entries[index].name_first.substring(0,1)+entries[index].name_last.substring(0,1),
+        return ExpandableNotifier(
+            child: ScrollOnExpand(
+              scrollOnExpand: false,
+              scrollOnCollapse: true,
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Card(
+                  color: Colors.black,
+                  clipBehavior: Clip.antiAlias,
+                  child: Column(
+                    children: <Widget>[
+                      ListTile(
+                            contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                            leading: Container(
+                              padding: EdgeInsets.only(right: 12.0),
+                              child: CircleAvatar(
+                                backgroundColor: Colors.blue,
+                                child: Text(
+                                  entries[index].name_first.substring(0,1)+entries[index].name_last.substring(0,1),
+                                ),
+                              ),
+                            ),
+                            title: Text(entries[index].name_first + " " + entries[index].name_last,
+                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                            ),
+                            subtitle: Text(
+                              entries[index].company + " - " + entries[index].title,
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                      ScrollOnExpand(
+                        scrollOnExpand: true,
+                        scrollOnCollapse: false,
+                        child: ExpandablePanel(
+                          tapHeaderToExpand: true,
+                          tapBodyToCollapse: true,
+                          headerAlignment: ExpandablePanelHeaderAlignment.center,
+                          header: Padding(
+                              padding: EdgeInsets.all(10),
+                          ),
+                          //collapsed: Text('hello', softWrap: true, maxLines: 2, overflow: TextOverflow.ellipsis,),
+                          expanded: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text('Email',
+                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                              Text(entries[index].account_email,
+                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                              Text('LinkedIn',
+                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                              Text(entries[index].account_linkedin,
+                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),)
+                            ],
+                          ),
+                          builder: (_, collapsed, expanded) {
+                            return Padding(
+                              padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                              child: Expandable(
+                                collapsed: collapsed,
+                                expanded: expanded,
+                                crossFadePoint: 0,
+                              ),
+                            );
+                          },
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                  title: Text(entries[index].name_first + " " + entries[index].name_last,
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Text(
-                    entries[index].company + " - " + entries[index].title,
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  trailing: IconButton(
-                    icon: Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30.0),
-                    onPressed: (){
-                      account_viewing = entries[index];
-                      Navigator.pushNamed(context, '/card');
-                    }
-                  ),
-            ),
-          ),
+                ),
+              ),
+            )
         );
       },
       separatorBuilder: (BuildContext context, int index) => const Divider(),
