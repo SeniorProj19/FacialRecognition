@@ -9,7 +9,6 @@ import datetime
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
 from datetime import datetime
-from flask_mysqldb import MySQL
 import mysql.connector
 import yaml
 
