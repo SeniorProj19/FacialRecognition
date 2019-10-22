@@ -111,6 +111,11 @@ def login(): #unlimted login attempts - limit ammount of tries
         return redirect(url_for('home'))
     return render_template('loginTest.html')
 
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    session.pop('user_id', None)
+
 @app.route('/landing_page')
 def landing_page():
     #if 'username' not in session:
