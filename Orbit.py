@@ -11,7 +11,7 @@ from passlib.hash import sha256_crypt
 from datetime import datetime
 from flask_mysqldb import MySQL
 import mysql.connector
-
+import yaml
 
 #----------Forms--------------------
 class RegisterForm(Form):
@@ -31,13 +31,12 @@ class LoginForm(Form):
 app = Flask(__name__)
 app.secret_key='hello'
 
-mydb = mysql.connector.connect(
-    host='localhost',
-    user='root',
-    passwd='Shafin98!',
-    database='orbitlens'
-)
+config = yaml.load(open('config.yaml'))
 
+app.config['MYSQL_HOST'] = config['host']
+app.config['MYSQL_USER'] = config['user']
+app.config['MYSQL_PASSWORD'] = config['password']
+app.config['MYSQL_DB'] = config['database']
 
 #------------Navigation routes-------------------
 @app.route('/')
