@@ -32,10 +32,12 @@ app.secret_key='hello'
 
 config = yaml.load(open('config.yaml'))
 
-app.config['MYSQL_HOST'] = config['host']
-app.config['MYSQL_USER'] = config['user']
-app.config['MYSQL_PASSWORD'] = config['password']
-app.config['MYSQL_DB'] = config['database']
+mydb = mysql.connector.connect(
+    host= config['host'],
+    user= config['user'],
+    passwd= config['password'],
+    database= config['database']
+)
 
 #------------Navigation routes-------------------
 @app.route('/')
