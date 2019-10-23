@@ -25,12 +25,9 @@ class LoginForm(Form):
     username = StringField('Username', validators.DataRequired())
     password = PasswordField('Password', validators.DataRequired())
 #--------------------------------------------
-
-
-app = Flask(__name__)
-app.secret_key='hello'
-
 config = yaml.load(open('config.yaml'))
+app = Flask(__name__)
+app.secret_key=config['secret_key']
 
 mydb = mysql.connector.connect(
     host= config['host'],
