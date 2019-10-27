@@ -148,16 +148,16 @@ def getsession():
     return 'not logged in'
 @app.route('/profile')
 def profile():
+    test = []
     try:
         cur = mydb.cursor(dictionary=True)
         if 'username' in session:
             username = session['username']
             statement = "SELECT * FROM information WHERE user_id IN (SELECT user_id FROM login_info WHERE username = '" + username + "')"
             cur.execute(statement)
-            result = cur.fetchone()
-            resp = jsonify(result)
-            resp.status_code = 200
-            return resp
+            for row in cur.fetchone():
+                test.append(row)
+                return json.dumps(test)
         return 'not logged in'
     except Exception as e:
         print(e)
