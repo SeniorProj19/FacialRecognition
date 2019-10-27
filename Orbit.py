@@ -153,7 +153,7 @@ def profile():
         if 'username' in session:
             user_id = getuserIDSession(session['username'])
             print(user_id)
-            statement = "SELECT * FROM information WHERE user_id = '"+user_id+"'"
+            statement = "SELECT * FROM information WHERE user_id = '"+int(user_id)+"'"
             cur.execute(statement)
             result = cur.fetchone()
             resp = jsonify(result)
