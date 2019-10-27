@@ -5,6 +5,7 @@ from flask import request
 import json
 import decimal
 import datetime
+import jsonify
 
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
@@ -150,15 +151,15 @@ def getsession():
 def profile():
     try:
         cur = mydb.cursor(dictionary=True)
-            if 'username' in session:
-                statement = "SELECT * FROM informatiom WHERE user_id IN\
+        if 'username' in session:
+            statement = "SELECT * FROM informatiom WHERE user_id IN\
                             (SELECT user_id FROM login_info WHERE username = '" + session['username'] + "')"
-                cur.execute(statement)
-                result = cur.fetchone()
-                resp = jsonify(result)
-                resp.status_code = 200
-                return resp
-            return 'not logged in'
+            cur.execute(statement)
+            result = cur.fetchone()
+            resp = jsonify(result)
+            resp.status_code = 200
+            return resp
+        return 'not logged in'
     except Exception as e:
         print(e)
     finally:
