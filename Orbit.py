@@ -159,10 +159,10 @@ def profile():
             resp = jsonify(result)
             resp.status_code = 200
             return resp
-        return 'not logged in'
     except Exception as e:
         print(e)
     finally:
+        return 'not logged in'
         cur.close()
         
 
