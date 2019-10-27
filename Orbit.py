@@ -155,14 +155,15 @@ def profile():
             username = session['username']
             statement = "SELECT * FROM information WHERE user_id IN (SELECT user_id FROM login_info WHERE username = '" + username + "')"
             cur.execute(statement)
-            result = cur.fetchone()
+            result = cur.fetchall()
             resp = jsonify(result)
             resp.status_code = 200
             return resp
+        return 'not logged in'
     except Exception as e:
         print(e)
     finally:
-        return 'not logged in'
+        return 'ERROR'
         cur.close()
         
 
