@@ -147,7 +147,8 @@ def getsession():
         return session['username']
     return 'not logged in'
 @app.route('/<string:username>')
-getsession()
+def profile():
+    getsession()
 
 def checkHash(password_candidate, encrypted_password):
     return [True,False][(sha256_crypt.encrypt(password_candidate) == encrypted_password)]
