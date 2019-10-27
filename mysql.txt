@@ -59,6 +59,7 @@ CREATE TABLE relations(
 	FOREIGN KEY (paired_user) REFERENCES information(user_id)
 );
 
+INSERT INTO information(user_id, first_name, last_name, profile_pic, email, job_title, about_me, age, birthday, phone_number, education, hometown, curr_company) VALUES (5,'Edwin','Pellot', 'test.jpg','tedst@.rowan.edu','Junior Software Engineer','about me', '11','1997-11-10','619-216-1715','Rowan University','Pennsauken, NJ','ASRC');
 
 INSERT INTO login_info(username, password) VALUES ('sirajs8', 'thisisapassword1234');
 INSERT INTO login_info(username, password) VALUES ('does this work', 'yes it does');
