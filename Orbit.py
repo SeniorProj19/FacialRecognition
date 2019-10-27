@@ -1,11 +1,10 @@
 #Backend for Senior Project
 #from flask import *
-from flask import Flask,Blueprint, render_template, request, flash, session, redirect, url_for
+from flask import Flask,Blueprint, render_template, request, flash, session, redirect, url_for, jsonify
 from flask import request
 import json
 import decimal
 import datetime
-import jsonify
 
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
@@ -155,7 +154,7 @@ def profile():
             username = session['username']
             statement = "SELECT * FROM information WHERE user_id IN (SELECT user_id FROM login_info WHERE username = '" + username + "')"
             cur.execute(statement)
-            result = cur.fetchall()
+            result = cur.fetchone()
             resp = jsonify(result)
             resp.status_code = 200
             return resp
