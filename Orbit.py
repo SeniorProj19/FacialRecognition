@@ -146,7 +146,7 @@ def getsession():
     if 'username' in session:
         return session['username']
     return 'not logged in'
-@app.route('/<string:username>')
+@app.route('/<int:user_id>')
 def profile():
     getsession()
 
