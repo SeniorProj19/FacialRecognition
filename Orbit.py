@@ -152,7 +152,8 @@ def profile():
     try:
         cur = mydb.cursor(dictionary=True)
         if 'username' in session:
-            statement = "SELECT * FROM information WHERE user_id IN (SELECT user_id FROM login_info WHERE username = '" + session['username'] + "')"
+            username = session['username']
+            statement = "SELECT * FROM information WHERE user_id IN (SELECT user_id FROM login_info WHERE username = '" + username + "')"
             cur.execute(statement)
             result = cur.fetchone()
             resp = jsonify(result)
