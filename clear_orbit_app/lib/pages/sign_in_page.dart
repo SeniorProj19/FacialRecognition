@@ -64,10 +64,10 @@ class _ListPageState extends State<LoginPage> {
             child: Text('Sign In', style: TextStyle(color: Colors.white),),
             color: Colors.blueAccent,
             onPressed: () async {
-              new Post(
+              Post newPost = new Post(
                 username: this.usernameController.text,
                 password: this.passwordController.text);
-              await fetchPost();
+              await fetchPost(body: newPost.toMap());
               // wait for server response
               // if(reponse == true){
               // sign in
