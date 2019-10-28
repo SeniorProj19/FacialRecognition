@@ -149,7 +149,6 @@ def getsession():
 #--------------------Mobile Routes ------------------
 @app.route('/mlogin')
 def mLogin(): #unlimted login attempts - limit ammount of tries
-    if request.method == 'POST':
         usernameInput = request.form['username']
         password_candidate = request.form['password']
         
@@ -178,7 +177,7 @@ def mLogin(): #unlimted login attempts - limit ammount of tries
             msg = {"status" : { "type" : "failure" ,   "message" : "Missing Data"}}
         return jsonify(msg)
         cur.close()
-
+        
 @app.route('/profile')
 def profile():
         cur = mydb.cursor(dictionary=True)
