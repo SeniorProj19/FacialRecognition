@@ -1,6 +1,6 @@
 #Backend for Senior Project
 #from flask import *
-from flask import Flask,Blueprint, render_template, request, flash, session, redirect, url_for
+from flask import Flask,Blueprint, render_template, request, flash, session, redirect, url_for, jsonify
 from flask import request
 import json
 import decimal
@@ -9,9 +9,8 @@ import datetime
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
 from datetime import datetime
-from flask_mysqldb import MySQL
 import mysql.connector
-
+import yaml
 
 #----------Forms--------------------
 class RegisterForm(Form):
@@ -26,18 +25,16 @@ class LoginForm(Form):
     username = StringField('Username', validators.DataRequired())
     password = PasswordField('Password', validators.DataRequired())
 #--------------------------------------------
-
-
+config = yaml.load(open('config.yaml'))
 app = Flask(__name__)
-app.secret_key='hello'
+app.secret_key=config['secret_key']
 
 mydb = mysql.connector.connect(
-    host='localhost',
-    user='root',
-    passwd='Shafin98!',
-    database='orbitlens'
+    host= config['host'],
+    user= config['user'],
+    passwd= config['password'],
+    database= config['database']
 )
-
 
 #------------Navigation routes-------------------
 @app.route('/')
@@ -111,6 +108,12 @@ def login(): #unlimted login attempts - limit ammount of tries
         return redirect(url_for('home'))
     return render_template('loginTest.html')
 
+@app.route('/logout') # Not postive if needed - Edwin Pellot
+def logout():
+    session.pop('username', None)
+    session.pop('user_id', None)
+    return redirect(url_for('login'))
+
 @app.route('/landing_page')
 def landing_page():
     #if 'username' not in session:
@@ -143,7 +146,25 @@ def getsession():
     if 'username' in session:
         return session['username']
     return 'not logged in'
-    
+@app.route('/profile')
+def profile():
+        cur = mydb.cursor(dictionary=True)
+        if 'username' in session:
+            user_id = getuserIDSession(session['username'])
+            statement = "SELECT * FROM information WHERE user_id = '"+str(user_id)+"'"
+            cur.execute(statement)
+            result = cur.fetchone()
+            result.update(birthday = str(result['birthday']))
+            decodePic = result['profile_pic'].decode('utf-8')
+            result.update(profile_pic = decodePic)
+            jsonCon = json.dumps(result)
+            print(jsonCon)
+            return jsonCon
+        return 'not logged in'
+        cur.close()
+
+        
+
 
 def checkHash(password_candidate, encrypted_password):
     return [True,False][(sha256_crypt.encrypt(password_candidate) == encrypted_password)]
@@ -194,4 +215,4 @@ def createDatabase():
     
 if __name__ == '__main__':
     
-    app.run()
+    app.run(host = '0.0.0.0',port = 8080)
