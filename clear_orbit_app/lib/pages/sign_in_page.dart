@@ -58,7 +58,7 @@ class _ListPageState extends State<LoginPage> {
           ),
           FlatButton(
             child: Text('Sign In', style: TextStyle(color: Colors.white),),
-            color: Colors.blueAccent,
+            color: Color.fromRGBO(46, 108, 164, 1),
             onPressed: () {
               // send data
               // wait for server response
