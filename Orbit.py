@@ -179,7 +179,6 @@ def mLogin(): #unlimted login attempts - limit ammount of tries
         return jsonify(msg)
         cur.close()
 
-    return jsonify(msg)
 @app.route('/profile')
 def profile():
         cur = mydb.cursor(dictionary=True)
