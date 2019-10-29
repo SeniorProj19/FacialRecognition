@@ -1,9 +1,9 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-Future<Post> fetchPost() async {
+Future<Post> fetchPost({Map body}) async {
   final response =
-  await http.get('https://jsonplaceholder.typicode.com/posts/1');
+  await http.post('http://54.166.243.43:8080/mlogin', body: body);
 
   if (response.statusCode == 200) {
     // If server returns an OK response, parse the JSON.
@@ -15,19 +15,21 @@ Future<Post> fetchPost() async {
 }
 
 class Post {
-  final int userId;
-  final int id;
-  final String title;
-  final String body;
-
-  Post({this.userId, this.id, this.title, this.body});
-
+  final String username;
+  final String password;
+  Post({this.username, this.password});
   factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
-      userId: json['userId'],
-      id: json['id'],
-      title: json['title'],
-      body: json['body'],
+
+      username: json['username'],
+      password: json['password']
     );
+  }
+  Map toMap() {
+    var map = new Map<String, dynamic>();
+    map["username"] = username;
+    map["password"] = password;
+ 
+    return map;
   }
 }
