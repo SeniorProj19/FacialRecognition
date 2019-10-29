@@ -62,18 +62,12 @@ class _ListPageState extends State<LoginPage> {
           ),
           FlatButton(
             child: Text('Sign In', style: TextStyle(color: Colors.white),),
-<<<<<<< HEAD
             color: Color.fromRGBO(46, 108, 164, 1),
-            onPressed: () {
-              // send data
-=======
-            color: Colors.blueAccent,
             onPressed: () async {
               Post newPost = new Post(
                 username: this.usernameController.text,
                 password: this.passwordController.text);
               await fetchPost(body: newPost.toMap());
->>>>>>> 7eace4440de614f9ebd5ff1e82e65cbc14eb8456
               // wait for server response
               // if(reponse == true){
               // sign in
