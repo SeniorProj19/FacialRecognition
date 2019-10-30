@@ -67,7 +67,8 @@ class _ListPageState extends State<LoginPage> {
               Post newPost = new Post(
                 username: this.usernameController.text,
                 password: this.passwordController.text);
-              Post info = await fetchPost(body: newPost.toMap());
+              await fetchPost(body: newPost.toMap()); // Method that calls for the data - EJ
+              //if login from status message go to next screen
               
               Navigator.pushNamedAndRemoveUntil(
                   context, '/main', (Route<dynamic> route) => false);

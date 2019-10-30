@@ -7,8 +7,8 @@ Future<Post> fetchPost({Map body}) async {
 
   if (response.statusCode == 200) {
     // If server returns an OK response, parse the JSON.
-    String res = response.body;
-    print(res);
+    String res = response.body; // What gets return from API
+    print(res); //Prints statement 
     return Post.fromJson(json.decode(response.body));
   } else {
     // If that response was not OK, throw an error.
