@@ -146,39 +146,6 @@ def getsession():
     if 'username' in session:
         return session['username']
     return 'not logged in'
-#--------------------Mobile Routes ------------------
-@app.route('/mlogin', methods=['POST','GET'])
-def mLogin(): #unlimted login attempts - limit ammount of tries
-        usernameInput = request.form['username']
-        password_candidate = request.form['password']
-        
-        cur = mydb.cursor(dictionary=True)
-        statement = "SELECT * FROM login_info WHERE username = '" + usernameInput + "'"
-        cur.execute(statement)
-        result = cur.fetchone()
-        if result != None:
-            password = str(result['password'])
-            if sha256_crypt.verify(password_candidate, password):
-                #session['logged_in'] = True
-                
-                session['username'] = usernameInput
-                session['user_id'] = getuserIDSession(usernameInput)
-
-                msg = {"status" : { "type" : "success" ,
-                             "message" : "You logged in"} , 
-               "data" : {"user" : session['username'] }}
-                print(msg)
-                return jsonify(msg)
-            else:
-                msg = {"status" : { "type" : "failure" ,   "message" : "Username or password incorrect"}}
-                print(msg)
-                return jsonify(msg)
-        else:
-            msg = {"status" : { "type" : "failure" ,   "message" : "Missing Data"}}
-        print(msg)
-        return jsonify(msg)
-        cur.close()
-
 @app.route('/profile')
 def profile():
         cur = mydb.cursor(dictionary=True)
