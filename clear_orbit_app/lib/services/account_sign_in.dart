@@ -7,6 +7,8 @@ Future<Post> fetchPost({Map body}) async {
 
   if (response.statusCode == 200) {
     // If server returns an OK response, parse the JSON.
+    String res = response.body;
+    print(res);
     return Post.fromJson(json.decode(response.body));
   } else {
     // If that response was not OK, throw an error.
@@ -20,7 +22,6 @@ class Post {
   Post({this.username, this.password});
   factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
-
       username: json['username'],
       password: json['password']
     );
@@ -29,7 +30,6 @@ class Post {
     var map = new Map<String, dynamic>();
     map["username"] = username;
     map["password"] = password;
- 
     return map;
   }
 }

@@ -67,10 +67,8 @@ class _ListPageState extends State<LoginPage> {
               Post newPost = new Post(
                 username: this.usernameController.text,
                 password: this.passwordController.text);
-              await fetchPost(body: newPost.toMap());
-              // wait for server response
-              // if(reponse == true){
-              // sign in
+              Post info = await fetchPost(body: newPost.toMap());
+              
               Navigator.pushNamedAndRemoveUntil(
                   context, '/main', (Route<dynamic> route) => false);
               // } else
