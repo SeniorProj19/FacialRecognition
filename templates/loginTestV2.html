@@ -1,62 +1,48 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title> UPDATE </title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="http://localhost/Profile%20GG/css/style.css">
-    </head>
-    <body>
-<div class="login-dark">
-        <form action="" method="post">
-		 <b id="">Update Form</b>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="http://localhost/Profile%20GG/css/style.css">
+
+</head>
+<body>
+{% extends "default.html" %}
+
+
+{% block content %}
+  {% include '_messages.html' %}
+  {% from "_formhelpers.html" import render_field%}
+   <div class="login-dark">
+        <form method="post" action="">
+            <b id="welcome">Login Form</b>
             <div class="illustration"><i class="icon ion-ios-locked-outline"></i>
             </div>
-            Username To Update: <input type="text" name="id" required><br><br>
-             <div class="pic-upload" name="photo">
-        <div class="pic-edit">
-            <input type="file" name="image" id="imageUpload" required />
-            <label for="imageUpload"></label>
-        </div>
-        <div class="pic-preview">
-            <div id="imagePreview" style="background-image: url(https://www.pngkey.com/png/detail/230-2301779_best-classified-apps-default-user-profile.png);">
+            <div class="form-group"><input class="form-control" required type="username" name="username" placeholder="username" value={{request.form.username}}>
             </div>
-        </div>
-        </div>
-            New First Name:<input type="text" name="firstName" required><br><br>
+            <div class="form-group"><input class="form-control" required type="password" name="password" placeholder="Password" value={{request.form.password}}>
+            </div>
+            <div class="form-group"><button class="btn btn-primary btn-block" name="submit" type="submit">Log In</button></div><a href="#" class="forgot">Forgot your email or password?
+            </a><br> <a href="#"  class="forgot"><p style="text-align:center">Didnt register?</p> </a><button id="register" type="button"  class=" btn-reg" >Sign up</button>
+            <button type="button" class="cancelbtn" id="back">Back to Homepage</button>
+            </form>
 
-            New Last Name:<input type="text" name="lastName" required><br><br>
-
-            <input type="submit" name="update" value="Update Data">
-
-             <button type="button" class="" id=""><a href="">Log Out</a></button>
-			<button id="back" type="button"  class=" btn-reg" >Go back</button>
-                </form>
-
-        </form>
-</div>
-    </body>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
-    <script>
-     document.getElementById("back").onclick = function () {
-        window.location.href = "";
+</body>
+<script type="text/javascript">
+    document.getElementById("register").onclick = function () {
+        window.location.href = "add the links again";
+    };
+    document.getElementById("back").onclick = function () {
+        window.location.href = "add the links";
     };
     
-    function readURL(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            $('#imagePreview').css('background-image', 'url('+e.target.result +')');
-            $('#imagePreview').fadeIn(650);
-        }
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-$("#imageUpload").change(function() {
-    readURL(this);
-});
-    </script>
-
-
+</script>
 </html>
+{% endblock %}
