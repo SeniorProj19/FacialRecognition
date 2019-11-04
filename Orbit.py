@@ -195,6 +195,18 @@ def profile():
             return jsonCon
         return 'not logged in'
         cur.close()
+@app.route('/<int: user_id>')
+def getUser(user_id):
+            cur = mydb.cursor(dictionary=True)
+            statement = "SELECT * FROM information WHERE user_id = '"+str(user_id)+"'"
+            cur.execute(statement)
+            result = cur.fetchone()
+            result.update(birthday = str(result['birthday']))
+            decodePic = result['profile_pic'].decode('utf-8')
+            result.update(profile_pic = decodePic)
+            jsonCon = json.dumps(result)
+            print(jsonCon)
+            return jsonCon
 
         
 
