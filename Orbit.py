@@ -195,7 +195,7 @@ def profile():
             return jsonCon
         return 'not logged in'
         cur.close()
-@app.route('/<int: user_id>')
+@app.route('/<int:user_id>')
 def getUser(user_id):
             cur = mydb.cursor(dictionary=True)
             statement = "SELECT * FROM information WHERE user_id = '"+str(user_id)+"'"
