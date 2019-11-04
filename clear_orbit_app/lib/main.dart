@@ -2,25 +2,30 @@ import 'package:clear_orbit_app/pages/card_view.dart';
 import 'package:flutter/material.dart';
 import 'package:clear_orbit_app/pages/app_view.dart';
 import 'package:clear_orbit_app/pages/sign_in_page.dart';
-import 'package:clear_orbit_app/pages/card_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool isLogged = (prefs.getBool('isLogged') ?? false);
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Clear Orbit Prototype',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: LoginPage(),
-      routes:{
-        '/login':(context) => LoginPage(),
-        '/main':(context) => app_view(),
-        '/card':(context) => new card_view(),
-      },
-    );
-  }
+  var home;
+  if(isLogged)
+    home = app_view();
+  else
+    home = LoginPage() ;
+
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    title: 'Clear Orbit Prototype',
+    theme: ThemeData(
+      primarySwatch: Colors.blue,
+    ),
+    home: home,
+    routes:{
+      '/login':(context) => LoginPage(),
+      '/main':(context) => app_view(),
+      '/card':(context) => new card_view(),
+    },
+  )
+  );
 }
