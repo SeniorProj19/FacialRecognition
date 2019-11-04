@@ -1,16 +1,17 @@
+import 'package:clear_orbit_app/services/API.dart';
 import 'package:clear_orbit_app/services/global.dart';
 import 'package:flutter/material.dart';
 import 'package:clear_orbit_app/pages/camera_view.dart';
 import 'package:clear_orbit_app/pages/connections_view.dart';
 import 'package:clear_orbit_app/pages/card_view.dart';
-import 'package:clear_orbit_app/services/global.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class app_view extends StatefulWidget {
+class app_view extends API {
   @override
   _app_view_state createState() => _app_view_state();
 }
 
-class _app_view_state extends State<app_view> {
+class _app_view_state extends APIState {
 
   final PageController controller = new PageController(initialPage: 1);
   int bottomSelectedIndex = 1;
@@ -35,6 +36,12 @@ class _app_view_state extends State<app_view> {
     });
   }
 
+  void _logout() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setBool("isLogged", false);
+    Navigator.of(context).pushReplacementNamed('/login');
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -46,7 +53,7 @@ class _app_view_state extends State<app_view> {
           IconButton(
             icon: Icon(Icons.clear),
             tooltip: 'Sign Out',
-            onPressed: (){},
+            onPressed: _logout,
           )
         ],
       ),
@@ -88,7 +95,6 @@ class _app_view_state extends State<app_view> {
         ],
       ),
     );
-
   }
 
 
