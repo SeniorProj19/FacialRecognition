@@ -178,7 +178,6 @@ def mLogin(): #unlimted login attempts - limit ammount of tries
         print(msg)
         return jsonify(msg)
         cur.close()
-
 @app.route('/profile')
 def profile():
         cur = mydb.cursor(dictionary=True)
@@ -204,6 +203,18 @@ def getUser(user_id):
             result.update(birthday = str(result['birthday']))
             decodePic = result['profile_pic'].decode('utf-8')
             result.update(profile_pic = decodePic)
+            jsonCon = json.dumps(result)
+            print(jsonCon)
+            return jsonCon
+@app.route ('/connections')
+def connections():
+     cur = mydb.cursor(dictionary=True)
+     if 'username' in session:
+            user_id = getuserIDSession(session['username'])
+            statement = "SELECT * FROM information WHERE user_id IN \
+            (SELECT paired_user FROM relations WHERE user_id = "+user_id+")"
+            cur.execute(statement)
+            result = cur.fetchall()
             jsonCon = json.dumps(result)
             print(jsonCon)
             return jsonCon
