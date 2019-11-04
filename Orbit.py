@@ -212,7 +212,7 @@ def connections():
      if 'username' in session:
             user_id = getuserIDSession(session['username'])
             statement = "SELECT * FROM information WHERE user_id IN \
-            (SELECT paired_user FROM relations WHERE user_id = "+user_id+")"
+            (SELECT paired_user FROM relations WHERE user_id = "+str(user_id)+")"
             cur.execute(statement)
             result = cur.fetchall()
             jsonCon = json.dumps(result)
