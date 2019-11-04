@@ -215,6 +215,9 @@ def connections():
             (SELECT paired_user FROM relations WHERE user_id = "+str(user_id)+")"
             cur.execute(statement)
             result = cur.fetchall()
+            result.update(birthday = str(result['birthday']))
+            decodePic = result['profile_pic'].decode('utf-8')
+            result.update(profile_pic = decodePic)
             jsonCon = json.dumps(result)
             print(jsonCon)
             return jsonCon
