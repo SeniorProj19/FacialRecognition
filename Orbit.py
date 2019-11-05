@@ -166,7 +166,8 @@ def mLogin(): #unlimted login attempts - limit ammount of tries
 
                 msg = {"status" : { "type" : "success" ,
                              "message" : "You logged in"} , 
-               "data" : {"user" : session['username'] }}
+               "data" : {"user" : session['username'],
+                                "user_id": session['user_id'] }}
                 print(msg)
                 return jsonify(msg)
             else:
