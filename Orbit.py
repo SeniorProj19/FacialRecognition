@@ -5,7 +5,8 @@ from flask import request
 import json
 import decimal
 import datetime
-
+import os
+import uuid
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
 from datetime import datetime
@@ -223,7 +224,19 @@ def connections():
             jsonCon = json.dumps(result)
             print(jsonCon)
             return jsonCon
+@app.route ('/photocomparsion', methods=['POST','GET'])
+def comp():
+    if 'file' not in request.files:
+        return 'FILE NOT FOUND'
+    file = request.files['file']
+    if file.filename == '':
+        return 'ERROR'
+    filename = os.path.join('_tmp/', str(uuid.uuid4()))
+    #os.remove(filename) - delete tmp file
+    file.save(filename)
+    return filename
 
+    
         
 
 
