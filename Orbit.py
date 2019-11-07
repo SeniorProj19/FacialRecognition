@@ -229,11 +229,12 @@ def connections():
 def comp():
     name = request.form['name']
     img = request.form['image']
-    imgFile = base64.decodestring(img)
+    imgFile = base64.decodebytes(img.encode)
     image_result = open(str(uuid.uuid4()), 'wb')
     done = image_result.write(imgFile)
+    msg = {'name':name, 'img':done}
     print(done)
-    return done
+    return jsonify(msg)
 
     
         
