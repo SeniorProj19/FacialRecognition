@@ -230,7 +230,7 @@ def comp():
     name = request.form['name']
     img = request.form['image']
     imgFile = base64.decodebytes(img.encode())
-    image_result = open(str(uuid.uuid4()), 'wb')
+    image_result = open(name, 'wb')
     done = image_result.write(imgFile)
     msg = {'name':name, 'img':done}
     print(done)

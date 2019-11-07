@@ -34,7 +34,7 @@ class Camera_viewState extends APIState {
      "image": base64Image,
      "name": fileName,
         }).then((res) {
-              print(res.statusCode);
+              print(res.body);
                 }).catchError((err) {
                               print(err);
                                         });
