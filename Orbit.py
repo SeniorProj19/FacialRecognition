@@ -227,13 +227,11 @@ def connections():
             return jsonCon
 @app.route ('/photocomparsion', methods=['POST','GET'])
 def comp():
-    name = request.body['name']
-    img = request.body['image']
-    file = base64.b64decode(img)
-    filename = os.path.join('_tmp/', str(uuid.uuid4()))
-    #os.remove(filename) - delete tmp file
-    file.save(filename)
-    return filename
+    name = request.form['name']
+    img = request.form['image']
+    imgFile = base64.b64decode(img)
+    print(imgFile)
+    return imgFile
 
     
         
