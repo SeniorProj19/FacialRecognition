@@ -229,9 +229,11 @@ def connections():
 def comp():
     name = request.form['name']
     img = request.form['image']
-    imgFile = base64.b64decode(img)
-    print(imgFile)
-    return imgFile
+    imgFile = base64.decodestring(img)
+    image_result = open(str(uuid.uuid4()), 'wb')
+    done = image_result.write(imgFile)
+    print(done)
+    return done
 
     
         
