@@ -7,6 +7,7 @@ import decimal
 import datetime
 import os
 import uuid
+import base64
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
 from datetime import datetime
@@ -226,11 +227,9 @@ def connections():
             return jsonCon
 @app.route ('/photocomparsion', methods=['POST','GET'])
 def comp():
-    if 'file' not in request.files:
-        return 'FILE NOT FOUND'
-    file = request.files['file']
-    if file.filename == '':
-        return 'ERROR'
+    name = request.body['name']
+    img = request.body['image']
+    file = base64.b64decode(img)
     filename = os.path.join('_tmp/', str(uuid.uuid4()))
     #os.remove(filename) - delete tmp file
     file.save(filename)
