@@ -230,8 +230,10 @@ def comp():
     name = request.form['name']
     img = request.form['image']
     imgFile = base64.decodebytes(img.encode())
-    image_result = open(name, 'wb')
+    complete_path = os.path.join('_temp/', name) 
+    image_result = open(complete_path, 'wb')
     done = image_result.write(imgFile)
+    image_result.close
     msg = {'name':name, 'img':done}
     print(done)
     return jsonify(msg)
