@@ -13,16 +13,21 @@ import 'package:image_picker/image_picker.dart';
 
 //List<CameraDescription> cameras;
 
+
+
 class camera_view extends API {
   @override
   Camera_viewState createState() => new Camera_viewState();
 }
 
 class Camera_viewState extends APIState {
+  //Need a client call
+  //Method that gets image path from server and returns image 
   File _image;
 
 
   Future getImage() async{
+    //if statement Mobile Camera Source or Image file from bluetooth server
     var image = await ImagePicker.pickImage(source: ImageSource.camera);
     setState(() {
       _image = image;
