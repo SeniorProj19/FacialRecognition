@@ -57,7 +57,7 @@ class _app_view_state extends APIState {
           )
         ],
       ),
-      /*bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar(
         currentIndex: bottomSelectedIndex,
         onTap: (index) {
           bottomTapped(index);
@@ -77,7 +77,7 @@ class _app_view_state extends APIState {
               title: new Text('My Card')
           )
         ],
-      ),*/
+      ),
       body: Stack(
         alignment: AlignmentDirectional.bottomCenter,
         children: <Widget>[
