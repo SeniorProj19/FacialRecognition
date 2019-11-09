@@ -9,33 +9,35 @@ class API extends StatefulWidget {
 }
 
 class APIState extends State<API> {
-
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final formKey = GlobalKey<FormState>();
   SharedPreferences sharedPreferences;
 
   var success = false;
-  Map<String,Map<String,String>> messages ;
+  Map<String, Map<String, String>> messages;
 
-  //User Information
-  String username ;
-  String fullname ;
-  String password ;
-  String email ;
+  String username;
+  String fullname;
+  String password;
+  String email;
+  String company;
+  int usernum;
+  String first_name;
+  String last_name;
+  String job_title;
 
-  //URL Information
-  String appBarTitle = "" ;
+  String appBarTitle = "";
+
   String URL = "";
-  String URLSuffix = "" ;
+  String URLSuffix = "";
 
   bool apiCall = false;
-
 
   String dialogHead = "";
   String dialogMessage = "";
 
-  dynamic responseData ;
-
+  dynamic responseData;
+  dynamic responseData2;
 
   @override
   void initState() {
@@ -43,16 +45,18 @@ class APIState extends State<API> {
 
     loadURL();
   }
-  void loadURL() async{
-    sharedPreferences = await SharedPreferences.getInstance() ;
-    String settingURL = sharedPreferences.getString("URL") ?? "http://54.166.243.43:8080/" ;
+
+  void loadURL() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    String settingURL =
+        sharedPreferences.getString("URL") ?? "http://54.166.243.43:8080/";
     setState(() {
-      URL = settingURL + URLSuffix ;
+      URL = settingURL + URLSuffix;
     });
   }
 
   void submit() async {
-    print("$URL") ;
+    print("$URL");
     final form = formKey.currentState;
     if (form.validate()) {
       form.save();
@@ -63,9 +67,8 @@ class APIState extends State<API> {
   // Show or hide the progress indicator
   void progressIndicator(bool status) {
     // If it was calling the api and now it's false
-    // that means the request has completed , and so , close the dialog
-    if (apiCall == true && status == false)
-      Navigator.pop(context);
+    // that means the request has completed, and so, close the dialog
+    if (apiCall == true && status == false) Navigator.pop(context);
     setState(() {
       apiCall = status;
     });
@@ -96,50 +99,80 @@ class APIState extends State<API> {
     }
   }
 
-
   Future<http.Response> getResponse(String url, Map<String, String> body) async {
-    var response =
-    await http.post(url, body: body);
+    var response = await http.post(url, body: body);
+    return response;
+  }
+
+  Future<http.Response> getUserResponse(int id) async {
+    var response = await http.get("http://54.166.243.43:8080/" + id.toString());
+    print("exiting GetUserResponse()");
     return response;
   }
 
   void getWidget() {}
 
-  onSuccess(){
-  }
+  onSuccess() {}
 
-  void onDialogPressed(){
-  }
+  void onDialogPressed() {}
+
+  Map<String, String> getBody() {}
 
 
-  Map<String,String> getBody(){
+  void getUser(int num) async {
+    progressIndicator(true);
+    var response;
+    var connected = true;
+    try {
+      print("getting response");
+      response = await getUserResponse(num);
+      print("got response: " + response.toString());
+    } catch (e) {
+      connected = false;
+    }
+    progressIndicator(false);
+    if (connected) {
+      print("connected");
+      if (response.statusCode == 200) {
+        print("200");
+        var jsonResponse = await convert.jsonDecode(response.body);
+        print(response.body);
+        responseData2 = await jsonResponse;
+        await print("hometown: " + responseData2["hometown"].toString());
+      }
+    } else {
+      setState(() {
+        dialogHead = "Connection Error: User";
+        dialogMessage = "Check connection and try again";
+      });
+      showAlertDialog();
+    }
   }
 
   void process() async {
     var body = getBody();
     progressIndicator(true);
-    var response ;
-    var connected = true ;
-    try{
+    var response;
+    var connected = true;
+    try {
       response = await getResponse(URL, body);
-    }
-    catch(e){
-      connected = false ;
+    } catch (e) {
+      connected = false;
     }
     progressIndicator(false);
-    if(connected){
+    if (connected) {
       if (response.statusCode == 200) {
         var jsonResponse = convert.jsonDecode(response.body);
         var status = jsonResponse['status']['type'];
         if (status == 'failure') {
           setState(() {
-            dialogHead = messages["failure"]["dialogHead"] ;
+            dialogHead = messages["failure"]["dialogHead"];
             dialogMessage = jsonResponse['status']['message'];
-            success = false ;
+            success = false;
           });
           showAlertDialog();
-          print(body) ;
-          print(response.body) ;
+          print(body);
+          print(response.body);
         } else {
           responseData = jsonResponse;
           onSuccess();
@@ -150,10 +183,9 @@ class APIState extends State<API> {
         dialogHead = "Connection Error";
         dialogMessage = "Check connection and try again";
       });
-      showAlertDialog();
+      //showAlertDialog();
     }
   }
-
 
   void showAlertDialog() {
     showDialog(
@@ -162,43 +194,36 @@ class APIState extends State<API> {
         title: Text(dialogHead),
         content: Text(dialogMessage),
         actions: [
-          new FlatButton(
-              child: const Text("Ok"),
-              onPressed: onDialogPressed
-          ),
+          new FlatButton(child: const Text("Ok"), onPressed: onDialogPressed),
         ],
       ),
     );
   }
 
-  Widget getForm(){
-  }
+  Widget getForm() {}
 
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-
       home: new Scaffold(
-
         resizeToAvoidBottomPadding: false,
         key: scaffoldKey,
         appBar: new AppBar(
             title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(appBarTitle) ,
-                InkWell(
-                  child: Icon(Icons.settings),
-                  onTap: (){
-                    Navigator.pushReplacementNamed(context, '/settings') ;
-                  },
-                )
-              ],
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(appBarTitle),
+            InkWell(
+              child: Icon(Icons.settings),
+              onTap: () {
+                Navigator.pushReplacementNamed(context, '/settings');
+              },
             )
-        ),
+          ],
+        )),
         body: new Center(
-            child: getForm()
-        ), // This trailing comma makes auto-formatting nicer for build methods.
+            child:
+                getForm()), // This trailing comma makes auto-formatting nicer for build methods.
       ),
     );
   }
