@@ -1,45 +1,47 @@
-package clearorbit.yeet;
+package clearorbit.yeet.copies;
 
 /*
 Daniel Vega
 Clear Orbit
 Class: Bluetooth Client
  */
-        import android.app.Activity;
-        import android.bluetooth.*;
-        import android.content.BroadcastReceiver;
-        import android.content.Context;
-        import android.content.Intent;
-        import android.content.IntentFilter;
-        import android.os.Bundle;
-        import android.os.Environment;
-        import android.util.Log;
-        import android.view.*;
-        import android.widget.*;
 
-       // import com.clearorbit.myapplication.R;
+import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothManager;
+import android.bluetooth.BluetoothSocket;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
+import android.widget.TextView;
+import android.widget.Toast;
 
-        import com.google.android.glass.widget.CardBuilder;
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Set;
+import java.util.UUID;
 
-        import java.io.BufferedOutputStream;
-        import java.io.FileOutputStream;
-        import java.io.IOException;
-        import java.io.InputStream;
-        import java.util.*;
+import clearorbit.yeet.R;
 
-        import static clearorbit.yeet.R.menu.main;
+// import com.clearorbit.myapplication.R;
 
 
 public class BluetoothClient extends Activity {
 
 
-    private View mView;
     public final static String label = "BluetoothClient";
     public final static int REQUEST_ENABLE_BT =100;//must be greater than 0
     private BluetoothAdapter mBluetoothAdapter;
-    private TextView outPut;
+    //private TextView outPut;
     //the same UUID as server
-    private UUID MY_UUID = UUID.fromString("N983HE25-B82F-2746-1936-BF83L7OCS06T");
+    private UUID MY_UUID = UUID.fromString("297e4ec2-01a5-11ea-8d71-362b9e155667");
     private final static String filePath = Environment.getExternalStorageDirectory().getPath() +
             "/filefromBTserver";
     private final static String serverDName = "Dan's Glass";
@@ -50,8 +52,8 @@ public class BluetoothClient extends Activity {
         //setContentView(R.main.activity_main);
         //outPut = (TextView) findViewById(R.id.info);
         setContentView(R.layout.main);
-        outPut = (TextView) findViewById(R.id.info);
-        outPut.setText("Bluetooth Client");
+        //outPut = (TextView) findViewById(R.id.info);
+        //outPut.setText("Bluetooth Client");
         //initialize BluetoothAdapter
         final BluetoothManager bluetoothManager =
                 (BluetoothManager)getSystemService(Context.BLUETOOTH_SERVICE);

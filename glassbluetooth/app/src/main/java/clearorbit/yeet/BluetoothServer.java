@@ -26,15 +26,20 @@ Class: Bluetooth Server
 public class BluetoothServer extends Activity {
 
     public final static String label = "BluetoothServer";
+    String picturePath;
+
     BluetoothAdapter mBluetoothAdapter;
     //BluetoothServerSocket mBluetoothServerSocket;
     public static final int REQUEST_TO_START_BT = 100;//must be greater than 0
     private TextView outPut;
     //the same UUID as client
-    UUID MY_UUIID = UUID.fromString("N983HE25-B82F-2746-1936-BF83L7OCS06T");
+    private UUID MY_UUID = UUID.fromString("297e4ec2-01a5-11ea-8d71-362b9e155667");
     @Override
     public void onCreate(Bundle savedInstanceState){
+        Intent intent7 = this.getIntent();
+        picturePath = intent7.getStringExtra("picturePath");
         super.onCreate(savedInstanceState);
+
         //setContentView(R.layout.activity_main);
        //outPut = (TextView) findViewById(R.id.info);
         setContentView(R.layout.main);
@@ -66,7 +71,7 @@ public class BluetoothServer extends Activity {
                 //this will create a socket that will listen for connection requests
                 //this will only work if the client uses the same uuid
                 mServerSocket =
-                        mBluetoothAdapter.listenUsingRfcommWithServiceRecord("BluetoothServer",MY_UUIID);
+                        mBluetoothAdapter.listenUsingRfcommWithServiceRecord("BluetoothServer", MY_UUID);
             }catch(IOException e){
                 Log.e(label, e.getMessage());
             }
@@ -76,7 +81,7 @@ public class BluetoothServer extends Activity {
             while(true){//this is an infinite loop that stops when the ConnectedThread class is done
                 try{
                     runOnUiThread(new Runnable(){public void run(){
-                        outPut.setText(outPut.getText()+"\n\nWaiting for Bluetooth Client ...");
+                        outPut.setText(outPut.getText()+"\n\nWaiting for Bluetooth Client ..." + picturePath);
                     }});
                     //make a socket that is created when the original server socket is accepted
                     socket = mServerSocket.accept();
@@ -100,12 +105,13 @@ public class BluetoothServer extends Activity {
     }//end of AcceptThread class
     //thread that sends file to client
     private class ConnectedThread extends Thread{
+
         private final BluetoothSocket mSocket;
         private final OutputStream mOutStream; //this will be used as the
         private int bytesRead;//this will keep track of bytes read
         final private String pictureName = "test.png"; //this is the name of the file we are sending
-        final private String PATH= //this is the location the file will be sent to
-                Environment.getExternalStorageDirectory().toString()+"/clearorbit/";
+       // final private String PATH= //this is the location the file will be sent to
+         //     Environment.getExternalStorageDirectory().toString()+"/clearorbit/";
         private ConnectedThread(BluetoothSocket socket){
             mSocket = socket;
             OutputStream tmpOut = null;
@@ -138,8 +144,8 @@ public class BluetoothServer extends Activity {
                     @Override
                     public void run() {
                         outPut.setText(outPut.getText()+"\nbefore sending file"+
-                                PATH+ pictureName +
-                                "of"+new File(PATH+ pictureName).length()+"bytes");
+                                picturePath +
+                                "of"+new File(picturePath).length()+"bytes");
                     }
                 });
                 //use streaming code to send socket data, which is a picture in this case
@@ -152,8 +158,8 @@ public class BluetoothServer extends Activity {
                     mSocket.close();
                     runOnUiThread(new Runnable(){
                         public void run(){
-                            outPut.setText(bytesRead+" bytes of file" + PATH+
-                                    pictureName +" has been sent.");
+                            outPut.setText(bytesRead+" bytes of file" + picturePath
+                                    +" has been sent.");
                         }
                     });
                 }catch(IOException e){
