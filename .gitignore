@@ -23,3 +23,4 @@ clearOrbit-Vince/android/app/.settings/org.eclipse.buildship.core.prefs
 clearOrbit-Vince/ios/Flutter/flutter_export_environment.sh
 clear_orbit_app/android/.project
 clear_orbit_app/android/.settings/org.eclipse.buildship.core.prefs
+clear_orbit_app/.vscode/launch.json

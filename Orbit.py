@@ -5,7 +5,9 @@ from flask import request
 import json
 import decimal
 import datetime
-
+import os
+import uuid
+import base64
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
 from datetime import datetime
@@ -166,7 +168,8 @@ def mLogin(): #unlimted login attempts - limit ammount of tries
 
                 msg = {"status" : { "type" : "success" ,
                              "message" : "You logged in"} , 
-               "data" : {"user" : session['username'] }}
+               "data" : {"user" : session['username'],
+                                "user_id": session['user_id'] }}
                 print(msg)
                 return jsonify(msg)
             else:
@@ -178,7 +181,6 @@ def mLogin(): #unlimted login attempts - limit ammount of tries
         print(msg)
         return jsonify(msg)
         cur.close()
-
 @app.route('/profile')
 def profile():
         cur = mydb.cursor(dictionary=True)
@@ -195,7 +197,48 @@ def profile():
             return jsonCon
         return 'not logged in'
         cur.close()
+@app.route('/<int:user_id>')
+def getUser(user_id):
+            cur = mydb.cursor(dictionary=True)
+            statement = "SELECT * FROM information WHERE user_id = '"+str(user_id)+"'"
+            cur.execute(statement)
+            result = cur.fetchone()
+            result.update(birthday = str(result['birthday']))
+            decodePic = result['profile_pic'].decode('utf-8')
+            result.update(profile_pic = decodePic)
+            jsonCon = json.dumps(result)
+            print(jsonCon)
+            return jsonCon
+@app.route ('/connections')
+def connections():
+     cur = mydb.cursor(dictionary=True)
+     if 'username' in session:
+            user_id = getuserIDSession(session['username'])
+            statement = "SELECT * FROM information WHERE user_id IN \
+            (SELECT paired_user FROM relations WHERE user_id = "+str(user_id)+")"
+            cur.execute(statement)
+            result = cur.fetchall()
+            for ppl in result:
+                ppl.update(birthday = str(ppl['birthday']))
+                decodePic = ppl['profile_pic'].decode('utf-8')
+                ppl.update(profile_pic = decodePic)
+            jsonCon = json.dumps(result)
+            print(jsonCon)
+            return jsonCon
+@app.route ('/photocomparsion', methods=['POST','GET'])
+def comp():
+    name = request.form['name']
+    img = request.form['image']
+    imgFile = base64.decodebytes(img.encode())
+    complete_path = os.path.join('_temp/', name) 
+    image_result = open(complete_path, 'wb')
+    done = image_result.write(imgFile)
+    image_result.close
+    msg = {'name':name, 'img':done}
+    print(done)
+    return jsonify(msg)
 
+    
         
 
 
