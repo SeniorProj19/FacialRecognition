@@ -1,10 +1,7 @@
 import 'package:clear_orbit_app/services/API.dart';
 import 'package:flutter/material.dart';
-import 'package:clear_orbit_app/services/account_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'dart:convert' as convert;
-//import 'API.dart';
 
 class LoginPage extends API {
   @override
@@ -34,15 +31,28 @@ class LoginPageState extends APIState {
     // When login success, save the data ,
 
     sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setBool("isLogged", true);
 
-    print("Printing Statement: " + responseData["data"]["user"]); // Where is response data coming from
+    print("Printing Statement: " + responseData.toString()); // Where is response data coming from
 
     sharedPreferences.setString("username", responseData["data"]["user"]);
-    //sharedPreferences.setString("fullname", responseData["data"]["user"]["fullname"]);
-    //sharedPreferences.setString("email", responseData["data"]["user"]["email"]);
+    sharedPreferences.setInt("usernum", responseData["data"]["user_id"]);
+
+    await getUser(5);
+    print("exited getUser()");
+    await print(responseData2["first_name"]);
+    //print("Printing Statement: " + responseData2.toString()); // Where is response data coming from
+    print("saving info");
+    await sharedPreferences.setString("first_name", responseData2["first_name"]);
+    await sharedPreferences.setString("last_name", responseData2["last_name"]);
+    await sharedPreferences.setString("company", responseData2["curr_company"]);
+    await sharedPreferences.setString("job_title", responseData2["job_title"]);
+    await sharedPreferences.setString("email", responseData2["email"]);
+
+
 
     // navigate to ProfilePage
+    print("logged in");
+    sharedPreferences.setBool("isLogged", true);
     Navigator.pushReplacementNamed(context, '/main') ;
   }
 
