@@ -1,19 +1,80 @@
-import 'package:clear_orbit_app/services/global.dart';
+import 'package:clear_orbit_app/services/API.dart';
 import 'package:flutter/material.dart';
-import 'package:clear_orbit_app/models/account.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class card_view extends StatefulWidget{
+class card_view extends API {
   @override
   card_view_state createState() => card_view_state();
 }
 
-class CardArguments {
-  final Account account;
+class card_view_state extends APIState {
+  SharedPreferences sharedPreferences;
 
-  CardArguments(this.account);
-}
+  String email ;
+  String username ;
+  String fullname ;
 
-class card_view_state extends State<card_view > {
+  @override
+  void initState() {
+    setData();
+    getUser(5);
+  }
+
+  @override
+  onSuccess() async {
+    // When login success, save the data ,
+
+    sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setBool("isLogged", true);
+
+    print("Printing Statement: " + responseData.toString()); // Where is response data coming from
+
+    sharedPreferences.setString("username", responseData["first_name"]);
+    sharedPreferences.setInt("usernum", responseData["user_id"]);
+
+    //getUser(); //causing an error
+    //getGetResponse('http://54.166.243.43:8080/'+usernum.toString());
+    //'http://54.166.243.43:8080/'+usernum.toString()
+
+
+    // navigate to ProfilePage
+    Navigator.pushReplacementNamed(context, '/main') ;
+  }
+
+  void setData() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+
+    setState(() {
+      username = sharedPreferences.getString("username") ?? "Error";
+      first_name = sharedPreferences.getString("first_name") ?? "Error";
+      last_name = sharedPreferences.getString("last_name") ?? "Error";
+      email = sharedPreferences.getString("email") ?? "";
+      company = sharedPreferences.getString("company") ?? "";
+      job_title = sharedPreferences.getString("job_title") ?? "";
+
+    });
+  }
+
+  void _logout() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setBool("isLogged", false);
+    Navigator.of(context).pushReplacementNamed('/login');
+  }
+
+  Widget getRow(String string,double textSize , double opacity){
+    return Opacity(
+      opacity: opacity,
+      child:  new Container(
+        margin: const EdgeInsets.only(top: 20.0),
+        child : new Text(string ,
+          style: new TextStyle(
+              color: Colors.white ,
+              fontSize: textSize
+          ),
+        ),
+      ),
+    ) ;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +89,9 @@ class card_view_state extends State<card_view > {
               child: CircleAvatar(
                 backgroundColor: Colors.blue,
                 child: Text(
-                  account_signedin.getInitials(),
-                style: TextStyle(fontSize: 70),
+                  "EJ",
+                  //getInitials(),
+                  style: TextStyle(fontSize: 70),
                 ),
                 radius: 100,
               ),
@@ -38,21 +100,21 @@ class card_view_state extends State<card_view > {
               child: Column(
                 children: <Widget>[
                   Text(
-                    account_signedin.name_first + " " + account_signedin.name_last,
+                    first_name + " " + last_name,
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 35
                     ),
                   ),
                   Text(
-                    account_signedin.company,
+                    company,
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 25
                     ),
                   ),
                   Text(
-                    account_signedin.title,
+                    job_title,
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 25
@@ -74,7 +136,7 @@ class card_view_state extends State<card_view > {
                     ),
                   ),
                   Text(
-                    account_signedin.account_linkedin,
+                    "null",
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 20
@@ -88,17 +150,17 @@ class card_view_state extends State<card_view > {
               child: Column(
                 children: <Widget>[
                   Text(
-                  "Email",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 25
-                  ),
+                    "Email",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 25
+                    ),
                   ),
                   Text(
-                    account_signedin.account_email,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20
+                    email,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20
                     ),
                   ),
                 ],
