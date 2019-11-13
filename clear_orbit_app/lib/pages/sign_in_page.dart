@@ -37,7 +37,7 @@ class LoginPageState extends APIState {
     sharedPreferences.setString("username", responseData["data"]["user"]);
     sharedPreferences.setInt("usernum", responseData["data"]["user_id"]);
 
-    await getUser(5);
+    await getUser(responseData["data"]["user_id"]);
     print("exited getUser()");
     await print(responseData2["first_name"]);
     //print("Printing Statement: " + responseData2.toString()); // Where is response data coming from
@@ -69,7 +69,7 @@ class LoginPageState extends APIState {
           padding: const EdgeInsets.all(32.0),
           child: new Column(
             children: <Widget>[
-              SizedBox(height: 80.0),
+              SizedBox(height: 20.0),
               Column(
                 children: <Widget>[
                   Image.asset("assets/lock.png", scale: 1.5),
