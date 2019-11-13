@@ -99,7 +99,8 @@ class APIState extends State<API> {
     }
   }
 
-  Future<http.Response> getResponse(String url, Map<String, String> body) async {
+  Future<http.Response> getResponse(
+      String url, Map<String, String> body) async {
     var response = await http.post(url, body: body);
     return response;
   }
@@ -117,7 +118,6 @@ class APIState extends State<API> {
   void onDialogPressed() {}
 
   Map<String, String> getBody() {}
-
 
   void getUser(int num) async {
     progressIndicator(true);
@@ -205,22 +205,11 @@ class APIState extends State<API> {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: new Scaffold(
         resizeToAvoidBottomPadding: false,
         key: scaffoldKey,
-        appBar: new AppBar(
-            title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(appBarTitle),
-            InkWell(
-              child: Icon(Icons.settings),
-              onTap: () {
-                Navigator.pushReplacementNamed(context, '/settings');
-              },
-            )
-          ],
-        )),
+        appBar: new AppBar(centerTitle: true, title: Text(appBarTitle)),
         body: new Center(
             child:
                 getForm()), // This trailing comma makes auto-formatting nicer for build methods.
