@@ -16,6 +16,7 @@ import java.io.File;
 
 public class maindab extends Activity {
     private static final int TAKE_PICTURE_REQUEST = 1;
+    String picturePath;
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -30,21 +31,24 @@ public class maindab extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == TAKE_PICTURE_REQUEST && resultCode == RESULT_OK) {
             String thumbnailPath = data.getStringExtra(Intents.EXTRA_THUMBNAIL_FILE_PATH);
-            String picturePath = data.getStringExtra(Intents.EXTRA_PICTURE_FILE_PATH);
+            picturePath = data.getStringExtra(Intents.EXTRA_PICTURE_FILE_PATH);
             processPictureWhenReady(picturePath);
+
+
             Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
             if(picturePath == null){
                 return;
             }
-            Intent intent7 = new Intent(this, BluetoothServer.class);
-            intent7.putExtra("picturePath", picturePath);
-            startActivity(intent7);
+
 
             // TODO: Show the thumbnail to the user while the full picture is being
             // processed.
         }
 
         super.onActivityResult(requestCode, resultCode, data);
+        Intent intent7 = new Intent(this, BluetoothServer.class);
+        intent7.putExtra("picturePath", picturePath);
+        startActivity(intent7);
     }
 
     private void processPictureWhenReady(final String picturePath) {
@@ -89,6 +93,7 @@ public class maindab extends Activity {
                 }
             };
             observer.startWatching();
+
         }
     }
 }
