@@ -1,7 +1,7 @@
 #Backend for Senior Project
 #from flask import *
 import sys
-from flask import Flask,Blueprint, render_template, request, flash, session, redirect, url_for, jsonify
+from flask import Flask,Blueprint, render_template, request, flash, session, redirect, url_for
 from flask import request
 import json
 import decimal
@@ -13,7 +13,7 @@ from datetime import datetime
 from flask_mysqldb import MySQL
 import mysql.connector
 from wtforms.fields.html5 import DateTimeLocalField, DateTimeField
-import base64
+
 from flask_uploads import UploadSet, IMAGES, DOCUMENTS 
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed, FileRequired 
@@ -434,96 +434,6 @@ def getuserIDSession(userName): #only gets called when there is a userName
     cur.close()
     return result['user_id']
 
-#--------------------Mobile Routes ------------------
-@app.route('/mlogin', methods=['POST','GET'])
-def mLogin(): #unlimted login attempts - limit ammount of tries
-        usernameInput = request.form['username']
-        password_candidate = request.form['password']
-        
-        cur = mydb.cursor(dictionary=True)
-        statement = "SELECT * FROM login_info WHERE username = '" + usernameInput + "'"
-        cur.execute(statement)
-        result = cur.fetchone()
-        if result != None:
-            password = str(result['password'])
-            if sha256_crypt.verify(password_candidate, password):
-                #session['logged_in'] = True
-                
-                session['username'] = usernameInput
-                session['user_id'] = getuserIDSession(usernameInput)
-
-                msg = {"status" : { "type" : "success" ,
-                             "message" : "You logged in"} , 
-               "data" : {"user" : session['username'],
-                                "user_id": session['user_id'] }}
-                print(msg)
-                return jsonify(msg)
-            else:
-                msg = {"status" : { "type" : "failure" ,   "message" : "Username or password incorrect"}}
-                print(msg)
-                return jsonify(msg)
-        else:
-            msg = {"status" : { "type" : "failure" ,   "message" : "Missing Data"}}
-        print(msg)
-        return jsonify(msg)
-        cur.close()
-
-@app.route('/profileinfo')
-def profile():
-        cur = mydb.cursor(dictionary=True)
-        if 'username' in session:
-            user_id = getuserIDSession(session['username'])
-            statement = "SELECT * FROM information WHERE user_id = '"+str(user_id)+"'"
-            cur.execute(statement)
-            result = cur.fetchone()
-            result.update(birthday = str(result['birthday']))
-            decodePic = result['profile_pic'].decode('utf-8')
-            result.update(profile_pic = decodePic)
-            jsonCon = json.dumps(result)
-            print(jsonCon)
-            return jsonCon
-        return 'not logged in'
-        cur.close()
-@app.route('/<int:user_id>')
-def getUser(user_id):
-            cur = mydb.cursor(dictionary=True)
-            statement = "SELECT * FROM information WHERE user_id = '"+str(user_id)+"'"
-            cur.execute(statement)
-            result = cur.fetchone()
-            result.update(birthday = str(result['birthday']))
-            decodePic = result['profile_pic'].decode('utf-8')
-            result.update(profile_pic = decodePic)
-            jsonCon = json.dumps(result)
-            print(jsonCon)
-            return jsonCon
-@app.route ('/connections')
-def connections():
-     cur = mydb.cursor(dictionary=True)
-     if 'username' in session:
-            user_id = getuserIDSession(session['username'])
-            statement = "SELECT * FROM information WHERE user_id IN \
-            (SELECT paired_user FROM relations WHERE user_id = "+str(user_id)+")"
-            cur.execute(statement)
-            result = cur.fetchall()
-            for ppl in result:
-                ppl.update(birthday = str(ppl['birthday']))
-                decodePic = ppl['profile_pic'].decode('utf-8')
-                ppl.update(profile_pic = decodePic)
-            jsonCon = json.dumps(result)
-            print(jsonCon)
-            return jsonCon
-@app.route ('/photocomparsion', methods=['POST','GET'])
-def comp():
-    name = request.form['name']
-    img = request.form['image']
-    imgFile = base64.decodebytes(img.encode())
-    complete_path = os.path.join('_temp/', name) 
-    image_result = open(complete_path, 'wb')
-    done = image_result.write(imgFile)
-    image_result.close
-    msg = {'name':name, 'img':done}
-    print(done)
-    return jsonify(msg)
 
 
 #--------Return Functions------------------------
