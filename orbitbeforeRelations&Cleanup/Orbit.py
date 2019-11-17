@@ -262,7 +262,7 @@ def save_file(form_file, folderName):
      random = secrets.token_hex(8)
      fileName, fileExt = os.path.splitext(form_file.filename)
      newFileName = random + fileExt
-     folderName = 'static\\' + str(folderName)
+     folderName = 'static/' + str(folderName)
      filePath = os.path.join(app.root_path, folderName, newFileName)
      return filePath
 
