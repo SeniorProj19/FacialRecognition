@@ -6,11 +6,8 @@ from flask import request
 import json
 import decimal
 import datetime
-from datetime import date
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators, FileField, SubmitField
 from passlib.hash import sha256_crypt
-from datetime import datetime
-from flask_mysqldb import MySQL
 import mysql.connector
 from wtforms.fields.html5 import DateTimeLocalField, DateTimeField
 
