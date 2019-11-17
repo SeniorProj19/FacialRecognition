@@ -19,7 +19,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed, FileRequired 
 import os
 import secrets
-
+import yaml
 from PIL import Image
 
 
@@ -111,14 +111,14 @@ class InformationForm(FlaskForm):
 #--------Connections and Setup-----------------
 
 app = Flask(__name__)
-app.secret_key='hello'
-
+config = yaml.load(open('config.yaml'))
+app.secret_key=config['secret_key']
 
 mydb = mysql.connector.connect(
-    host='localhost',
-    user='root',
-    passwd='Shafin98!',
-    database='orbitlens'
+    host= config['host'],
+    user= config['user'],
+    passwd= config['password'],
+    database= config['database']
 )
 #------------Navigation routes-------------------
 @app.route('/')
@@ -500,4 +500,4 @@ def createDatabase():
     
 if __name__ == '__main__':
     
-    app.run(debug=True)
+      app.run(host = '0.0.0.0',port = 8080)
