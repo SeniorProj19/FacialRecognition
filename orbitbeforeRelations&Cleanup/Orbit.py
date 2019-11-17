@@ -4,6 +4,7 @@ import sys
 from flask import Flask,Blueprint, render_template, request, flash, session, redirect, url_for
 from flask import request
 import json
+import jsonify
 import decimal
 import datetime
 from datetime import date
@@ -424,7 +425,7 @@ def edit():
     return render_template('edit.html')
 
 
-    
+
 #--------------------Mobile Routes ------------------
 @app.route('/mlogin', methods=['POST','GET'])
 def mLogin(): #unlimted login attempts - limit ammount of tries
@@ -460,7 +461,7 @@ def mLogin(): #unlimted login attempts - limit ammount of tries
         cur.close()
 
 @app.route('/profileinfo')
-def profile():
+def profileinfo():
         cur = mydb.cursor(dictionary=True)
         if 'username' in session:
             user_id = getuserIDSession(session['username'])
