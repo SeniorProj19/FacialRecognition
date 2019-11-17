@@ -10,7 +10,8 @@ from wtforms import Form, StringField, TextAreaField, PasswordField, validators,
 from passlib.hash import sha256_crypt
 import mysql.connector
 from wtforms.fields.html5 import DateTimeLocalField, DateTimeField
-
+import uuid
+import base64
 from flask_uploads import UploadSet, IMAGES, DOCUMENTS 
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed, FileRequired 
