@@ -1,7 +1,7 @@
 #Backend for Senior Project
 #from flask import *
 import sys
-from flask import Flask,Blueprint, render_template, request, flash, session, redirect, url_for
+from flask import Flask,Blueprint, render_template, request, flash, session, redirect, url_for, send_from_directory
 from flask import request
 import json
 import jsonify
@@ -469,8 +469,11 @@ def profileinfo():
             cur.execute(statement)
             result = cur.fetchone()
             result.update(birthday = str(result['birthday']))
-            decodePic = result['profile_pic'].decode('utf-8')
-            result.update(profile_pic = decodePic)
+            ##Get file path from mysql
+            ##send file path to flutter?
+            ##
+            ##decodePic = result['profile_pic'].decode('utf-8')
+            ##result.update(profile_pic = decodePic)
             jsonCon = json.dumps(result)
             print(jsonCon)
             return jsonCon
