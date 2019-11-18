@@ -470,7 +470,7 @@ def profileinfo():
             result = cur.fetchone()
             result.update(birthday = str(result['birthday']))
            # Get image file from given path
-            img = Image.open(result['profile_pic'])
+            img = Image.open(str(result['profile_pic']))
            # encode it in bas64
             encodestring = base64.b64encode(img)
            # update list ->flutter needs to decode 
