@@ -473,7 +473,8 @@ def profileinfo():
             ##send file path to flutter?
             ##
             ##decodePic = result['profile_pic'].decode('utf-8')
-            ##result.update(profile_pic = decodePic)
+            pro_pic = send_from_directory(result['profile_pic'])
+            result.update(profile_pic = pro_pic)
             jsonCon = json.dumps(result)
             print(jsonCon)
             return jsonCon
