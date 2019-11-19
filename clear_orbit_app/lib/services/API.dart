@@ -1,3 +1,6 @@
+import 'dart:ffi';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -25,6 +28,8 @@ class APIState extends State<API> {
   String first_name;
   String last_name;
   String job_title;
+  String base64Image;
+  Uint8List imageInBytes;
 
   String appBarTitle = "";
 
@@ -49,7 +54,7 @@ class APIState extends State<API> {
   void loadURL() async {
     sharedPreferences = await SharedPreferences.getInstance();
     String settingURL =
-        sharedPreferences.getString("URL") ?? "http://54.166.243.43:8080/";
+        sharedPreferences.getString("URL") ?? "http://54.163.9.99:8080/";
     setState(() {
       URL = settingURL + URLSuffix;
     });
@@ -106,7 +111,7 @@ class APIState extends State<API> {
   }
 
   Future<http.Response> getUserResponse(int id) async {
-    var response = await http.get("http://54.166.243.43:8080/" + id.toString());
+    var response = await http.get("http://54.163.9.99:8080/" + id.toString());
     print("exiting GetUserResponse()");
     return response;
   }
