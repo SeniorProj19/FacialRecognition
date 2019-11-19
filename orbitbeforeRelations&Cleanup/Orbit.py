@@ -469,12 +469,9 @@ def profileinfo():
             cur.execute(statement)
             result = cur.fetchone()
             result.update(birthday = str(result['birthday']))
-           # Get image file from given path
-            img = Image.open(str(result['profile_pic']))
-           # encode it in bas64
-            encodestring = base64.b64encode(img)
-           # update list ->flutter needs to decode 
-            result.update(profile_pic = encodestring)
+            with open(result['profile_pic'], "rb") as imageFile:
+                encodedstring = base64.b64encode(imageFile.read()) 
+            result.update(profile_pic = encodedstring.decode('utf-8'))
             jsonCon = json.dumps(result)
             print(jsonCon)
             return jsonCon
