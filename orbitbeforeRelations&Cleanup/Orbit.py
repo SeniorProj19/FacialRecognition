@@ -470,8 +470,8 @@ def profileinfo():
             result = cur.fetchone()
             result.update(birthday = str(result['birthday']))
             with open(result['profile_pic'], "rb") as imageFile:
-                encodedstring = base64.b64encode(imageFile.read()) 
-            result.update(profile_pic = encodedstring.decode('utf-8'))
+                str = base64.b64encode(imageFile.read()) 
+            result.update(profile_pic = str)
             jsonCon = json.dumps(result)
             print(jsonCon)
             return jsonCon
@@ -485,8 +485,8 @@ def getUser(user_id):
             result = cur.fetchone()
             result.update(birthday = str(result['birthday']))
             with open(result['profile_pic'], "rb") as imageFile:
-                encodedstring = base64.b64encode(imageFile.read()) 
-            result.update(profile_pic = encodedstring.decode('utf-8'))
+                str = base64.b64encode(imageFile.read()) 
+            result.update(profile_pic = str)
             jsonCon = json.dumps(result)
             print(jsonCon)
             return jsonCon
@@ -502,8 +502,8 @@ def connections():
             for ppl in result:
                 ppl.update(birthday = str(ppl['birthday']))
                 with open(ppl['profile_pic'], "rb") as imageFile:
-                    encodedstring = base64.b64encode(imageFile.read()) 
-                ppl.update(profile_pic = encodedstring.decode('utf-8'))
+                    str = base64.b64encode(imageFile.read()) 
+                ppl.update(profile_pic = str)
             jsonCon = json.dumps(result)
             print(jsonCon)
             return jsonCon
