@@ -22,7 +22,6 @@ class card_view_state extends APIState {
   @override
   void initState() {
     setData();
-    getUser(5);
   }
 
   @override
@@ -56,10 +55,8 @@ class card_view_state extends APIState {
       email = sharedPreferences.getString("email") ?? "";
       company = sharedPreferences.getString("company") ?? "";
       job_title = sharedPreferences.getString("job_title") ?? "";
-      base64Image = sharedPreferences.getString("profile_pic") ?? "";
-      try{
-        imageInBytes = base64.decode(base64Image);
-      }on Exception catch(e){}
+      base64Image = sharedPreferences.getString("base64Image") ?? "";
+      imageInBytes = base64.decode(base64Image);
     });
   }
 
@@ -84,79 +81,6 @@ class card_view_state extends APIState {
 
   @override
   Widget build(BuildContext context) {
-    if (base64Image == "")
-      return Container(
-        child: Container(
-          margin: EdgeInsets.all(15.0),
-          color: Colors.black,
-          child: Column(
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.all(20.0),
-                child: CircleAvatar(
-                  backgroundColor: Colors.blue,
-                  child: Text(
-                    "EJ",
-                    //getInitials(),
-                    style: TextStyle(fontSize: 70),
-                  ),
-                  radius: 100,
-                ),
-              ),
-              Container(
-                child: Column(
-                  children: <Widget>[
-                    Text(
-                      first_name + " " + last_name,
-                      style: TextStyle(color: Colors.white, fontSize: 35),
-                    ),
-                    Text(
-                      company,
-                      style: TextStyle(color: Colors.white, fontSize: 25),
-                    ),
-                    Text(
-                      job_title,
-                      style: TextStyle(color: Colors.white, fontSize: 25),
-                    ),
-                  ],
-                ),
-              ),
-              Spacer(),
-              Container(
-                margin: EdgeInsets.all(20.0),
-                child: Column(
-                  children: <Widget>[
-                    Text(
-                      "LinkedIn",
-                      style: TextStyle(color: Colors.white, fontSize: 25),
-                    ),
-                    Text(
-                      "null",
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.all(20.0),
-                child: Column(
-                  children: <Widget>[
-                    Text(
-                      "Email",
-                      style: TextStyle(color: Colors.white, fontSize: 25),
-                    ),
-                    Text(
-                      email,
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    else
       return Container(
         child: Container(
           margin: EdgeInsets.all(15.0),

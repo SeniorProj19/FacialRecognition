@@ -34,26 +34,29 @@ class LoginPageState extends APIState {
 
     print("Printing Statement: " + responseData.toString()); // Where is response data coming from
 
-    sharedPreferences.setString("username", responseData["data"]["user"]);
-    sharedPreferences.setInt("usernum", responseData["data"]["user_id"]);
+    usernum = await responseData["data"]["user_id"];
 
-    await getUser(responseData["data"]["user_id"]);
-    print("exited getUser()");
-    await print(responseData2["first_name"]);
-    //print("Printing Statement: " + responseData2.toString()); // Where is response data coming from
-    print("saving info");
-    await sharedPreferences.setString("first_name", responseData2["first_name"]);
-    await sharedPreferences.setString("last_name", responseData2["last_name"]);
-    await sharedPreferences.setString("company", responseData2["curr_company"]);
-    await sharedPreferences.setString("job_title", responseData2["job_title"]);
-    await sharedPreferences.setString("email", responseData2["email"]);
+    sharedPreferences.setInt("usernum", usernum);
 
+    await getUser(usernum);
+    print("done getUser()");
 
+    await saveInfo();
 
     // navigate to ProfilePage
     print("logged in");
     sharedPreferences.setBool("isLogged", true);
     Navigator.pushReplacementNamed(context, '/main') ;
+  }
+
+  void saveInfo() async {
+    print("saving info");
+    sharedPreferences.setString("first_name", responseData2["first_name"]);
+    sharedPreferences.setString("last_name", responseData2["last_name"]);
+    sharedPreferences.setString("company", responseData2["curr_company"]);
+    sharedPreferences.setString("job_title", responseData2["job_title"]);
+    sharedPreferences.setString("email", responseData2["email"]);
+    sharedPreferences.setString("base64Image", responseData2["profile_pic"]);
   }
 
   @override

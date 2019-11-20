@@ -111,8 +111,8 @@ class APIState extends State<API> {
   }
 
   Future<http.Response> getUserResponse(int id) async {
-    var response = await http.get("http://54.163.9.99:8080/" + id.toString());
-    print("exiting GetUserResponse()");
+    var response;
+    response = await http.get("http://54.163.9.99:8080/" + id.toString());
     return response;
   }
 
@@ -131,20 +131,18 @@ class APIState extends State<API> {
     try {
       print("getting response");
       response = await getUserResponse(num);
-      print("got response: " + response.toString());
+      print("got response");
     } catch (e) {
+      print("connection failed");
       connected = false;
     }
     progressIndicator(false);
     if (connected) {
       print("connected");
-      if (response.statusCode == 200) {
-        print("200");
         var jsonResponse = await convert.jsonDecode(response.body);
         print(response.body);
         responseData2 = await jsonResponse;
-        await print("hometown: " + responseData2["hometown"].toString());
-      }
+        await print("hometown: " + responseData2["city"].toString());
     } else {
       setState(() {
         dialogHead = "Connection Error: User";
