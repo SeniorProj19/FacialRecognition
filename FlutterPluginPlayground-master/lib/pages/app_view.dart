@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter_plugin_playground/services/API.dart';
 import 'package:flutter_plugin_playground/services/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_plugin_playground/pages/camera_view.dart';
 import 'package:flutter_plugin_playground/pages/connections_view.dart';
 import 'package:flutter_plugin_playground/pages/card_view.dart';
+import 'package:flutter_plugin_playground/services/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class app_view extends API {

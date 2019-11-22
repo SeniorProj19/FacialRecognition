@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter_plugin_playground/services/API.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_plugin_playground/services/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
 
@@ -107,7 +110,7 @@ class LoginPageState extends APIState {
                     onSaved: (val) => password = val),
               ),
               new FlatButton(
-                onPressed: super.submit ,
+                onPressed: runPlayground,//super.submit ,
                 child: Text('Sign In', style: TextStyle(color: Colors.white),),
                 color: Color.fromRGBO(46, 108, 164, 1),
               ),
@@ -115,6 +118,14 @@ class LoginPageState extends APIState {
           ),
         )
     );
+  }
+
+  void runPlayground() async {
+    var testResult = await channel.invokeMethod("test");
+
+    setState(() {
+      log(testResult);
+    });
   }
 
 }

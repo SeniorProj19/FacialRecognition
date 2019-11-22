@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_plugin_playground/pages/app_view.dart';
 import 'package:flutter_plugin_playground/pages/sign_in_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
