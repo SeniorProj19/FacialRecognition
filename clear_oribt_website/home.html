@@ -3,90 +3,1347 @@
 <head>
 <title>Homepage</title>
 </head>
-<body>
-<head>
-    <link href ="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js">
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="http://localhost/Profile%20GG/css/hStyle.css">
-</head>
+<style>
 
-<body>
-  <div class="first-container">
-    <div class="nav-container">
-      <div class="nav-row">
-          <div class="nav-logo">
-            <a href="#">
-              Senior Project
-            </a>
-          </div>
+@import url("https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/css/bootstrap.css");
+@import url('https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css');
 
-          <div class="nav-controls" id="topnav">
-              <a href="#about" class="page-scroll">About</a>
-              <a href="">Login</a>
-              <a href="">Sign up</a>
-              <a href="javascript:void(0);" class="icon" onclick="topFunction()">
-                    <i class="fa fa-bars"></i>
-                  </a>
-          </div>
-      </div>
-    </div>
+html,
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Quicksand", sans-serif;
+    font-size: 62.5%;
+    font-size: 10px;
+}
+/* Home section */
+section.home {
+  color: white;
+  background-image: url("https://www.glassappsource.com/wp-content/uploads/2014/05/Google-Glass-Background.jpg");
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: center center;
+  background-size: cover;
+  width:100%;
+  min-height:900px;
+   
+}
+section.home .intro-text {
+ padding-top: 100px;
+ padding-bottom: 100px;
+  }
+section.home .intro-text .h3{
+ text-align:center;
+  margin-top: 200px;
+  color:#fff;
+  font-size:80px;
+  font-weight:700;
+  font-family: 'Josefin Sans', sans-serif;
+ }
+section.home .intro-text .p {
 
-    <section class="home">
-      <div class="container">
-       <div class="intro-text">
-        <div class="h3">Clear Orbit </div>
-        <br>
-            <div style="font-size:20px" class="p">Tap the button below to log in or sign up at the top of the screen</div>
-            <br>
-            <a class="btn btn-default" style="font-size:15px" id= "login">Login</a>
-      </div>
-    </div>
-    </section>
-  </div>
+ text-align:center;
+  color:#fff;
+  font-size:1.3em;
+  opacity:1;
+  font-family: 'Josefin Sans', sans-serif;
+}
+.btn{
+    
+    border:none;
+    border-radius:300px;  
+    margin: 20px -130px; 
+    position:relative;
+    top:50%; 
+    left:64%;
+}
+.btn{
+ 
+  border:none;
+  border-radius:300px;
+  font-weight:bold;
+  text-transform:uppercase;
+}
+.btn-default{
+  background-color: #214a80;
+  color:white;
+  padding-bottom: 15px;
+  padding-top:15px;
+  padding-left:30px;
+  padding-right:30px;
+}
+
+.navTrigger {
+    display: none;
+}
+.nav {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+}
+
+.abt{
+  text-align:center;
+}
+.abt .jumbotron  {
+  background-color:#2273e6;
+}
+.abt h3{
   
-  <div class="container" id="about">
-    <div class="row">
-      <h1>
-        About
-      </h1>
-      <p>
-        sdfonsdofinsdoifnsdoifn
-      </p>
-    </div>
-  </div>
+  color:white;
+  font-size:40px; 
   
-  </div>
-  <script src= "//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-  <script>
-        $(document).ready(function() {
-    
-    $(window).scroll(function() {
-    
-        var height = $('.first-container').height();
-        var scrollTop = $(window).scrollTop();
-    
-        if (scrollTop >= height - 40) {
-            $('.nav-container').addClass('solid-nav');
-        } else {
-            $('.nav-container').removeClass('solid-nav');
-        }
-    
-    });
-    });
+}
+ hr{
+  width:100px;
+  border-width:3px;
+  
+}
+.abt p{
+  
+  color: rgba(255, 255, 255, 0.7);
+  font-size:20px;
+}
 
-    document.getElementById("login").onclick = function () {
-        window.location.href = "";
-    };
 
-  function topFunction() {
-  var x = document.getElementById("topnav");
-  if (x.className === "nav-controls") {
-    x.className += " responsive";
-  } else {
-    x.className = "nav-controls";
+/* Navbar section */
+.nav  {
+   z-index: 99999;
+}
+.nav {
+    width: 100%;
+    height: 65px;
+    position: fixed;
+    line-height: 65px;
+    text-align: center;
+}
+.nav div.logo {
+    float: left;
+    width: auto;
+    height: auto;
+    padding-left: 3rem;
+}
+.nav div.logo a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 2.5rem;
+}
+.nav div.logo a:hover {
+    color: #214a80;
+}
+.nav div.main_list {
+    height: 65px;
+    float: right;
+}
+.nav div.main_list ul {
+    width: 100%;
+    height: 65px;
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.nav div.main_list ul li {
+    width: auto;
+    height: 65px;
+    padding: 0;
+    padding-right: 3rem;
+}
+.nav div.main_list ul li a {
+    text-decoration: none;
+    color: #fff;
+    line-height: 65px;
+    font-size: 2.4rem;
+}
+.nav div.main_list ul li a:hover {
+    color: #214a80;
+}
+/* Media qurey section */
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    .container {
+        margin: 0;
+    }
+}
+
+@media screen and (max-width:768px) {
+    .navTrigger {
+        display: block;
+    }
+    .nav div.logo {
+        margin-left: 15px;
+    }
+    .nav div.main_list {
+        width: 100%;
+        height: 0;
+        overflow: hidden;
+    }
+    .nav div.show_list {
+        height: auto;
+        display: none;
+    }
+    .nav div.main_list ul {
+        flex-direction: column;
+        width: 100%;
+        height: 100vh;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        background-color: #214a80;
+        /*same background color of navbar*/
+        background-position: center top;
+    }
+    .nav div.main_list ul li {
+        width: 100%;
+        text-align: right;
+    }
+    .nav div.main_list ul li a {
+        text-align: center;
+        width: 100%;
+        font-size: 3rem;
+        padding: 20px;
+    }
+    .nav div.media_button {
+        display: block;
+    }
+}
+
+/* Animation */
+
+.navTrigger {
+    cursor: pointer;
+    width: 30px;
+    height: 25px;
+    margin: auto;
+    position: absolute;
+    right: 30px;
+    top: 0;
+    bottom: 0;
+}
+
+.navTrigger i {
+    background-color: #fff;
+    border-radius: 2px;
+    content: '';
+    display: block;
+    width: 100%;
+    height: 4px;
+}
+
+.navTrigger i:nth-child(1) {
+    -webkit-animation: outT 0.8s backwards;
+    animation: outT 0.8s backwards;
+    -webkit-animation-direction: reverse;
+    animation-direction: reverse;
+}
+
+.navTrigger i:nth-child(2) {
+    margin: 5px 0;
+    -webkit-animation: outM 0.8s backwards;
+    animation: outM 0.8s backwards;
+    -webkit-animation-direction: reverse;
+    animation-direction: reverse;
+}
+
+.navTrigger i:nth-child(3) {
+    -webkit-animation: outBtm 0.8s backwards;
+    animation: outBtm 0.8s backwards;
+    -webkit-animation-direction: reverse;
+    animation-direction: reverse;
+}
+
+.navTrigger.active i:nth-child(1) {
+    -webkit-animation: inT 0.8s forwards;
+    animation: inT 0.8s forwards;
+}
+
+.navTrigger.active i:nth-child(2) {
+    -webkit-animation: inM 0.8s forwards;
+    animation: inM 0.8s forwards;
+}
+
+.navTrigger.active i:nth-child(3) {
+    -webkit-animation: inBtm 0.8s forwards;
+    animation: inBtm 0.8s forwards;
+}
+
+@-webkit-keyframes inM {
+    50% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(45deg);
+    }
+}
+
+@keyframes inM {
+    50% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(45deg);
+    }
+}
+
+@-webkit-keyframes outM {
+    50% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(45deg);
+    }
+}
+
+@keyframes outM {
+    50% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(45deg);
+    }
+}
+
+@-webkit-keyframes inT {
+    0% {
+        -webkit-transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        -webkit-transform: translateY(9px) rotate(0deg);
+    }
+    100% {
+        -webkit-transform: translateY(9px) rotate(135deg);
+    }
+}
+
+@keyframes inT {
+    0% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(9px) rotate(0deg);
+    }
+    100% {
+        transform: translateY(9px) rotate(135deg);
+    }
+}
+
+@-webkit-keyframes outT {
+    0% {
+        -webkit-transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        -webkit-transform: translateY(9px) rotate(0deg);
+    }
+    100% {
+        -webkit-transform: translateY(9px) rotate(135deg);
+    }
+}
+
+@keyframes outT {
+    0% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(9px) rotate(0deg);
+    }
+    100% {
+        transform: translateY(9px) rotate(135deg);
+    }
+}
+
+@-webkit-keyframes inBtm {
+    0% {
+        -webkit-transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        -webkit-transform: translateY(-9px) rotate(0deg);
+    }
+    100% {
+        -webkit-transform: translateY(-9px) rotate(135deg);
+    }
+}
+
+@keyframes inBtm {
+    0% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-9px) rotate(0deg);
+    }
+    100% {
+        transform: translateY(-9px) rotate(135deg);
+    }
+}
+
+@-webkit-keyframes outBtm {
+    0% {
+        -webkit-transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        -webkit-transform: translateY(-9px) rotate(0deg);
+    }
+    100% {
+        -webkit-transform: translateY(-9px) rotate(135deg);
+    }
+}
+
+@keyframes outBtm {
+    0% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-9px) rotate(0deg);
+    }
+    100% {
+        transform: translateY(-9px) rotate(135deg);
+    }
+}
+
+.affix {
+    padding: 0;
+    background-color: #111;
+}
+
+.myH2 {
+	text-align:center;
+	font-size: 4rem;
+}
+.myP {
+	text-align: justify;
+	padding-left:15%;
+	padding-right:15%;
+	font-size: 20px;
+}
+@media all and (max-width:700px){
+	.myP {
+		padding:2%;
+	}
+}
+.gallery {
+  display: grid;
+  max-width: 100%;
+  margin: 0 auto;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-auto-rows: minmax(150px, auto);
+}
+
+.gallery-item {
+  max-width: 100%;
+  border-radius: 5px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+  transition: all .3s;
+  &:hover {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.8);
+  }
+  img {
+    width: 100%;
+    object-fit: cover;
   }
 }
-        </script>
+/*About */
+@import url('https://fonts.googleapis.com/css?family=Cardo|Pathway+Gothic+One');
+ .about {
+	 display: flex;
+	 margin: 0 auto;
+	 flex-wrap: wrap;
+	 flex-direction: column;
+	 max-width: 700px;
+	 position: relative;
+}
+ .about__content-title {
+	 font-weight: normal;
+	 font-size: 66px;
+	 margin: -10px 0 0 0;
+	 transition: 0.4s;
+	 padding: 0 10px;
+	 box-sizing: border-box;
+	 font-family: 'Pathway Gothic One', sans-serif;
+	 color: #fff;
+}
+ .about__content-desc {
+	 margin: 0;
+	 font-size: 15px;
+	 box-sizing: border-box;
+	 color: rgba(255, 255, 255, .7);
+	 font-family: Cardo;
+	 font-weight: normal;
+	 line-height: 25px;
+}
+ .about:before {
+	 position: absolute;
+	 left: 50%;
+	 width: 2px;
+	 height: 100%;
+	 margin-left: -1px;
+	 content: "";
+	 background: rgba(255, 255, 255, .07);
+}
+ @media only screen and (max-width: 767px) {
+	 .about:before {
+		 left: 40px;
+	}
+}
+ .about-item {
+	 padding: 40px 0;
+	 opacity: 0.3;
+	 filter: blur(2px);
+	 transition: 0.5s;
+	 box-sizing: border-box;
+	 width: calc(50% - 40px);
+	 display: flex;
+	 position: relative;
+	 transform: translateY(-80px);
+}
+ .about-item:before {
+	 content: attr(data-text);
+	 letter-spacing: 3px;
+	 width: 100%;
+	 position: absolute;
+	 color: rgba(255, 255, 255, .5);
+	 font-size: 13px;
+	 font-family: 'Pathway Gothic One', sans-serif;
+	 border-left: 2px solid rgba(255, 255, 255, .5);
+	 top: 70%;
+	 margin-top: -5px;
+	 padding-left: 15px;
+	 opacity: 0;
+	 right: calc(-100% - 56px);
+}
+ .about-item:nth-child(even) {
+	 align-self: flex-end;
+}
+ .about-item:nth-child(even):before {
+	 right: auto;
+	 text-align: right;
+	 left: calc(-100% - 56px);
+	 padding-left: 0;
+	 border-left: none;
+	 border-right: 2px solid rgba(255, 255, 255, .5);
+	 padding-right: 15px;
+}
+ .about-item--active {
+	 opacity: 1;
+	 transform: translateY(0);
+	 filter: blur(0px);
+}
+ .about-item--active:before {
+	 top: 50%;
+	 transition: 0.3s all 0.2s;
+	 opacity: 1;
+}
+ .about-item--active .about__content-title {
+	 margin: -50px 0 20px 0;
+}
+ @media only screen and (max-width: 767px) {
+	 .about-item {
+		 align-self: baseline !important;
+		 width: 100%;
+		 padding: 0 30px 150px 80px;
+	}
+	 .about-item:before {
+		 left: 10px !important;
+		 padding: 0 !important;
+		 top: 50px;
+		 text-align: center !important;
+		 width: 60px;
+		 border: none !important;
+	}
+	 .about-item:last-child {
+		 padding-bottom: 40px;
+	}
+}
+ .about__img {
+	 max-width: 100%;
+	 box-shadow: 0 10px 15px rgba(0, 0, 0, .4);
+}
+ .about-container {
+	 width: 100%;
+	 position: relative;
+	 padding: 80px 0;
+	 transition: 0.3s ease 0s;
+	 background-attachment: fixed;
+	 background-size: cover;
+}
+ .about-container:before {
+	 position: absolute;
+	 left: 0;
+	 top: 0;
+	 width: 100%;
+	 height: 100%;
+	 background: rgba(99, 99, 99, 0.8);
+	 content: "";
+}
+ .about-header {
+	 width: 100%;
+	 text-align: center;
+	 margin-bottom: 80px;
+	 position: relative;
+}
+ .about-header__title {
+	 color: #fff;
+	 font-size: 46px;
+	 font-family: Cardo;
+	 font-weight: normal;
+	 margin: 0;
+}
+ .about-header__subtitle {
+	 color: rgba(255, 255, 255, .5);
+	 font-family: 'Pathway Gothic One', sans-serif;
+	 font-size: 16px;
+	 letter-spacing: 5px;
+	 margin: 10px 0 0 0;
+	 font-weight: normal;
+}
+ .demo-footer {
+	 padding: 60px 0;
+	 text-align: center;
+}
+ .demo-footer a {
+	 color: #999;
+	 display: inline-block;
+	 font-family: Cardo;
+}
+ 
+/*End of about*/
+/*Timeline*/
+body {
+	 margin: 0;
+	 background-color: #1d1d1e;
+	 font-family: "Roboto", sans-serif;
+}
+ * {
+	 outline: none;
+}
+ .timeline-carousel {
+	 padding: 86px 6.9444% 90px 6.9444%;
+	 position: relative;
+	 overflow: hidden;
+}
+ .timeline-carousel:after, .timeline-carousel:before {
+	 content: "";
+	 position: absolute;
+	 display: block;
+	 top: 0;
+	 height: 100%;
+	 width: 6.9444%;
+	 background-color: #214a80;
+	 z-index: 3;
+	 width: 6.9444%;
+}
+ .timeline-carousel:after {
+	 left: 0;
+}
+ .timeline-carousel:before {
+	 right: 0;
+	 opacity: 0;
+}
+ .timeline-carousel .slick-list {
+	 overflow: visible;
+}
+ .timeline-carousel .slick-dots {
+	 bottom: -73px;
+}
+ .timeline-carousel h1 {
+	 color: rgba(255, 255, 255, 1);
+	 font-size: 46px;
+	 line-height: 50pd;
+	 margin-bottom: 40px;
+	 font-weight: 900;
+}
+ .timeline-carousel__image {
+	 padding-right: 30px;
+}
+ .timeline-carousel__item {
+	 cursor: pointer;
+}
+ .timeline-carousel__item .media-wrapper {
+	 opacity: 0.4;
+	 padding-bottom: 71.4%;
+	 -webkit-transition: all 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+	 -o-transition: all 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+	 transition: all 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+}
+ .timeline-carousel__item:last-child .timeline-carousel__item-inner:after {
+	 width: calc(100% - 30px);
+}
+ .timeline-carousel__item-inner {
+	 position: relative;
+	 padding-top: 45px;
+}
+ .timeline-carousel__item-inner:after {
+	 position: absolute;
+	 width: 100%;
+	 top: 45px;
+	 left: 0;
+	 content: "";
+	 border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+ .timeline-carousel__item-inner .year {
+	 font-size: 36px;
+	 line-height: 36px;
+	 color: rgba(255, 255, 255, 1);
+	 display: table;
+	 letter-spacing: -1px;
+	 padding-right: 10px;
+	 background-color: #214a80;
+	 z-index: 1;
+	 position: relative;
+	 margin: -15px 0 20px;
+	 font-weight: 900;
+}
+ .timeline-carousel__item-inner .year:after {
+	 content: "";
+	 position: absolute;
+	 display: block;
+	 left: -10px;
+	 top: 0;
+	 height: 100%;
+	 width: 10px;
+	 background-color: #214a80;
+	 z-index: 3;
+}
+ .timeline-carousel__item-inner .month {
+	 font-size: 12px;
+	 text-transform: uppercase;
+	 color: #b38c52;
+	 display: block;
+	 margin-bottom: 10px;
+	 font-weight: 900;
+}
+ .timeline-carousel__item-inner p {
+	 font-size: 12px;
+	 line-height: 18px;
+	 color: rgba(255, 255, 255, 1);
+	 width: 60%;
+	 font-weight: 400;
+	 margin-bottom: 15px;
+}
+ .timeline-carousel__item-inner .read-more {
+	 font-size: 12px;
+	 color: #b38c52;
+	 display: table;
+	 margin-bottom: 10px;
+	 font-weight: 900;
+	 text-decoration: none;
+	 position: relative;
+}
+ .timeline-carousel__item-inner .read-more:after {
+	 content: "";
+	 position: absolute;
+	 left: 0;
+	 bottom: -1px;
+	 width: 0;
+	 border-bottom: 2px solid #b38c52;
+	 -webkit-transition: all 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+	 -o-transition: all 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+	 transition: all 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+}
+ .timeline-carousel__item-inner .read-more:hover:after {
+	 width: 100%;
+}
+ .timeline-carousel__item-inner .pointer {
+	 height: 29px;
+	 position: relative;
+	 z-index: 1;
+	 margin: -4px 0 16px;
+}
+ .timeline-carousel__item-inner .pointer:after, .timeline-carousel__item-inner .pointer:before {
+	 position: absolute;
+	 content: "";
+}
+ .timeline-carousel__item-inner .pointer:after {
+	 width: 9px;
+	 height: 9px;
+	 border-radius: 100%;
+	 top: 0;
+	 left: 0;
+	 background-color: #b38c52;
+}
+ .timeline-carousel__item-inner .pointer:before {
+	 width: 1px;
+	 height: 100%;
+	 top: 0;
+	 left: 4px;
+	 background-color: #b38c52;
+}
+ .timeline-carousel .slick-active .media-wrapper {
+	 opacity: 1 !important;
+}
+ .slick-dots {
+	 bottom: 60px;
+	 list-style: none;
+	 position: absolute;
+	 width: 100%;
+	 left: 0;
+	 text-align: center;
+	 z-index: 2;
+}
+ .slick-dots li {
+	 cursor: pointer;
+	 display: inline-block;
+	 margin: 0 6px;
+	 position: relative;
+	 width: 10px;
+	 height: 10px;
+}
+ .slick-dots li:last-child {
+	 margin-right: 0;
+}
+ .slick-dots li.slick-active button {
+	 background: #b38c52;
+	 border-color: #b38c52;
+}
+ .slick-dots li button {
+	 display: block;
+	 font-size: 0;
+	 width: 10px;
+	 height: 10px;
+	 padding: 0;
+	 background-color: rgba(255, 255, 255, 0.6);
+	 border-color: rgba(255, 255, 255, 0.6);
+	 cursor: pointer;
+	 -webkit-transition: all 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+	 -o-transition: all 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+	 transition: all 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+}
+ .slick-dots li button:hover {
+	 background: #b38c52;
+	 border-color: #b38c52;
+}
+ .link {
+	 position: absolute;
+	 left: 0;
+	 bottom: 0;
+	 padding: 20px;
+	 z-index: 9999;
+}
+ .link a {
+	 display: flex;
+	 align-items: center;
+	 text-decoration: none;
+	 color: #fff;
+}
+ .link .fa {
+	 font-size: 28px;
+	 margin-right: 8px;
+	 color: #fff;
+}
+/*End of timeline*/
+
+
+body {
+		height: 100%;
+		background: #214a80;
+		background-size: cover;
+}
+
+.shade {
+		overflow: auto;
+		position: absolute;
+		left: 0;
+		right: 0;
+		background-image: linear-gradient( 150deg, #214a80, transparent);
+}
+
+
+/*Footer*/
+.site-footer
+{
+  background-color:#26272b;
+  padding:45px 0 20px;
+  font-size:15px;
+  line-height:24px;
+  color:#737373;
+   
+}
+.site-footer hr
+{
+
+  border-top-color:#bbb;
+  opacity:0.5
+}
+.site-footer hr.small
+{
+  margin:20px 0
+}
+.site-footer h6
+{
+  color:#fff;
+  font-size:16px;
+  text-transform:uppercase;
+  margin-top:5px;
+  letter-spacing:2px
+}
+.site-footer a
+{
+  color:#737373;
+}
+.site-footer a:hover
+{
+  color:#3366cc;
+  text-decoration:none;
+}
+.footer-links
+{
+  padding-left:0;
+  list-style:none
+}
+.footer-links li
+{
+  display:block
+}
+.footer-links a
+{
+  color:#737373
+}
+.footer-links a:active,.footer-links a:focus,.footer-links a:hover
+{
+  color:#3366cc;
+  text-decoration:none;
+}
+.footer-links.inline li
+{
+  display:inline-block
+}
+.site-footer .social-icons
+{
+  text-align:right
+}
+.site-footer .social-icons a
+{
+  width:40px;
+  height:40px;
+  line-height:40px;
+  margin-left:6px;
+  margin-right:0;
+  border-radius:100%;
+  background-color:#33353d
+}
+.copyright-text
+{
+  margin:0
+}
+@media (max-width:991px)
+{
+  .site-footer [class^=col-]
+  {
+    margin-bottom:30px
+  }
+}
+@media (max-width:767px)
+{
+  .site-footer
+  {
+    padding-bottom:0
+  }
+  .site-footer .copyright-text,.site-footer .social-icons
+  {
+    text-align:center
+  }
+}
+.social-icons
+{
+  padding-left:0;
+  margin-bottom:0;
+  list-style:none
+}
+.social-icons li
+{
+  display:inline-block;
+  margin-bottom:4px
+}
+.social-icons li.title
+{
+  margin-right:15px;
+  text-transform:uppercase;
+  color:#96a2b2;
+  font-weight:700;
+  font-size:13px
+}
+.social-icons a{
+  background-color:#eceeef;
+  color:#818a91;
+  font-size:16px;
+  display:inline-block;
+  line-height:44px;
+  width:44px;
+  height:44px;
+  text-align:center;
+  margin-right:8px;
+  border-radius:100%;
+  -webkit-transition:all .2s linear;
+  -o-transition:all .2s linear;
+  transition:all .2s linear
+}
+.social-icons a:active,.social-icons a:focus,.social-icons a:hover
+{
+  color:#fff;
+  background-color:#29aafe
+}
+.social-icons.size-sm a
+{
+  line-height:34px;
+  height:34px;
+  width:34px;
+  font-size:14px
+}
+.social-icons a.facebook:hover
+{
+  background-color:#3b5998
+}
+.social-icons a.twitter:hover
+{
+  background-color:#00aced
+}
+.social-icons a.linkedin:hover
+{
+  background-color:#007bb6
+}
+.social-icons a.dribbble:hover
+{
+  background-color:#ea4c89
+}
+@media (max-width:767px)
+{
+  .social-icons li.title
+  {
+    display:block;
+    margin-right:0;
+    font-weight:600
+  }
+}
+    
+      
+</style>
+
+<body>
+
+<nav class="nav">
+        <div class="container">
+            <div class="logo">
+                  <a class="navbar-brand page-scroll" href="#">Senior Project</a> 
+            </div>
+            <div id="mainListDiv" class="main_list">
+                <ul class="navlinks">
+                    <li><a href="#about" class="page-scroll">About</a></li>
+                    <li><a href="#timeline"class="page-scroll">Instructions</a></li>
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                    <li><a href="{{ url_for('register') }}">Sign up</a></li>
+                </ul>
+            </div>
+            <span class="navTrigger">
+                <i></i>
+                <i></i>
+                <i></i>
+            </span>
+        </div>
+    </nav>
+
+   <section class="home">
+  <div class="container">
+   <div class="intro-text">
+    <div class="h3">Clear Orbit</div>
+        <div style="font-size:20px" class="p"> Welcome! Tap the button below to log in or sign up</div>
+         <a class="btn btn-default" style="font-size:15px;" id="register">Sign up</a>
+         <a class="btn btn-default" style="font-size:15px" id="login">Login</a>
+  </div>
+  </div>
+
+</section>
+
+
+<section class="about-container" id="about">
+    <div class="about-header">
+        <h2 class="about-header__title">What this is all about?</h2>
+        <h3 class="about-header__subtitle">Have you ever wanted to try using google glasses to connect with another a person just by
+          looking at them?<br/> Well we have developed this project as a purpose for fuilling that goal.</h3>
+    </div>
+    <div class="about">
+        <div class="about-item" data-text="Motives">
+            <div class="about__content"><img class="about__img" src="https://lh3.googleusercontent.com/FThTMM04RBljVz6bju7uKKqnXste7IDEWs01hZdidrIR6rTJRA0-Kp87BtaWERfzPituNe2AFw6U4HScVX8=s2880" />
+                <h2 class="about__content-title">Goal</h2>
+                <p class="about__content-desc">To provide people in a business setting with an easier way to pass contact information along to new connections. 
+                  By using facial recognition technology Clear Orbit uses the face of the user as a digital business card.
+                    .</p>
+            </div>
+        </div>
+        <div class="about-item" data-text="Website Details">
+            <div class="about__content"><img class="about__img" src="https://raw.githubusercontent.com/SeniorProj19/FacialRecognition/master/clear_oribt_website/pictures/Web.PNG" />
+                <h2 class="about__content-title" style="color: black;">Overview Part 1</h2>
+                <p class="about__content-desc">To be allowed to access the Clear Orbit network and to be recognized by other users, 
+                  candidates must successfully create a user profile on the web application. 
+                  The web interface allows users to provide/update information, and determine which pieces of information they would like to display. 
+                  Once a profile is created, users can download the mobile application and login using their credentials.
+                  </p>
+            </div>
+        </div>
+        <div class="about-item" data-text="Mobile Application/Google Glass Details">
+            <div class="about__content"><img class="about__img" src="https://raw.githubusercontent.com/SeniorProj19/FacialRecognition/master/clear_oribt_website/pictures/Mobile.PNG" />
+                <h2 class="about__content-title" style="color: black;">Overview Part 2</h2>
+                <p class="about__content-desc">When a user logs into the app, the mobile application will connect to Google Glass to take snapshots of the world around them. 
+                  When a snapshot has been taken, the application will identify anyone in the picture who is a registered user. 
+                  These registered users will be added to the users connections. 
+                  Users can refer back to this list to retrieve contact information, making this information easily accessible.
+                  </p>
+            </div>
+        </div>
+         
+            </section>
+<!--End ofAbout-->
+
+<!--Timeline-->
+<!--Timeline carousel-->
+<section class="timeline-carousel" id="timeline">
+    <h1>Instructions</h1>
+    <div class="timeline-carousel__item-wrapper" data-js="timeline-carousel">
+        <!--Timeline item-->
+        <div class="timeline-carousel__item">
+            <div class="timeline-carousel__image">
+                <div class="media-wrapper media-wrapper--overlay" style="background: url('https://raw.githubusercontent.com/SeniorProj19/FacialRecognition/master/clear_oribt_website/pictures/register.PNG') center center; background-size:cover;"></div>
+            </div>
+            <div class="timeline-carousel__item-inner">
+                <span class="year">Step 1</span>
+                <span class="month">Register</span>
+                <p>The first step is to go and create an account in the register page. Once you go
+                  on the register form you will need to enter a username and password.
+                </p>
+                <a href="{{ url_for('register') }}" class="read-more">Link to Register Form</a>
+            </div>
+        </div>
+       <!--/Timeline item-->
+       
+        <!--Timeline item-->
+        <div class="timeline-carousel__item">
+            <div class="timeline-carousel__image">
+                <div class="media-wrapper media-wrapper--overlay" style="background: url('https://raw.githubusercontent.com/SeniorProj19/FacialRecognition/master/clear_oribt_website/pictures/login.PNG') center center; background-size:cover;"></div>
+            </div>
+            <div class="timeline-carousel__item-inner">
+                 <span class="year">Step 2</span>
+                <span class="month">Login</span>
+                <p>After registering move on to the login form to sign in. Remember to use the same username and password
+                  you created in your registration form.
+                </p>
+              <a href="{{ url_for('login') }}" class="read-more">Link to Login Form</a>
+            </div>
+        </div>
+       <!--/Timeline item-->
+       
+       <!--Timeline item-->
+        <div class="timeline-carousel__item">
+            <div class="timeline-carousel__image">
+                <div class="media-wrapper media-wrapper--overlay" style="background: url('https://raw.githubusercontent.com/SeniorProj19/FacialRecognition/master/clear_oribt_website/pictures/Profile.PNG') center center; background-size:cover;"></div>
+            </div>
+            <div class="timeline-carousel__item-inner">
+                <span class="year">Step 3</span>
+                <span class="month">Profile</span>
+                <p>Once you login you will be lead to the profile form. This form is responsible for the infromation that will be
+                  shown with your profile in the mobile application and through the google glass. NOTE: a picture of yourself is required 
+                  in order for submission to work. All the other fields are optional. In order to edit your profile with new fields simply logout, then login, 
+                  and refill the fields you want to be changed. After re-submit again. You will also have to re-post your profile picture again for re-submission.  
+                </p>
+              
+            </div>
+        </div>
+       <!--/Timeline item-->
+
+       <!--Timeline item-->
+        <div class="timeline-carousel__item">
+            <div class="timeline-carousel__image">
+                <div class="media-wrapper media-wrapper--overlay" style="background: url('https://raw.githubusercontent.com/SeniorProj19/FacialRecognition/master/clear_oribt_website/pictures/M3.PNG') center center; background-size:cover;"></div>
+            </div>
+            <div class="timeline-carousel__item-inner">
+                <span class="year">Step 4</span>
+                <span class="month">Mobile Application</span>
+                <p>With your newly created account that contains your information, you are now able to move on to 
+                  the mobile application. By going on to the app on a mobile device, simply log in with your account using the 
+                username and password created on the website.</p>
+              
+            </div>
+        </div>
+       <!--/Timeline item-->
+       
+       <!--Timeline item-->
+        <div class="timeline-carousel__item">
+            <div class="timeline-carousel__image">
+                <div class="media-wrapper media-wrapper--overlay" style="background: url('https://lh5.ggpht.com/ZrjpD-Uo_9l-YpRwxD-qTBclH-Lf4n651bTHmIdPi19XcC3nF8ojkg66c6tqr_KdO1N3e3O3=w253-rwa') center center; background-size:cover;"></div>
+            </div>
+            <div class="timeline-carousel__item-inner">
+                <span class="year">Step 5</span>
+                <span class="month">Google Glass</span>
+                <p>Turn on the google glasses and your account should be linked from the mobile application.</p>
+              
+            </div>
+        </div>
+       <!--/Timeline item-->
+       
+       <!--Timeline item-->
+        <div class="timeline-carousel__item">
+            <div class="timeline-carousel__image">
+                <div class="media-wrapper media-wrapper--overlay" style="background: url('https://c8.alamy.com/comp/MT39FB/set-of-13-simple-editable-icons-such-as-google-glasses-robot-ar-flying-shoes-wi-gloves-tap-teleportation-vr-robot-can-be-used-for-mobile-web-ui-MT39FB.jpg') center center; background-size:cover;"></div>
+            </div>
+            <div class="timeline-carousel__item-inner">
+                  <span class="year">Find Someone Else</span>
+                <span class="month">Facial Recognition</span>
+                <p>In order for the outcome to be right, somone who uses the same app, 
+                  and successfully created a account with their picture in it would be rendered within the facial recognition.</p>
+              
+            </div>
+        </div>
+       <!--/Timeline item-->
+    </div>
+</section>
+
+<!--End of timeline-->
+<!--Contact-->
+
+        <div class="site-footer">
+      <div class="container">
+        <div class="row">
+          
+    
+          <div class="col-md-8  col-xs-12">
+            <p class="copyright-text">Copyright &copy; 2019 All Rights Reserved to Senior Project 
+            </p>
+          </div>
+            <ul class="social-icons">
+              <li><a class="twitter" href="https://github.com/SeniorProj19"><i class="fa fa-github"></i></a></li>
+            </ul>
+          </div>
+        </div>
+     
+</div>
+
 </body>
+<!-- Jquery needed -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="js/scripts.js"></script>
+    
+    
+
+    <script>
+
+        document.getElementById("login").onclick = function () {
+        window.location.href = "{{ url_for('login') }}";
+    };
+
+    document.getElementById("register").onclick = function () {
+        window.location.href = "{{ url_for('register') }}";
+    };
+        //Function used to shrink nav bar removing paddings and adding black background
+        $(window).scroll(function() {
+            if ($(document).scrollTop() > 50) {
+                $('.nav').addClass('affix');
+                console.log("OK");
+            } else {
+                $('.nav').removeClass('affix');
+            }
+        });
+$('.navTrigger').click(function () {
+    $(this).toggleClass('active');
+    console.log("Clicked menu");
+    $("#mainListDiv").toggleClass("show_list");
+    $("#mainListDiv").fadeIn();
+});
+$(function() {
+$(document).on('click','a.page-scroll',function(event){
+  var $anchor=$(this);
+  $('html,body').stop().animate({
+    scrollTop: ($($anchor.attr('href')).offset().top-45)
+  },1500,'easeInOutExpo');
+  event.preventDefault();
+});
+});
+</script>
+<script src ="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.js"></script>
+<!-- For Timeline-->
+<script>
+$.js = function (el) {
+    return $('[data-js=' + el + ']')
+};
+function carousel() {
+  $.js('timeline-carousel').slick({
+    infinite: false,
+    arrows: false,
+    dots: true,
+    autoplay: false,
+    speed: 1100,
+    slidesToShow: 2,
+    slidesToScroll: 2,
+    responsive: [
+      {
+        breakpoint: 800,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }]
+  });
+}
+carousel();
+</script>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<!--Script for about-->
+<script>
+(function($) {
+  $.fn.about = function() {
+    var selectors = {
+      id: $(this),
+      item: $(this).find(".about-item"),
+      activeClass: "about-item--active",
+      img: ".about__img"
+    };
+    selectors.item.eq(0).addClass(selectors.activeClass);
+    selectors.id.css(
+      "background-image",
+      "url(" +
+        selectors.item
+          .first()
+          .find(selectors.img)
+          .attr("src") +
+        ")"
+    );
+    var itemLength = selectors.item.length;
+    $(window).scroll(function() {
+      var max, min;
+      var pos = $(this).scrollTop();
+      selectors.item.each(function(i) {
+        min = $(this).offset().top;
+        max = $(this).height() + $(this).offset().top;
+        var that = $(this);
+        if (i == itemLength - 2 && pos > min + $(this).height() / 2) {
+          selectors.item.removeClass(selectors.activeClass);
+          selectors.id.css(
+            "background-image",
+            "url(" +
+              selectors.item
+                .last()
+                .find(selectors.img)
+                .attr("src") +
+              ")"
+          );
+          selectors.item.last().addClass(selectors.activeClass);
+        } else if (pos <= max - 40 && pos >= min) {
+          selectors.id.css(
+            "background-image",
+            "url(" +
+              $(this)
+                .find(selectors.img)
+                .attr("src") +
+              ")"
+          );
+          selectors.item.removeClass(selectors.activeClass);
+          $(this).addClass(selectors.activeClass);
+        }
+      });
+    });
+  };
+})(jQuery);
+$("#about").about();
+</script>
+
 </html>
