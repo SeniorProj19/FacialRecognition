@@ -44,10 +44,17 @@ class _app_view_state extends APIState {
     sharedPreferences.setBool("isLogged", false);
     Navigator.of(context).pushReplacementNamed('/login');
   }
+  void runPlayground() async {
+    var testResult = await channel.invokeMethod("test");
+
+    setState(() {
+      log(testResult);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-
+    runPlayground();
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
