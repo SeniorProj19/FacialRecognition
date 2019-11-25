@@ -110,7 +110,7 @@ class LoginPageState extends APIState {
                     onSaved: (val) => password = val),
               ),
               new FlatButton(
-                onPressed: runPlayground,//super.submit ,
+                onPressed: super.submit,
                 child: Text('Sign In', style: TextStyle(color: Colors.white),),
                 color: Color.fromRGBO(46, 108, 164, 1),
               ),
