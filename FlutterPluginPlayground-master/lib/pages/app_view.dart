@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter_plugin_playground/services/API.dart';
-import 'package:flutter_plugin_playground/services/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_plugin_playground/pages/camera_view.dart';
 import 'package:flutter_plugin_playground/pages/connections_view.dart';

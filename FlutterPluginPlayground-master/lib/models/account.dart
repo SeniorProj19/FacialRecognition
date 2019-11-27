@@ -1,15 +1,40 @@
-class Account {
-  String name_first;
-  String name_last;
-  String company;
-  String title;
-  String account_linkedin;
-  String account_email;
+class AccountsList {
+  final List<Account> accounts;
 
-  Account(
-      {this.name_first, this.name_last, this.company, this.title, this.account_email, this.account_linkedin});
+  AccountsList({
+    this.accounts,
+  });
 
-  String getInitials(){
-    return name_first.substring(0,1)+name_last.substring(0,1);
+  factory AccountsList.fromJson(List<dynamic> parsedJson) {
+
+    List<Account> accounts = new List<Account>();
+    accounts = parsedJson.map((i)=>Account.fromJson(i)).toList();
+
+    return new AccountsList(
+      accounts: accounts,
+    );
+  }
+}
+
+class Account{
+  final String username;
+  final String fullname;
+  final String email;
+  final String company;
+
+  Account({
+    this.username,
+    this.fullname,
+    this.email,
+    this.company
+  }) ;
+
+  factory Account.fromJson(Map<String, dynamic> json){
+    return new Account(
+      username: json['username'],
+      fullname: json['fullname'],
+      email: json['email'],
+      company: json['company'],
+    );
   }
 }

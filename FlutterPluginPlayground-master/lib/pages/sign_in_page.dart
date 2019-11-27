@@ -44,6 +44,8 @@ class LoginPageState extends APIState {
     await getUser(usernum);
     print("done getUser()");
 
+    await getConnections(usernum);
+
     await saveInfo();
 
     // navigate to ProfilePage

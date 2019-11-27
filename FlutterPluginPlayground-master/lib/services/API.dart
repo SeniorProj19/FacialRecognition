@@ -2,6 +2,7 @@ import 'dart:ffi';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_plugin_playground/models/account.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -30,6 +31,7 @@ class APIState extends State<API> {
   String job_title;
   String base64Image;
   Uint8List imageInBytes;
+  List<Account> accountList;
 
   String appBarTitle = "";
 
@@ -41,8 +43,10 @@ class APIState extends State<API> {
   String dialogHead = "";
   String dialogMessage = "";
 
-  dynamic responseData;
-  dynamic responseData2;
+  dynamic responseData;  // initial response
+  dynamic responseData2; // user data
+  dynamic responseData3; //user connections
+
 
   @override
   void initState() {
@@ -116,6 +120,12 @@ class APIState extends State<API> {
     return response;
   }
 
+  Future<http.Response> getUserConnectionsResponse(int id) async {
+    var response;
+    response = await http.get("http://54.163.9.99:8080/connections/" + id.toString());
+    return response;
+  }
+
   void getWidget() {}
 
   onSuccess() {}
@@ -123,6 +133,33 @@ class APIState extends State<API> {
   void onDialogPressed() {}
 
   Map<String, String> getBody() {}
+
+  void getConnections(int num) async {
+    progressIndicator(true);
+    var response;
+    var connected = true;
+    try {
+      print("getting user connections response");
+      response = await getUserConnectionsResponse(num);
+      print("got response");
+    } catch (e) {
+      print("user connections failed");
+      connected = false;
+    }
+    progressIndicator(false);
+    if (connected) {
+      print("connected");
+      var jsonResponse = await convert.jsonDecode(response.body);
+      print(response.body);
+      responseData3 = await jsonResponse;
+    } else {
+      setState(() {
+        dialogHead = "Connection Error: User connections";
+        dialogMessage = "Check connection and try again";
+      });
+      showAlertDialog();
+    }
+  }
 
   void getUser(int num) async {
     progressIndicator(true);
