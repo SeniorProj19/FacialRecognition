@@ -15,6 +15,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -25,6 +27,7 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Set;
 import java.util.UUID;
 
@@ -39,21 +42,23 @@ public class BluetoothClient extends Activity {
     public final static String label = "BluetoothClient";
     public final static int REQUEST_ENABLE_BT =100;//must be greater than 0
     private BluetoothAdapter mBluetoothAdapter;
-    //private TextView outPut;
+    private TextView outPut;
     //the same UUID as server
     private UUID MY_UUID = UUID.fromString("297e4ec2-01a5-11ea-8d71-362b9e155667");
     private final static String filePath = Environment.getExternalStorageDirectory().getPath() +
             "/filefromBTserver";
-    private final static String serverDName = "Dan's Glass";
+    private final static String serverDName = "Galaxy A10";
     private TextView mTvInfo;
+    private  InputStream inputStream;
+    private  OutputStream outputStream;
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         //setContentView(R.main.activity_main);
         //outPut = (TextView) findViewById(R.id.info);
         setContentView(R.layout.main);
-        //outPut = (TextView) findViewById(R.id.info);
-        //outPut.setText("Bluetooth Client");
+        outPut = (TextView) findViewById(R.id.info);
+        outPut.setText("Bluetooth Client");
         //initialize BluetoothAdapter
         final BluetoothManager bluetoothManager =
                 (BluetoothManager)getSystemService(Context.BLUETOOTH_SERVICE);
@@ -109,6 +114,7 @@ public class BluetoothClient extends Activity {
                 BluetoothDevice device =
                         intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 String name = device.getName();
+
                 //found server device
                 if(name != null && name.equalsIgnoreCase(serverDName)){
                     new ConnectedThread(device).start(); //initializes ConnectedThread inner class
@@ -154,6 +160,10 @@ public class BluetoothClient extends Activity {
             try{
                 //blocking call to connect to server
                 mClientSocket.connect();
+                InputStream tempIn=mClientSocket.getInputStream();
+                OutputStream tempOut=mClientSocket.getOutputStream();
+                inputStream = tempIn;
+                outputStream=tempOut;
             }catch(IOException e){
                 Log.v(label, e.getMessage());
                 try{
@@ -167,32 +177,34 @@ public class BluetoothClient extends Activity {
         }
         //receive file from server and closes the socket
         private void manageConnectedSocket(BluetoothSocket socket){
-            byte[] buffer = new byte[1024];
-            FileOutputStream fos;
-            BufferedOutputStream bos = null;
-            try{
-                //this is the RfcommSocket that was passed to this function
-                InputStream inputStream = socket.getInputStream();
-                fos = new FileOutputStream(filePath);
-                bos = new BufferedOutputStream(fos);
-                bytesRead = -1;
-                total = 0;
-                //use streaming code to receive the socket data from server
-                while((bytesRead = inputStream.read(buffer))>0){
-                    total += bytesRead;
-                    bos.write(buffer, 0, bytesRead);
-                }
-                bos.close();
-                socket.close();
-            }catch(IOException e){
+            byte[] buffer = null;
+            int numberOfBytes = 0;
+            int index=0;
+            boolean flag= true;
+
+            while(true){
                 try{
-                    socket.close();
-                    bos.close();
-                }catch(IOException ee){
-                    Log.e(label, "socket close exception: ", ee);
+                    byte[] temp = new byte[inputStream.available()];
+                    if(inputStream.read(temp)>0){
+                        numberOfBytes=Integer.parseInt(new String(temp,"UTF-8"));
+                        buffer = new byte[numberOfBytes];
+                    }
+                } catch(IOException e){
+                    e.printStackTrace();
                 }
             }
+
         }
+    }
+
+    public void write(byte[] bytes){
+        try{
+            outputStream.write(bytes);
+            outputStream.flush();
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+
     }
 
 

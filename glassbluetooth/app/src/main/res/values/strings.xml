@@ -6,7 +6,7 @@
     <string name="info">Hello</string>
     <string name="BluetoothClient">CBT CLIENT</string>
     <string name="BluetoothServer">CBT SERVER</string>
-    <string name="hello">Hello Bluetooth</string>
+    <string name="hello">Tap to take picture.</string>
     <string name="title_activity_main">Dab</string>
 
 </resources>

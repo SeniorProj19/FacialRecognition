@@ -11,6 +11,7 @@ Class: Bluetooth Client
         import android.content.Context;
         import android.content.Intent;
         import android.content.IntentFilter;
+        import android.net.Uri;
         import android.os.Bundle;
         import android.os.Environment;
         import android.util.Log;
@@ -22,6 +23,7 @@ Class: Bluetooth Client
         import com.google.android.glass.widget.CardBuilder;
 
         import java.io.BufferedOutputStream;
+        import java.io.File;
         import java.io.FileOutputStream;
         import java.io.IOException;
         import java.io.InputStream;
@@ -41,13 +43,10 @@ public class BluetoothClient extends Activity {
     private UUID MY_UUID = UUID.fromString("297e4ec2-01a5-11ea-8d71-362b9e155667");
     private final static String filePath = Environment.getExternalStorageDirectory().getPath() +
             "/filefromBTserver";
-    private final static String serverDName = "Dan's Glass";
-    private TextView mTvInfo;
+    private final static String serverDName = "Daniel Vega's Glass";
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        //setContentView(R.main.activity_main);
-        //outPut = (TextView) findViewById(R.id.info);
         setContentView(R.layout.main);
         outPut = (TextView) findViewById(R.id.info);
         outPut.setText("Bluetooth Client");
@@ -189,6 +188,7 @@ public class BluetoothClient extends Activity {
                     Log.e(label, "socket close exception: ", ee);
                 }
             }
+
         }
     }
 

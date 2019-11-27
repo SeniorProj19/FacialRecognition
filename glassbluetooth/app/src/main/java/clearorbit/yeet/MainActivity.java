@@ -1,248 +1,121 @@
 package clearorbit.yeet;
 
-
-import java.io.File;
-import java.io.IOException;
-
-import com.google.android.glass.app.Card;
-import com.google.android.glass.content.Intents;
-import com.google.android.glass.touchpad.*;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.gesture.Gesture;
-import android.hardware.*;
-import android.view.KeyEvent;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.view.View;
-import android.view.Menu;
-import android.net.Uri;
-import android.view.WindowManager;
 import android.os.Bundle;
-import android.util.*;
-import android.hardware.Camera.PictureCallback;
-import android.content.Intent;
-import android.os.FileObserver;
-import android.provider.MediaStore;
+//import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.TextView;
 
+import com.google.android.glass.app.Card;
+import com.google.android.glass.touchpad.Gesture;
+import com.google.android.glass.touchpad.GestureDetector;
+import com.google.android.glass.widget.CardBuilder;
+import com.google.android.glass.widget.CardScrollAdapter;
+import com.google.android.glass.widget.CardScrollView;
+
+import clearorbit.yeet.R;
+
+/**
+ * Created by Daniel Vega on 11/10/2019.
+ */
 
 public class MainActivity extends Activity {
 
-// create variable instances
-    public static String path2;
-
-    private static final String TAG = MainActivity.class.getSimpleName();
-
-    private GestureDetector mGestureDetector;
-
-    private Camera mCamera;
-    private CameraPreview mPreview;
-    PictureCallback mPicture = null;
+    private CardScrollView mCardScroller;
+    private View mView;
+    private com.google.android.glass.touchpad.GestureDetector mGestureDetector;
 
 
-    protected void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        //keeps the camera on
+    private View buildView() {
+        CardBuilder card = new CardBuilder(this, CardBuilder.Layout.TEXT);
+        card.setText(R.string.app_name);
+        card.setText(R.string.app_name + "\n" + "Tap to take picture." + "\nDouble tap to view" +
+                "previous entry.");
+        //card.setImageLayout(Card.ImageLayout.LEFT);
+        //card.addImage(R.drawable.ic_glass_logo);
+        return card.getView();
+    }
+
+    protected void onCreate(Bundle savedInstance) {
+        super.onCreate(savedInstance);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        setContentView(R.layout.main);
+        mView = buildView();
 
-
-        Card card1 = new Card(this);
-        card1.setText("Nice Picture!");
-        card1.setFootnote("Cool! ...");
-        View card1View = card1.getView();
-        //Calling the intent
-        setContentView(card1View);
-        takePicture();
-        //Intent intent7 = new Intent(this, BluetoothServer.class);
-        //startActivity(intent7);
-	    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-	    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, false);
-	    startActivityForResult(cameraIntent, 1);
-        setContentView(card1View);
-        Intent intent7 = new Intent(this, BluetoothServer.class);
-        startActivity(intent7);
-
-        takePicture();
-
-
-    }
-    /**
-     * Boiler plate google code
-     */
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_CAMERA) {
-            // Stop the preview and release the camera.
-            // Execute your logic as quickly as possible
-            // so the capture happens quickly.
-            return false;
-        } else {
-            return super.onKeyDown(keyCode, event);
-        }
-    }
-
-
-
-    /*** boiler plate google code
-     * https://developers.google.com/glass/develop/gdk/media-camera/camera
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // Re-acquire the camera and start the preview.
-    }
-    private static final int TAKE_PICTURE_REQUEST = 1;
-
-    public void takePicture() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, TAKE_PICTURE_REQUEST);
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == TAKE_PICTURE_REQUEST && resultCode == RESULT_OK) {
-            String picturePath = data.getStringExtra(
-                    Intents.EXTRA_PICTURE_FILE_PATH);
-            processPictureWhenReady(picturePath);
-
-        }
-
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void processPictureWhenReady(final String picturePath) {
-        final File pictureFile = new File(picturePath);
-
-        if (pictureFile.exists()) {
-            // The picture is ready; process it.
-        } else {
-            // The file does not exist yet. Before starting the file observer, you
-            // can update your UI to let the user know that the application is
-            // waiting for the picture (for example, by displaying the thumbnail
-            // image and a progress indicator).
-
-            final File parentDirectory = pictureFile.getParentFile();
-            FileObserver observer = new FileObserver(parentDirectory.getPath()) {
-                // Protect against additional pending events after CLOSE_WRITE is
-                // handled.
-                private boolean isFileWritten;
-
-                @Override
-                public void onEvent(int event, String path) {
-                    if (!isFileWritten) {
-                        // For safety, make sure that the file that was created in
-                        // the directory is actually the one that we're expecting.
-                        File affectedFile = new File(parentDirectory, path);
-                        isFileWritten = (event == FileObserver.CLOSE_WRITE
-                                && affectedFile.equals(pictureFile));
-                        path2 = picturePath;
-
-                        if (isFileWritten) {
-                            stopWatching();
-
-                            // Now that the file is ready, recursively call
-                            // processPictureWhenReady again (on the UI thread).
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    processPictureWhenReady(picturePath);
-                                }
-                            });
-                        }
-                    }
+        mCardScroller = new CardScrollView(this);
+        mCardScroller.setAdapter(new CardScrollAdapter() {
+            @Override
+            public int getCount() {
+                return 1;
+            }
+            @Override
+            public Object getItem(int position) {
+                return mView;
+            }
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                return mView;
+            }
+            @Override
+            public int getPosition(Object item) {
+                if (mView.equals(item)) {
+                    return 0;
                 }
-            };
-            observer.startWatching();
-        }
+                return AdapterView.INVALID_POSITION;
+            }
+
+        });
+
+        // Handle the TAP event.
+        mCardScroller.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                openOptionsMenu();
+            }
+        });
+        mGestureDetector = createGestureDetector(this);
+
     }
-    /**
-     * end of boiler plate
-     */
-    private class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
-        private SurfaceHolder mHolder;
-        private Camera mCamera;
+    private GestureDetector createGestureDetector(Context context) {
+        GestureDetector gestureDetector = new GestureDetector(context);
 
-        public CameraPreview(Context context, Camera camera) {
-            super(context);
-            mCamera = camera;
-
-            Log.v(TAG,"In CameraPreview");
-
-            // Install a SurfaceHolder.Callback so we get notified when the
-            // underlying surface is created and destroyed.
-            mHolder = getHolder();
-
-            Log.v(TAG,"Got holder");
-
-            mHolder.addCallback(this);
-
-            Log.v(TAG,"Added callback");
-
-            // deprecated setting, but required on Android versions prior to 3.0
-            //mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-        }
-
-        public void surfaceCreated(SurfaceHolder holder) {
-            // The Surface has been created, now tell the camera where to draw the preview.
-            try {
-                Log.v(TAG,"in surface created");
-                mCamera.setPreviewDisplay(holder);
-                Log.v(TAG,"set preview display");
-                mCamera.startPreview();
-                Log.v(TAG,"preview started");
-            } catch (IOException e) {
-                Log.d(TAG, "Error setting camera preview: " + e.getMessage());
+        //Create a base listener for generic gestures
+        gestureDetector.setBaseListener( new GestureDetector.BaseListener() {
+            @Override
+            public boolean onGesture(Gesture gesture) {
+                if (gesture == Gesture.TAP) {
+                    startActivity();
+                    return true;
+                } else if (gesture == Gesture.TWO_TAP) {
+                    // do something on two finger tap
+                    return true;
+                } else if (gesture == Gesture.SWIPE_DOWN){
+                    finish();
+                }
+                return false;
             }
-        }
+        });
 
-        public void surfaceDestroyed(SurfaceHolder holder) {
-            // empty. Take care of releasing the Camera preview in your activity.
-            mCamera.stopPreview();
-            mCamera.release();
-            mCamera = null;
-        }
-
-        public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
-            // If your preview can change or rotate, take care of those events here.
-            // Make sure to stop the preview before resizing or reformatting it.
-
-            Log.v(TAG,"in surface changted");
-
-            if (mHolder.getSurface() == null){
-                // preview surface does not exist
-                Log.v(TAG,"surface don't exist");
-                return;
-            }
-
-            // stop preview before making changes
-            try {
-                mCamera.stopPreview();
-                Log.v(TAG,"stopped preview");
-            } catch (Exception e){
-                // ignore: tried to stop a non-existent preview
-                Log.v(TAG,"preview e");
-            }
-
-            // start preview with new settings
-            try {
-                Log.v(TAG,"startpreview");
-                mCamera.setPreviewDisplay(mHolder);
-                mCamera.startPreview();
-
-            } catch (Exception e){
-                Log.d(TAG, "Error starting camera preview: " + e.getMessage());
-            }
-        }
+        return gestureDetector;
     }
 
-    public void takePic() {
-        // get an image from the camera
-        mCamera.takePicture(null, null, mPicture);
+    @Override
+    public boolean onGenericMotionEvent(MotionEvent event) {
+        if (mGestureDetector != null) {
+            return mGestureDetector.onMotionEvent(event);
+        }
+        return false;
     }
-	/*
-	 * end of boiler plate
-	 */
+
+    private void startActivity(){
+        Intent intent1 = new Intent(this, Camera.class);
+        startActivity(intent1);
+    }
+
 }

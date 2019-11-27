@@ -11,6 +11,7 @@ Class: Bluetooth Server
         import android.content.Context;
         import android.content.Intent;
         import android.content.res.AssetManager;
+        import android.net.Uri;
         import android.os.Bundle;
         import android.os.Environment;
         import android.util.Log;
@@ -30,7 +31,7 @@ Class: Bluetooth Server
 
 public class BluetoothServer extends Activity {
 
-    public final static String label = "BluetoothServer";
+    public final static String label = "BluetoothServer2";
     String picturePath;
     String fileName;
 
@@ -44,6 +45,7 @@ public class BluetoothServer extends Activity {
     private UUID MY_UUID = UUID.fromString("297e4ec2-01a5-11ea-8d71-362b9e155667");
     @Override
     public void onCreate(Bundle savedInstanceState){
+
         Intent intent7 = this.getIntent();
         picturePath = intent7.getStringExtra("picturePath");
         fileName=picturePath.substring(picturePath.lastIndexOf("/")+1);
@@ -82,7 +84,7 @@ public class BluetoothServer extends Activity {
                 //this will create a socket that will listen for connection requests
                 //this will only work if the client uses the same uuid
                 mServerSocket =
-                        mBluetoothAdapter.listenUsingRfcommWithServiceRecord("BluetoothServer", MY_UUID);
+                        mBluetoothAdapter.listenUsingRfcommWithServiceRecord("BluetoothServer2", MY_UUID);
             }catch(IOException e){
                 Log.e(label, e.getMessage());
             }
@@ -125,6 +127,7 @@ public class BluetoothServer extends Activity {
         final private String PATH = picturePath;//this is the location the file will be sent to
         //Environment.getExternalStorageDirectory().toString()+"/clearorbit/";
 
+
         private ConnectedThread(){
             mSocket = socket;
             OutputStream tmpOut = null;
@@ -135,11 +138,12 @@ public class BluetoothServer extends Activity {
             }
             mOutStream = tmpOut;//sets the output stream
         }
+
         public void run(){
-            byte[] buffer = new byte[1024];
             if(mOutStream!=null){
                 //copy the picture we want to send
                 File picture = new File(PATH);
+                final int  picSize = (int)picture.length();
                 if(!picture.exists()){
                     return;
                 }
@@ -150,23 +154,28 @@ public class BluetoothServer extends Activity {
                 }catch(FileNotFoundException e){
                     Log.e(label,e.getMessage());
                 }
-                BufferedInputStream bis = new BufferedInputStream(fis);
+                BufferedInputStream bis = new BufferedInputStream(fis, picSize);
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        outPut.setText(outPut.getText()+"\nbefore sending file"+
+                        outPut.setText(outPut.getText()+"\nbefore sending file "+
                                 pictureName +
-                                " of "+new File(picturePath).length()+" bytes");
+                                " of "+picSize+" bytes");
                     }
                 });
+                byte[] buffer = new byte[picSize];
                 //use streaming code to send socket data, which is a picture in this case
                 try{
                     bytesRead = 0;
-                    for(int read = bis.read(buffer);read>=0;read=bis.read(buffer)){
+                    for (int read = bis.read(buffer); read >= 0; read = bis.read(buffer)){
                         mOutStream.write(buffer,0,read);
                         bytesRead+=read;
-                        outPut.setText(bytesRead);
-                    }
+                        //outPut.setText(bytesRead);
+                    }/*
+                    while(bis.available()>0){
+                        mOutStream.write(bis.read(buffer,0,buffer.length));
+                    }*/
                     mSocket.close();
                     runOnUiThread(new Runnable(){
                         public void run(){
