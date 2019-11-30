@@ -3,196 +3,210 @@ package clearorbit.yeet;
 /*
 Daniel Vega
 Clear Orbit
-Class: Bluetooth Server
+Class: Updated Bluetooth Server
  */
 
-        import android.app.Activity;
-        import android.bluetooth.*;
-        import android.content.Context;
-        import android.content.Intent;
-        import android.content.res.AssetManager;
-        import android.net.Uri;
-        import android.os.Bundle;
-        import android.os.Environment;
-        import android.util.Log;
-        import android.widget.*;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.UUID;
 
-        import java.io.BufferedInputStream;
-        import java.io.File;
-        import java.io.FileInputStream;
-        import java.io.FileNotFoundException;
-        import java.io.FileOutputStream;
-        import java.io.IOException;
-        import java.io.InputStream;
-        import java.io.OutputStream;
-        import java.util.*;
+import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothManager;
+import android.bluetooth.BluetoothServerSocket;
+import android.bluetooth.BluetoothSocket;
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.AssetManager;
+import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
+import android.widget.TextView;
 
-        import static android.content.ContentValues.TAG;
 
 public class BluetoothServer extends Activity {
 
-    public final static String label = "BluetoothServer2";
-    String picturePath;
-    String fileName;
+	public final static String TAG = "BluetoothServer";
+	BluetoothAdapter mBluetoothAdapter;
+	BluetoothServerSocket mBluetoothServerSocket;
+	public static final int REQUEST_TO_START_BT = 100;
+	public static final int REQUEST_FOR_SELF_DISCOVERY = 200;
+	private TextView mTvInfo;
+	String picturePath;
+	String fileName;
 
-    BluetoothSocket socket;
+	UUID MY_UUID = UUID.fromString("297e4ec2-01a5-11ea-8d71-362b9e155667");
 
-    BluetoothAdapter mBluetoothAdapter;
-    //BluetoothServerSocket mBluetoothServerSocket;
-    public static final int REQUEST_TO_START_BT = 100;//must be greater than 0
-    private TextView outPut;
-    //the same UUID as client
-    private UUID MY_UUID = UUID.fromString("297e4ec2-01a5-11ea-8d71-362b9e155667");
-    @Override
-    public void onCreate(Bundle savedInstanceState){
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		//the intent code is used for this class to be activated when the camera class finishes
+		//taking a picture and is ready to send it.
+		//It gives us the picture path, and we extrapolate the picture name from it as well.
+		Intent intent7 = this.getIntent();
+		picturePath = intent7.getStringExtra("picturePath");
+		fileName=picturePath.substring(picturePath.lastIndexOf("/")+1);
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main);
+		//sets the output to a simple text view
+		mTvInfo = (TextView) findViewById(R.id.info);
 
-        Intent intent7 = this.getIntent();
-        picturePath = intent7.getStringExtra("picturePath");
-        fileName=picturePath.substring(picturePath.lastIndexOf("/")+1);
-        //String currentDirectory = Path.GetDirectoryName(picturePath);
+		// initialize Bluetooth manager
+		final BluetoothManager mbluetoothManager =
+				(BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+		mBluetoothAdapter = mbluetoothManager.getAdapter();
+		//checks if device has bluetooth capabilities
+		if (mBluetoothAdapter == null) {
+			mTvInfo.setText("Device cannot bluetooth");
+			return;
+		} else {
+			//checks if bluetooth is enabled
+			if (!mBluetoothAdapter.isEnabled()) {
+				mTvInfo.setText("Bluetooth not enabled");
+				Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+				startActivityForResult(enableBtIntent, REQUEST_TO_START_BT);
+			} else {
+				mTvInfo.setText("Bluetooth enabled... Attempting to connect to client");
+				new AcceptThread().start();
+			}
+		}
+		finish();
+	}
+	//this class is used to connect the two devices together, the client device has a similar
+	//inner class.
+	private class AcceptThread extends Thread {
+		private BluetoothServerSocket mServerSocket;
 
-        super.onCreate(savedInstanceState);
+		public AcceptThread() {
+			try {
+				mServerSocket = mBluetoothAdapter.listenUsingRfcommWithServiceRecord("BluetoothServer", MY_UUID);
+			}
+			catch (IOException e) {
+				final IOException ex = e;
+				runOnUiThread(new Runnable() {
+					public void run() {
+						mTvInfo.setText(ex.getMessage());
+					}
+				});
+			}
+		}
 
-        //setContentView(R.layout.activity_main);
-       //outPut = (TextView) findViewById(R.id.info);
-        setContentView(R.layout.main);
-        outPut = (TextView) findViewById(R.id.info);
-        //initialize BluetoothAdapter
-        final BluetoothManager bluetoothManager =
-                (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
-        mBluetoothAdapter = bluetoothManager.getAdapter();
-        if(mBluetoothAdapter == null){
-            return;//checks if the device supports bluetooth
-        }
-        else{
-            if(!mBluetoothAdapter.isEnabled()) {//if the adapter isn't enabled
-                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                //this requests to make the device discoverable
-                startActivityForResult(enableBtIntent, REQUEST_TO_START_BT);
-            }else{
-                //If bluetooth is already enabled, we will cut out the step to attempt to enable it
-                //and go straight to inialing and starting the AcceptThread inner class.
-                new AcceptThread().start();
-            }
-        }
-    }
-    //this gets triggered when there is a bluetooth connection being requested
-    private class AcceptThread extends Thread{
-        private BluetoothServerSocket mServerSocket;
-        private AcceptThread(){
-            try{
-                //this will create a socket that will listen for connection requests
-                //this will only work if the client uses the same uuid
-                mServerSocket =
-                        mBluetoothAdapter.listenUsingRfcommWithServiceRecord("BluetoothServer2", MY_UUID);
-            }catch(IOException e){
-                Log.e(label, e.getMessage());
-            }
-        }
-        public void run(){
-            //BluetoothSocket socket;
-            while(true){//this is an infinite loop that stops when the ConnectedThread class is done
-                try{
-                    runOnUiThread(new Runnable(){public void run(){
-                        outPut.setText(outPut.getText()+"\n\nWaiting for Bluetooth Client ..." + picturePath);
-                    }});
-                    //make a socket that is created when the original server socket is accepted
-                    socket = mServerSocket.accept();
-                }catch(IOException e){
-                    Log.v(label, e.getMessage());
-                    break;
-                }
-                //checks if the connection was successful
-                if(socket != null){
-                    new ConnectedThread().start();//Sends the socket through the connected thread
-                    try{                                //inner class.
-                        //this will close the socket used to listen
-                        mServerSocket.close();
-                    }catch(IOException e){
-                        Log.v(label,e.getMessage());
-                    }
-                    break;
-                }
-            }
-        }
-    }//end of AcceptThread class
-    //thread that sends file to client
+		public void run() {
+			BluetoothSocket socket = null;
+			//listen until a request to connect is made
+			while (true) {
+				try {
+					runOnUiThread(new Runnable() {
+						public void run() {
+							mTvInfo.setText(mTvInfo.getText() + "\n\nWaiting for Bluetooth Client ...");
+						}
+					});
 
-    private class ConnectedThread extends Thread {
+					socket = mServerSocket.accept();
 
-        private final BluetoothSocket mSocket;
-        private final OutputStream mOutStream; //this will be used as the
-        private int bytesRead;//this will keep track of bytes read
-        final private String pictureName = fileName; //this is the name of the file we are sending
-        final private String PATH = picturePath;//this is the location the file will be sent to
-        //Environment.getExternalStorageDirectory().toString()+"/clearorbit/";
+				} catch (IOException e) {
+					Log.v(TAG, e.getMessage());
+					break;
+				}
+				// If a connection was accepted
+				if (socket != null) {
+					/*try {
+						Thread.sleep(10000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}*/
+					//activates another inner class
+					new ConnectedThread(socket).start();
+					//close the socket made in this class
+					try {
+						mServerSocket.close();
+					} catch (IOException e) {
+						Log.v(TAG, e.getMessage());
+					}
+					break;
+				}
+			}
+		}
+	}
 
+	//this inner class handles the rest of the bluetooth image transfer process.
+	//It is called only after a bluetooth connection has been successfully formed, and it will
+	//use streaming code to transfer data to the devie running the client class.
+	private class ConnectedThread extends Thread {
+		private final BluetoothSocket mSocket;
+		private final OutputStream mOutStream;
+		private int bytesRead;
 
-        private ConnectedThread(){
-            mSocket = socket;
-            OutputStream tmpOut = null;
-            try{
-                tmpOut = socket.getOutputStream();
-            }catch(IOException e){
-                Log.e(label, e.getMessage());
-            }
-            mOutStream = tmpOut;//sets the output stream
-        }
+		//creates an output stream for the socket we are working with
+		public ConnectedThread(BluetoothSocket socket) {
+			mSocket = socket;
+			OutputStream tmpOut = null;
 
-        public void run(){
-            if(mOutStream!=null){
-                //copy the picture we want to send
-                File picture = new File(PATH);
-                final int  picSize = (int)picture.length();
-                if(!picture.exists()){
-                    return;
-                }
-                FileInputStream fis = null;
-                try{
-                    fis = new FileInputStream(picture);
-                    OutputStream out = new FileOutputStream(PATH);
-                }catch(FileNotFoundException e){
-                    Log.e(label,e.getMessage());
-                }
-                BufferedInputStream bis = new BufferedInputStream(fis, picSize);
+			try {
+				tmpOut = socket.getOutputStream();
+			} catch (IOException e) {
+				Log.e(TAG, e.getMessage());
+			}
+			mOutStream = tmpOut;
+		}
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        outPut.setText(outPut.getText()+"\nbefore sending file "+
-                                pictureName +
-                                " of "+picSize+" bytes");
-                    }
-                });
-                byte[] buffer = new byte[picSize];
-                //use streaming code to send socket data, which is a picture in this case
-                try{
-                    bytesRead = 0;
-                    for (int read = bis.read(buffer); read >= 0; read = bis.read(buffer)){
-                        mOutStream.write(buffer,0,read);
-                        bytesRead+=read;
-                        //outPut.setText(bytesRead);
-                    }/*
-                    while(bis.available()>0){
-                        mOutStream.write(bis.read(buffer,0,buffer.length));
-                    }*/
-                    mSocket.close();
-                    runOnUiThread(new Runnable(){
-                        public void run(){
-                            outPut.setText(bytesRead+" bytes of file" + pictureName
-                                    +" has been sent.");
-                        }
-                    });
-                }catch(IOException e){
-                    Log.e(label,e.getMessage());
-                }
-            }
-            //wait for new connection from a client device
-            //new AcceptThread().start();
-            return;
-        }//end of public void run
-
-    }
+		public void run() {
 
 
+			//stream code used to stream data through bluetooth.
+			//No bitmapping is needed, the file just needs to be named "___.jpeg" for it to be
+			//an image. This is done in the client device's bluetooth class.
+			if (mOutStream != null) {
+				File mFile = new File( picturePath );
+				FileInputStream fis = null;
+
+				try {
+					fis = new FileInputStream(mFile);
+				} catch (FileNotFoundException e) {
+					Log.e(TAG, e.getMessage());
+				}
+				int picSize = (int) new File(  picturePath  ).length();
+				BufferedInputStream bis = new BufferedInputStream(fis, picSize);
+				runOnUiThread(new Runnable() {
+					public void run() {
+						mTvInfo.setText(mTvInfo.getText() + "\nPreparing to send "+  fileName + " of " + new File(  picturePath  ).length() + " bytes");
+					}
+				});
+				byte[] buffer = new byte[picSize];
+				try {
+					bytesRead = 0;
+					for (int read = bis.read(buffer); read >= 0; read = bis.read(buffer))
+					{
+						mOutStream.write(buffer, 0, read);
+						bytesRead += read;
+						// code for mobile version of host class
+//						runOnUiThread(new Runnable() {
+//							public void run() {
+//								mTvInfo.setText(mTvInfo.getText() + ".");
+//							}
+//						});
+					}
+
+					mSocket.close();
+					runOnUiThread(new Runnable() {
+						public void run() {
+							mTvInfo.setText(bytesRead + " bytes of " +  fileName + " has been sent." +
+									"\nFile has been successfuly sent.");
+						}
+					});
+
+				} catch (IOException e) {
+					Log.e(TAG, e.getMessage());
+				}
+			}
+			//new AcceptThread().start();
+			finish();
+		}
+	}
 }
+

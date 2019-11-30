@@ -12,6 +12,10 @@ import java.io.File;
 
 /**
  * Created by Daniel Vega on 11/9/2019.
+ * This class will be called from the main activity.
+ * It's purpose is to take a picture as soon as it is called.
+ * It will then have the user tap to confirm. It will then process
+ * the picture and call the bluetooth server class to send it.
  */
 
 public class Camera extends Activity {
@@ -19,7 +23,6 @@ public class Camera extends Activity {
     String picturePath;
 
     protected void onCreate(Bundle savedInstanceState){
-        Intent intent1 = this.getIntent();
         super.onCreate(savedInstanceState);
         takePicture();
     }
@@ -41,13 +44,15 @@ public class Camera extends Activity {
                 return;
             }
 
+
+            // TODO: Show the thumbnail to the user while the full picture is being
+            // processed.
         }
 
         super.onActivityResult(requestCode, resultCode, data);
-        Intent intent7 = new Intent(this, ClassicBluetoothServer.class);
+        Intent intent7 = new Intent(this, BluetoothServer.class);
         intent7.putExtra("picturePath", picturePath);
         startActivity(intent7);
-        finish();
     }
 
     private void processPictureWhenReady(final String picturePath) {
