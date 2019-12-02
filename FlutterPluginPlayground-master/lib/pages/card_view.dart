@@ -52,6 +52,7 @@ class card_view_state extends APIState {
       username = sharedPreferences.getString("username") ?? "Error";
       first_name = sharedPreferences.getString("first_name") ?? "Error";
       last_name = sharedPreferences.getString("last_name") ?? "Error";
+      usernum = sharedPreferences.getInt("usernum") ?? -1;
       email = sharedPreferences.getString("email") ?? "";
       company = sharedPreferences.getString("company") ?? "";
       job_title = sharedPreferences.getString("job_title") ?? "";

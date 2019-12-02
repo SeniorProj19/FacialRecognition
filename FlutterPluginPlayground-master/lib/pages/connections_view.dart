@@ -1,4 +1,3 @@
-import 'package:flutter_plugin_playground/pages/card_view.dart';
 import 'package:flutter_plugin_playground/services/API.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_plugin_playground/models/account.dart';
@@ -14,37 +13,35 @@ class connections_view extends API {
 class connections_view_state extends APIState {
   @override
   void initState() {
+    print("Connections View of " + usernum.toString());
     setData();
   }
 
   void setData() async {
     sharedPreferences = await SharedPreferences.getInstance();
+    usernum = sharedPreferences.getInt("usernum") ?? -1;
 
-    setState(() {});
+    await getConnections(usernum);
+
+    accountList = AccountsList.fromJson(responseData3).accounts;
+
+    accountList;
+
+    for (Account user in accountList) {
+      print(user.email);
+      print(user.first_name);
+      print(user.last_name);
+      print(user.company);
+      print(user.job);
+    }
+
+    setState(() {
+
+    });
   }
 
   @override
-  onSuccess() async {
-    /*
-    // When login success, save the data ,
-
-    sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setBool("isLogged", true);
-
-    print("Printing Statement: " +
-        responseData.toString()); // Where is response data coming from
-
-    sharedPreferences.setString("username", responseData["first_name"]);
-    sharedPreferences.setInt("usernum", responseData["user_id"]);
-
-    //getUser(); //causing an error
-    //getGetResponse('http://54.166.243.43:8080/'+usernum.toString());
-    //'http://54.166.243.43:8080/'+usernum.toString()
-
-    // navigate to ProfilePage
-    Navigator.pushReplacementNamed(context, '/main');
-    */
-  }
+  onSuccess() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +79,7 @@ class connections_view_state extends APIState {
                         ),
                       ),
                       title: Text(
-                        accountList[index].fullname,
+                        accountList[index].first_name + " " + accountList[index].last_name,
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
@@ -124,7 +121,7 @@ class connections_view_state extends APIState {
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              accountList[index].username,
+                              accountList[index].job,
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
@@ -154,58 +151,3 @@ class connections_view_state extends APIState {
       );
   }
 }
-
-/*
-List<Account> getTestAccounts(){
-  return[
-    Account(
-      name_first:"Andrew",
-      name_last:"Weatherby",
-      company:"Veracity Engineering",
-      title: "Intern",
-      account_email: "weatherba0@students.rowan.edu",
-      account_linkedin: "andrew-weatherby"
-    ),
-    Account(
-        name_first:"Shafin",
-        name_last:"Siraj",
-        company:"Lockheed Martin",
-        title: "Manager",
-        account_email: "sirajs8@students.rowan.edu",
-        account_linkedin: "shafin-siraj"
-    ),
-    Account(
-        name_first:"Tyler",
-        name_last:"Fung",
-        company:"NASA",
-        title: "Programmer",
-        account_email: "fungt5@students.rowan.edu",
-        account_linkedin: "tyler-fung"
-    ),
-    Account(
-        name_first:"Dan",
-        name_last:"Vega",
-        company:"Google",
-        title: "Programmer",
-        account_email: "vegad8@students.rowan.edu",
-        account_linkedin: "dan-vega"
-    ),
-    Account(
-        name_first:"EJ",
-        name_last:"Pellot",
-        company:"Google",
-        title: "Programmer",
-        account_email: "edwinpellot0110@gmail.com",
-        account_linkedin: "E-J"
-    ),
-    Account(
-        name_first:"Vince",
-        name_last:"Williams",
-        company:"Google",
-        title: "Programmer",
-        account_email: "williamsv8@students.rowan.edu",
-        account_linkedin: "vince-williams"
-    ),
-  ];
-}
-*/

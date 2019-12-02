@@ -45,7 +45,6 @@ class _app_view_state extends APIState {
   }
   void runPlayground() async {
     var testResult = await channel.invokeMethod("test");
-
     setState(() {
       log(testResult);
     });
@@ -53,7 +52,7 @@ class _app_view_state extends APIState {
 
   @override
   Widget build(BuildContext context) {
-    runPlayground();
+    //runPlayground();
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -105,6 +104,4 @@ class _app_view_state extends APIState {
       ),
     );
   }
-
-
 }
