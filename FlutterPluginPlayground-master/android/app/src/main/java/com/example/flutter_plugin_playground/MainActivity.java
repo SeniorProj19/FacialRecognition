@@ -41,7 +41,7 @@ public class MainActivity extends FlutterActivity {
   String dab;
   private UUID MY_UUID = UUID.fromString("297e4ec2-01a5-11ea-8d71-362b9e155667");
   private final static String filePath = Environment.getExternalStorageDirectory().getPath() +
-          "/filefromBTserver";
+          "/ClearOrbit/COPic.jpg";
   private final static String serverDName = "Daniel Vega's Glass";
   private TextView mTvInfo;
   private MethodChannel channel;
@@ -53,7 +53,7 @@ public class MainActivity extends FlutterActivity {
     final BluetoothManager bluetoothManager =
             (BluetoothManager)getSystemService(Context.BLUETOOTH_SERVICE);
     mBluetoothAdapter = bluetoothManager.getAdapter();
-    if(mBluetoothAdapter == null)
+   /* if(mBluetoothAdapter == null)
       return;//checks if the device supports bluetooth
     else{
       if(!mBluetoothAdapter.isEnabled()) {//checks if bluetooth  is disabled
@@ -73,7 +73,7 @@ public class MainActivity extends FlutterActivity {
         //Searches the list of already bonded devices for the one that we are looking for.
         getBondedDevices();
       }
-    }
+    }*/
     GeneratedPluginRegistrant.registerWith(this);
 
     // Prepare channel
@@ -217,6 +217,27 @@ public class MainActivity extends FlutterActivity {
   }
 
   void test(Object args, MethodChannel.Result result) {
+    if(mBluetoothAdapter == null)
+      return;//checks if the device supports bluetooth
+    else{
+      if(!mBluetoothAdapter.isEnabled()) {//checks if bluetooth  is disabled
+        Intent enableBtIntent = new
+                Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);//passes constant int to onActivityResult()
+        //this requests to make the device discoverable
+        //this will call onActivateResult
+        startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+      }else{
+        dab = "the file runs through full onCreate method";
+        //if bluetooth is enabled, it will cut out the step to attempt to enable it.
+        //This uses two different ways to try to find and connect to our server device.
+        //It is more reliable and stable to connect to an already bonded device.
+
+        //Discover bluetooth devices that haven't been bonded to the client device already.
+        //discoverBluetoothDevices();
+        //Searches the list of already bonded devices for the one that we are looking for.
+        getBondedDevices();
+      }
+    }
     result.success(dab);
   }
 }
