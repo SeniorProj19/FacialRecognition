@@ -17,24 +17,33 @@ class AccountsList {
 }
 
 class Account{
+  final int usernum;
   final String username;
-  final String fullname;
+  final String first_name;
+  final String last_name;
   final String email;
   final String company;
+  final String job;
 
   Account({
+    this.usernum,
     this.username,
-    this.fullname,
+    this.first_name,
+    this.last_name,
     this.email,
+    this.job,
     this.company
-  }) ;
+  });
 
   factory Account.fromJson(Map<String, dynamic> json){
     return new Account(
+      usernum: json['usernum'],
       username: json['username'],
-      fullname: json['fullname'],
+      first_name: json['first_name'],
+      last_name: json['last_name'],
       email: json['email'],
-      company: json['company'],
+      company: json['curr_company'],
+      job: json['job_title'],
     );
   }
 }

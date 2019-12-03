@@ -45,7 +45,6 @@ class _app_view_state extends APIState {
   }
   void runPlayground() async {
     var testResult = await channel.invokeMethod("test");
-
     setState(() {
       log(testResult);
     });
@@ -105,6 +104,4 @@ class _app_view_state extends APIState {
       ),
     );
   }
-
-
 }
