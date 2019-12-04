@@ -18,7 +18,7 @@ import java.io.File;
  * the picture and call the bluetooth server class to send it.
  */
 
-public class Camera extends Activity {
+public class camera extends Activity {
     private static final int TAKE_PICTURE_REQUEST = 1;
     String picturePath;
 
@@ -43,49 +43,35 @@ public class Camera extends Activity {
             if(picturePath == null){
                 return;
             }
-
-
-            // TODO: Show the thumbnail to the user while the full picture is being
-            // processed.
         }
 
         super.onActivityResult(requestCode, resultCode, data);
-        Intent intent7 = new Intent(this, BluetoothServer.class);
-        intent7.putExtra("picturePath", picturePath);
-        startActivity(intent7);
+        Intent intent2 = new Intent(this, BluetoothServer.class);
+        intent2.putExtra("picturePath", picturePath);
+        startActivity(intent2);
     }
 
     private void processPictureWhenReady(final String picturePath) {
         final File pictureFile = new File(picturePath);
 
         if (pictureFile.exists()) {
-            // The picture is ready; process it.
+            // The picture is ready to be processed
         } else {
-            // The file does not exist yet. Before starting the file observer, you
-            // can update your UI to let the user know that the application is
-            // waiting for the picture (for example, by displaying the thumbnail
-            // image and a progress indicator).
 
             final File parentDirectory = pictureFile.getParentFile();
             FileObserver observer = new FileObserver(parentDirectory.getPath(),
                     FileObserver.CLOSE_WRITE | FileObserver.MOVED_TO) {
-                // Protect against additional pending events after CLOSE_WRITE
-                // or MOVED_TO is handled.
+                //reset observer
                 private boolean isFileWritten;
 
                 @Override
                 public void onEvent(int event, String path) {
                     if (!isFileWritten) {
-                        // For safety, make sure that the file that was created in
-                        // the directory is actually the one that we're expecting.
                         File affectedFile = new File(parentDirectory, path);
                         isFileWritten = affectedFile.equals(pictureFile);
 
                         if (isFileWritten) {
                             stopWatching();
-
-                            // Now that the file is ready, recursively call
-                            // processPictureWhenReady again (on the UI thread).
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
