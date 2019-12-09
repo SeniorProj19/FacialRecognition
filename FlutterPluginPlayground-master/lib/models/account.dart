@@ -24,6 +24,8 @@ class Account{
   final String email;
   final String company;
   final String job;
+  final String base64Image;
+  bool loaded = false;
 
   Account({
     this.usernum,
@@ -32,7 +34,9 @@ class Account{
     this.last_name,
     this.email,
     this.job,
-    this.company
+    this.company,
+    this.base64Image,
+
   });
 
   factory Account.fromJson(Map<String, dynamic> json){
@@ -44,6 +48,7 @@ class Account{
       email: json['email'],
       company: json['curr_company'],
       job: json['job_title'],
+      base64Image: json['profile_pic'],
     );
   }
 }

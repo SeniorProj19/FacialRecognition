@@ -2,7 +2,7 @@ import 'package:flutter_plugin_playground/services/API.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_plugin_playground/models/account.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'dart:convert';
 import 'package:expandable/expandable.dart';
 
 class connections_view extends API {
@@ -57,95 +57,196 @@ class connections_view_state extends APIState {
         padding: const EdgeInsets.only(top: 20.0),
         itemCount: accountList.length,
         itemBuilder: (BuildContext context, int index) {
-          return ExpandableNotifier(
-              child: ScrollOnExpand(
-            scrollOnExpand: false,
-            scrollOnCollapse: true,
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Card(
-                color: Colors.black,
-                clipBehavior: Clip.antiAlias,
-                child: Column(
-                  children: <Widget>[
-                    ListTile(
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10.0),
-                      leading: Container(
-                        padding: EdgeInsets.only(right: 12.0),
-                        child: CircleAvatar(
-                          backgroundColor: Colors.blue,
-                          child: Text(accountList[index].first_name.substring(0,1) + accountList[index].last_name.substring(0,1)),
+
+          base64Image = accountList[index].base64Image;
+          try{
+            imageInBytes = base64.decode(base64Image);
+            accountList[index].loaded = true;
+          } on Exception catch (_){
+            imageInBytes;
+          }
+
+          if(accountList[index].loaded)
+            return ExpandableNotifier(
+                child: ScrollOnExpand(
+              scrollOnExpand: false,
+              scrollOnCollapse: true,
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Card(
+                  color: Colors.black,
+                  clipBehavior: Clip.antiAlias,
+                  child: Column(
+                    children: <Widget>[
+                      ListTile(
+                        contentPadding: EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 10.0),
+                        leading: Container(
+                          padding: EdgeInsets.only(right: 12.0),
+                          child: SizedBox(
+                              height: 80,
+                              width: 80,
+                              child: Image.memory(imageInBytes, fit: BoxFit.contain,)
+                          ),
+                        ),
+                        title: Text(
+                          accountList[index].first_name + " " + accountList[index].last_name,
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(
+                          accountList[index].company,
+                          style: TextStyle(color: Colors.white),
                         ),
                       ),
-                      title: Text(
-                        accountList[index].first_name + " " + accountList[index].last_name,
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text(
-                        accountList[index].company,
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    ScrollOnExpand(
-                      scrollOnExpand: true,
-                      scrollOnCollapse: false,
-                      child: ExpandablePanel(
-                        tapHeaderToExpand: true,
-                        tapBodyToCollapse: true,
-                        headerAlignment: ExpandablePanelHeaderAlignment.center,
-                        header: Padding(
-                          padding: EdgeInsets.all(10),
+                      ScrollOnExpand(
+                        scrollOnExpand: true,
+                        scrollOnCollapse: false,
+                        child: ExpandablePanel(
+                          tapHeaderToExpand: true,
+                          tapBodyToCollapse: true,
+                          headerAlignment: ExpandablePanelHeaderAlignment.center,
+                          header: Padding(
+                            padding: EdgeInsets.all(10),
+                          ),
+                          //collapsed: Text('hello', softWrap: true, maxLines: 2, overflow: TextOverflow.ellipsis,),
+                          expanded: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                'Email',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                accountList[index].email,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                'Occupation',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                accountList[index].job,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                          builder: (_, collapsed, expanded) {
+                            return Padding(
+                              padding: EdgeInsets.only(
+                                  left: 10, right: 10, bottom: 10),
+                              child: Expandable(
+                                collapsed: collapsed,
+                                expanded: expanded,
+                                crossFadePoint: 0,
+                              ),
+                            );
+                          },
                         ),
-                        //collapsed: Text('hello', softWrap: true, maxLines: 2, overflow: TextOverflow.ellipsis,),
-                        expanded: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              'Email',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              accountList[index].email,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              'Occupation',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              accountList[index].job,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          ],
-                        ),
-                        builder: (_, collapsed, expanded) {
-                          return Padding(
-                            padding: EdgeInsets.only(
-                                left: 10, right: 10, bottom: 10),
-                            child: Expandable(
-                              collapsed: collapsed,
-                              expanded: expanded,
-                              crossFadePoint: 0,
-                            ),
-                          );
-                        },
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ));
+            ));
+            else
+              return ExpandableNotifier(
+                  child: ScrollOnExpand(
+                    scrollOnExpand: false,
+                    scrollOnCollapse: true,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Card(
+                        color: Colors.black,
+                        clipBehavior: Clip.antiAlias,
+                        child: Column(
+                          children: <Widget>[
+                            ListTile(
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 20.0, vertical: 10.0),
+                              leading: Container(
+                                padding: EdgeInsets.only(right: 12.0),
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.blue,
+                                  child: Text(accountList[index].first_name.substring(0,1) + accountList[index].last_name.substring(0,1)),
+                                ),
+                              ),
+                              title: Text(
+                                accountList[index].first_name + " " + accountList[index].last_name,
+                                style: TextStyle(
+                                    color: Colors.white, fontWeight: FontWeight.bold),
+                              ),
+                              subtitle: Text(
+                                accountList[index].company,
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            ScrollOnExpand(
+                              scrollOnExpand: true,
+                              scrollOnCollapse: false,
+                              child: ExpandablePanel(
+                                tapHeaderToExpand: true,
+                                tapBodyToCollapse: true,
+                                headerAlignment: ExpandablePanelHeaderAlignment.center,
+                                header: Padding(
+                                  padding: EdgeInsets.all(10),
+                                ),
+                                //collapsed: Text('hello', softWrap: true, maxLines: 2, overflow: TextOverflow.ellipsis,),
+                                expanded: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      'Email',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      accountList[index].email,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      'Occupation',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      accountList[index].job,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  ],
+                                ),
+                                builder: (_, collapsed, expanded) {
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 10, right: 10, bottom: 10),
+                                    child: Expandable(
+                                      collapsed: collapsed,
+                                      expanded: expanded,
+                                      crossFadePoint: 0,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ));
         },
         separatorBuilder: (BuildContext context, int index) => const Divider(),
       );
