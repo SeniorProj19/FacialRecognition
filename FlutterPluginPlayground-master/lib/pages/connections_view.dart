@@ -75,7 +75,7 @@ class connections_view_state extends APIState {
                         padding: EdgeInsets.only(right: 12.0),
                         child: CircleAvatar(
                           backgroundColor: Colors.blue,
-                          child: Text("FS"),
+                          child: Text(accountList[index].first_name.substring(0,1) + accountList[index].last_name.substring(0,1)),
                         ),
                       ),
                       title: Text(
@@ -115,7 +115,7 @@ class connections_view_state extends APIState {
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              'LinkedIn',
+                              'Occupation',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),

@@ -57,7 +57,12 @@ class card_view_state extends APIState {
       company = sharedPreferences.getString("company") ?? "";
       job_title = sharedPreferences.getString("job_title") ?? "";
       base64Image = sharedPreferences.getString("base64Image") ?? "";
-      imageInBytes = base64.decode(base64Image);
+      try{
+        imageInBytes = base64.decode(base64Image);
+      } on Exception catch (_){
+        imageInBytes;
+      }
+
     });
   }
 
@@ -82,20 +87,22 @@ class card_view_state extends APIState {
 
   @override
   Widget build(BuildContext context) {
+    if(imageInBytes != null)
       return Container(
         child: Container(
           margin: EdgeInsets.all(15.0),
           color: Colors.black,
           child: Column(
             children: <Widget>[
-              Container(
-                margin: EdgeInsets.all(20.0),
-                child: CircleAvatar(
-                  backgroundColor: Colors.blue,
-                  child: Image.memory(imageInBytes),
-                  radius: 100,
+              Padding(
+                padding: EdgeInsets.all(20.0),
+                child: SizedBox(
+                    height: 300,
+                    width: 300,
+                    child: Image.memory(imageInBytes, fit: BoxFit.contain,)
                 ),
               ),
+              
               Container(
                 child: Column(
                   children: <Widget>[
@@ -120,6 +127,60 @@ class card_view_state extends APIState {
                 child: Column(
                   children: <Widget>[
                     Text(
+                      "Email",
+                      style: TextStyle(color: Colors.white, fontSize: 25),
+                    ),
+                    Text(
+                      email,
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    else
+      return Container(
+        child: Container(
+          margin: EdgeInsets.all(15.0),
+          color: Colors.black,
+          child: Column(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.all(20.0),
+                child: CircleAvatar(
+                  backgroundColor: Colors.blue,
+                  child: Text(first_name.substring(0,1) + last_name.substring(0,1),
+                    style: TextStyle(fontSize: 70),),
+                  radius: 100,
+                ),
+              ),
+              Container(
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      first_name + " " + last_name,
+                      style: TextStyle(color: Colors.white, fontSize: 35),
+                    ),
+                    Text(
+                      company,
+                      style: TextStyle(color: Colors.white, fontSize: 25),
+                    ),
+                    Text(
+                      job_title,
+                      style: TextStyle(color: Colors.white, fontSize: 25),
+                    ),
+                  ],
+                ),
+              ),
+              Spacer(),
+              /*Container(
+                margin: EdgeInsets.all(20.0),
+                child: Column(
+                  children: <Widget>[
+                    Text(
                       "LinkedIn",
                       style: TextStyle(color: Colors.white, fontSize: 25),
                     ),
@@ -129,7 +190,7 @@ class card_view_state extends APIState {
                     ),
                   ],
                 ),
-              ),
+              ),*/
               Container(
                 margin: EdgeInsets.all(20.0),
                 child: Column(
