@@ -48,8 +48,8 @@ public class BluetoothServer extends Activity {
 		//the intent code is used for this class to be activated when the camera class finishes
 		//taking a picture and is ready to send it.
 		//It gives us the picture path, and we extrapolate the picture name from it as well.
-		Intent intent7 = this.getIntent();
-		picturePath = intent7.getStringExtra("picturePath");
+		Intent intent2 = this.getIntent();
+		picturePath = intent2.getStringExtra("picturePath");
 		fileName=picturePath.substring(picturePath.lastIndexOf("/")+1);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);

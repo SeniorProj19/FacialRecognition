@@ -10,19 +10,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.TextView;
 
-import com.google.android.glass.app.Card;
 import com.google.android.glass.touchpad.Gesture;
 import com.google.android.glass.touchpad.GestureDetector;
 import com.google.android.glass.widget.CardBuilder;
 import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
 
-import clearorbit.yeet.R;
-
 /**
  * Created by Daniel Vega on 11/10/2019.
+ * This will be used as the main menu for the
+ * glass application.
  */
 
 public class MainActivity extends Activity {
@@ -72,7 +70,7 @@ public class MainActivity extends Activity {
 
         });
 
-        // Handle the TAP event.
+        // Handles the tap event
         mCardScroller.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -85,17 +83,18 @@ public class MainActivity extends Activity {
     private GestureDetector createGestureDetector(Context context) {
         GestureDetector gestureDetector = new GestureDetector(context);
 
-        //Create a base listener for generic gestures
+        //Listener for gestures
+        //there is room for more functionality to be mapped to new gestures
         gestureDetector.setBaseListener( new GestureDetector.BaseListener() {
             @Override
             public boolean onGesture(Gesture gesture) {
                 if (gesture == Gesture.TAP) {
-                    startActivity();
-                    return true;
-                } else if (gesture == Gesture.TWO_TAP) {
+                    startCamera();
+                    return true;//TODO: show previous information on two_tap
+                }/* else if (gesture == Gesture.TWO_TAP) {
                     // do something on two finger tap
                     return true;
-                } else if (gesture == Gesture.SWIPE_DOWN){
+                } */else if (gesture == Gesture.SWIPE_DOWN){
                     finish();
                 }
                 return false;
@@ -113,8 +112,8 @@ public class MainActivity extends Activity {
         return false;
     }
 
-    private void startActivity(){
-        Intent intent1 = new Intent(this, Camera.class);
+    private void startCamera(){
+        Intent intent1 = new Intent(this, camera.class);
         startActivity(intent1);
     }
 

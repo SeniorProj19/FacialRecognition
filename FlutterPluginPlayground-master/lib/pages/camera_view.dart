@@ -31,9 +31,9 @@ class Camera_viewState extends APIState {
   File _image;
 
   Future checkDir() async{
-    //runPlayground();
+    runPlayground();
     //20191202_064624.jpg
-    String pafth = '/storage/emulated/0/ClearOrbit/COPic.jpg';
+    String pafth = '/storage/emulated/0/ClearOrbit/COpic.jpg';
     if (await File(pafth).existsSync()){
       File image = new File(pafth);
       usernum = sharedPreferences.getInt("usernum");
@@ -57,7 +57,7 @@ class Camera_viewState extends APIState {
           print(res.body);
           var data = json.decode(res.body);
           var match = data['match'];
-          if(match == 'None')
+          if(match == null)
             matchNotfoundDialog();
           else
             matchFounddialog(match);
@@ -141,19 +141,15 @@ class Camera_viewState extends APIState {
         home: new Scaffold(
           body: new Center(
               child: new FlatButton(onPressed:(){
+                //checkDir()
                 print('Tedt');
                 runPlayground();
-                Future.delayed(const Duration(seconds: 5), (){
-                  print('--------------------------------------------------------');
-                checkDir();
-                });
-
               }, child: Text('Check For Matches', style: TextStyle(color: Colors.white),),
                 color: Color.fromRGBO(46, 108, 164, 1),)
           ),
-          //floatingActionButton: new FloatingActionButton(onPressed:test,
-            //tooltip: 'Pick Image',
-            //child: new Icon(Icons.camera),),
+          floatingActionButton: new FloatingActionButton(onPressed:test,
+            tooltip: 'Pick Image',
+            child: new Icon(Icons.camera),),
         ));
   }
   void runPlayground() async {
