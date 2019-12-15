@@ -74,7 +74,7 @@ class connections_view_state extends APIState {
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Card(
-                  color: Colors.black,
+                  color: Color.fromRGBO(46, 108, 164, 1),
                   clipBehavior: Clip.antiAlias,
                   child: Column(
                     children: <Widget>[
@@ -109,12 +109,23 @@ class connections_view_state extends APIState {
                           header: Padding(
                             padding: EdgeInsets.all(10),
                           ),
-                          //collapsed: Text('hello', softWrap: true, maxLines: 2, overflow: TextOverflow.ellipsis,),
+                          collapsed: Text(accountList[index].about, softWrap: true, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),),
                           expanded: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: <Widget>[
                               Text(
-                                'Email',
+                                accountList[index].about,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                ""
+                              ),
+                              Text(
+                                'Email:',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold),
@@ -126,13 +137,25 @@ class connections_view_state extends APIState {
                                     fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                'Occupation',
+                                'Occupation:',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold),
                               ),
                               Text(
                                 accountList[index].job,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                'Location:',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                accountList[index].city,
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold),
@@ -204,7 +227,7 @@ class connections_view_state extends APIState {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      'Email',
+                                      'Email:',
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold),
@@ -216,7 +239,7 @@ class connections_view_state extends APIState {
                                           fontWeight: FontWeight.bold),
                                     ),
                                     Text(
-                                      'Occupation',
+                                      'Occupation:',
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold),

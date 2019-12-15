@@ -18,9 +18,9 @@ void main() async {
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    title: 'Clear Orbit Prototype',
+    title: 'Clear Orbit',
     theme: ThemeData(
-      primarySwatch: Colors.blue,
+      primaryColor: Colors.black
     ),
     home: home,
     routes:{

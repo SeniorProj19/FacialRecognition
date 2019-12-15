@@ -56,7 +56,7 @@ class _app_view_state extends APIState {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Clear Orbit Prototype'),
+        title: Text('Clear Orbit'),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.clear),

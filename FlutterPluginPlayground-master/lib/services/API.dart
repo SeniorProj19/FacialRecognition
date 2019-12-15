@@ -249,7 +249,7 @@ class APIState extends State<API> {
       home: new Scaffold(
         resizeToAvoidBottomPadding: false,
         key: scaffoldKey,
-        appBar: new AppBar(centerTitle: true, title: Text(appBarTitle)),
+        appBar: new AppBar(centerTitle: true, title: Text(appBarTitle), backgroundColor: Color.fromRGBO(46, 108, 164, 1),),
         body: new Center(
             child:
                 getForm()), // This trailing comma makes auto-formatting nicer for build methods.

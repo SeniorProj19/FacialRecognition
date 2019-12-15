@@ -4,7 +4,6 @@ import 'package:flutter_plugin_playground/services/API.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_plugin_playground/services/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert' as convert;
 
 class LoginPage extends API {
   @override

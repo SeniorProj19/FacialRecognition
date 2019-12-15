@@ -24,6 +24,8 @@ class Account{
   final String email;
   final String company;
   final String job;
+  final String about;
+  final String city;
   final String base64Image;
   bool loaded = false;
 
@@ -35,6 +37,8 @@ class Account{
     this.email,
     this.job,
     this.company,
+    this.about,
+    this.city,
     this.base64Image,
 
   });
@@ -48,6 +52,8 @@ class Account{
       email: json['email'],
       company: json['curr_company'],
       job: json['job_title'],
+      about: json['about_me'],
+      city: json['city'],
       base64Image: json['profile_pic'],
     );
   }

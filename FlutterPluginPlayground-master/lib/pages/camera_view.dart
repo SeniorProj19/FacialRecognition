@@ -138,6 +138,7 @@ class Camera_viewState extends APIState {
   Widget build(BuildContext context) {
     // TODO: implement build
     return new MaterialApp(
+      debugShowCheckedModeBanner: false,
         home: new Scaffold(
           body: new Center(
               child: new FlatButton(onPressed:(){
@@ -149,6 +150,7 @@ class Camera_viewState extends APIState {
           ),
           floatingActionButton: new FloatingActionButton(onPressed:test,
             tooltip: 'Pick Image',
+            backgroundColor: Color.fromRGBO(46, 108, 164, 1),
             child: new Icon(Icons.camera),),
         ));
   }
