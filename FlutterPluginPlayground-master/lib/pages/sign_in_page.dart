@@ -4,7 +4,6 @@ import 'package:flutter_plugin_playground/services/API.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_plugin_playground/services/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert' as convert;
 
 class LoginPage extends API {
   @override
@@ -112,7 +111,7 @@ class LoginPageState extends APIState {
                     onSaved: (val) => password = val),
               ),
               new FlatButton(
-                onPressed: runPlayground,//.submit,
+                onPressed: super.submit,
                 child: Text('Sign In', style: TextStyle(color: Colors.white),),
                 color: Color.fromRGBO(46, 108, 164, 1),
               ),
