@@ -18,7 +18,7 @@ import java.io.File;
  * the picture and call the bluetooth server class to send it.
  */
 
-public class Camera extends Activity {
+public class camera extends Activity {
     private static final int TAKE_PICTURE_REQUEST = 1;
     String picturePath;
 
@@ -34,50 +34,40 @@ public class Camera extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == TAKE_PICTURE_REQUEST && resultCode == RESULT_OK) {
-            String thumbnailPath = data.getStringExtra(Intents.EXTRA_THUMBNAIL_FILE_PATH);
             picturePath = data.getStringExtra(Intents.EXTRA_PICTURE_FILE_PATH);
             processPictureWhenReady(picturePath);
-
-
             Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
             if(picturePath == null){
                 return;
             }
 
-
-            // TODO: Show the thumbnail to the user while the full picture is being
-            // processed.
         }
 
         super.onActivityResult(requestCode, resultCode, data);
         Intent intent7 = new Intent(this, BluetoothServer.class);
         intent7.putExtra("picturePath", picturePath);
         startActivity(intent7);
+        Intent intent8 = new Intent(this, MainActivity.class);
+        startActivity(intent8);
+        finish();
     }
 
     private void processPictureWhenReady(final String picturePath) {
         final File pictureFile = new File(picturePath);
 
         if (pictureFile.exists()) {
-            // The picture is ready; process it.
+            // The picture is ready to be processed
         } else {
-            // The file does not exist yet. Before starting the file observer, you
-            // can update your UI to let the user know that the application is
-            // waiting for the picture (for example, by displaying the thumbnail
-            // image and a progress indicator).
-
+            // The file does not exist yet.
             final File parentDirectory = pictureFile.getParentFile();
             FileObserver observer = new FileObserver(parentDirectory.getPath(),
                     FileObserver.CLOSE_WRITE | FileObserver.MOVED_TO) {
-                // Protect against additional pending events after CLOSE_WRITE
-                // or MOVED_TO is handled.
                 private boolean isFileWritten;
 
                 @Override
                 public void onEvent(int event, String path) {
                     if (!isFileWritten) {
-                        // For safety, make sure that the file that was created in
-                        // the directory is actually the one that we're expecting.
+                        //check that the file in the directory is the file we want
                         File affectedFile = new File(parentDirectory, path);
                         isFileWritten = affectedFile.equals(pictureFile);
 
@@ -100,4 +90,5 @@ public class Camera extends Activity {
 
         }
     }
+
 }

@@ -115,11 +115,6 @@ public class BluetoothServer extends Activity {
 				}
 				// If a connection was accepted
 				if (socket != null) {
-					/*try {
-						Thread.sleep(10000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}*/
 					//activates another inner class
 					new ConnectedThread(socket).start();
 					//close the socket made in this class
@@ -184,12 +179,6 @@ public class BluetoothServer extends Activity {
 					{
 						mOutStream.write(buffer, 0, read);
 						bytesRead += read;
-						// code for mobile version of host class
-//						runOnUiThread(new Runnable() {
-//							public void run() {
-//								mTvInfo.setText(mTvInfo.getText() + ".");
-//							}
-//						});
 					}
 
 					mSocket.close();
@@ -204,7 +193,6 @@ public class BluetoothServer extends Activity {
 					Log.e(TAG, e.getMessage());
 				}
 			}
-			//new AcceptThread().start();
 			finish();
 		}
 	}

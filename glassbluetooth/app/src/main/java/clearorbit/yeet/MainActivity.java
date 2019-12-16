@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.TextView;
 
 import com.google.android.glass.app.Card;
 import com.google.android.glass.touchpad.Gesture;
@@ -18,8 +17,6 @@ import com.google.android.glass.touchpad.GestureDetector;
 import com.google.android.glass.widget.CardBuilder;
 import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
-
-import clearorbit.yeet.R;
 
 /**
  * Created by Daniel Vega on 11/10/2019.
@@ -32,21 +29,10 @@ public class MainActivity extends Activity {
     private com.google.android.glass.touchpad.GestureDetector mGestureDetector;
 
 
-    private View buildView() {
-        CardBuilder card = new CardBuilder(this, CardBuilder.Layout.TEXT);
-        card.setText(R.string.app_name);
-        card.setText(R.string.app_name + "\n" + "Tap to take picture." + "\nDouble tap to view" +
-                "previous entry.");
-        //card.setImageLayout(Card.ImageLayout.LEFT);
-        //card.addImage(R.drawable.ic_glass_logo);
-        return card.getView();
-    }
-
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.main);
-        mView = buildView();
 
         mCardScroller = new CardScrollView(this);
         mCardScroller.setAdapter(new CardScrollAdapter() {
@@ -91,7 +77,7 @@ public class MainActivity extends Activity {
             public boolean onGesture(Gesture gesture) {
                 if (gesture == Gesture.TAP) {
                     startActivity();
-                    return true;
+                    finish();
                 } else if (gesture == Gesture.TWO_TAP) {
                     // do something on two finger tap
                     return true;
@@ -114,7 +100,7 @@ public class MainActivity extends Activity {
     }
 
     private void startActivity(){
-        Intent intent1 = new Intent(this, Camera.class);
+        Intent intent1 = new Intent(this, camera.class);
         startActivity(intent1);
     }
 
