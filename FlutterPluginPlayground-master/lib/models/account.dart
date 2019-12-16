@@ -26,7 +26,10 @@ class Account{
   final String job;
   final String about;
   final String city;
+  final String state;
   final String base64Image;
+  final int age;
+  final String education;
   bool loaded = false;
 
   Account({
@@ -39,7 +42,10 @@ class Account{
     this.company,
     this.about,
     this.city,
+    this.state,
     this.base64Image,
+    this.age,
+    this.education
 
   });
 
@@ -54,6 +60,9 @@ class Account{
       job: json['job_title'],
       about: json['about_me'],
       city: json['city'],
+      age: json['age'],
+      state: json['state'],
+      education: json['education'],
       base64Image: json['profile_pic'],
     );
   }
