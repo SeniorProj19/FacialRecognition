@@ -34,21 +34,22 @@ public class camera extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == TAKE_PICTURE_REQUEST && resultCode == RESULT_OK) {
-            String thumbnailPath = data.getStringExtra(Intents.EXTRA_THUMBNAIL_FILE_PATH);
             picturePath = data.getStringExtra(Intents.EXTRA_PICTURE_FILE_PATH);
             processPictureWhenReady(picturePath);
-
-
             Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
             if(picturePath == null){
                 return;
             }
+
         }
 
         super.onActivityResult(requestCode, resultCode, data);
-        Intent intent2 = new Intent(this, BluetoothServer.class);
-        intent2.putExtra("picturePath", picturePath);
-        startActivity(intent2);
+        Intent intent7 = new Intent(this, BluetoothServer.class);
+        intent7.putExtra("picturePath", picturePath);
+        startActivity(intent7);
+        Intent intent8 = new Intent(this, MainActivity.class);
+        startActivity(intent8);
+        finish();
     }
 
     private void processPictureWhenReady(final String picturePath) {
@@ -57,21 +58,24 @@ public class camera extends Activity {
         if (pictureFile.exists()) {
             // The picture is ready to be processed
         } else {
-
+            // The file does not exist yet.
             final File parentDirectory = pictureFile.getParentFile();
             FileObserver observer = new FileObserver(parentDirectory.getPath(),
                     FileObserver.CLOSE_WRITE | FileObserver.MOVED_TO) {
-                //reset observer
                 private boolean isFileWritten;
 
                 @Override
                 public void onEvent(int event, String path) {
                     if (!isFileWritten) {
+                        //check that the file in the directory is the file we want
                         File affectedFile = new File(parentDirectory, path);
                         isFileWritten = affectedFile.equals(pictureFile);
 
                         if (isFileWritten) {
                             stopWatching();
+
+                            // Now that the file is ready, recursively call
+                            // processPictureWhenReady again (on the UI thread).
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -86,4 +90,5 @@ public class camera extends Activity {
 
         }
     }
+
 }

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 
+import com.google.android.glass.app.Card;
 import com.google.android.glass.touchpad.Gesture;
 import com.google.android.glass.touchpad.GestureDetector;
 import com.google.android.glass.widget.CardBuilder;
@@ -19,8 +20,6 @@ import com.google.android.glass.widget.CardScrollView;
 
 /**
  * Created by Daniel Vega on 11/10/2019.
- * This will be used as the main menu for the
- * glass application.
  */
 
 public class MainActivity extends Activity {
@@ -30,21 +29,10 @@ public class MainActivity extends Activity {
     private com.google.android.glass.touchpad.GestureDetector mGestureDetector;
 
 
-    private View buildView() {
-        CardBuilder card = new CardBuilder(this, CardBuilder.Layout.TEXT);
-        card.setText(R.string.app_name);
-        card.setText(R.string.app_name + "\n" + "Tap to take picture." + "\nDouble tap to view" +
-                "previous entry.");
-        //card.setImageLayout(Card.ImageLayout.LEFT);
-        //card.addImage(R.drawable.ic_glass_logo);
-        return card.getView();
-    }
-
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.main);
-        mView = buildView();
 
         mCardScroller = new CardScrollView(this);
         mCardScroller.setAdapter(new CardScrollAdapter() {
@@ -70,7 +58,7 @@ public class MainActivity extends Activity {
 
         });
 
-        // Handles the tap event
+        // Handle the TAP event.
         mCardScroller.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -83,18 +71,17 @@ public class MainActivity extends Activity {
     private GestureDetector createGestureDetector(Context context) {
         GestureDetector gestureDetector = new GestureDetector(context);
 
-        //Listener for gestures
-        //there is room for more functionality to be mapped to new gestures
+        //Create a base listener for generic gestures
         gestureDetector.setBaseListener( new GestureDetector.BaseListener() {
             @Override
             public boolean onGesture(Gesture gesture) {
                 if (gesture == Gesture.TAP) {
-                    startCamera();
-                    return true;//TODO: show previous information on two_tap
-                }/* else if (gesture == Gesture.TWO_TAP) {
+                    startActivity();
+                    finish();
+                } else if (gesture == Gesture.TWO_TAP) {
                     // do something on two finger tap
                     return true;
-                } */else if (gesture == Gesture.SWIPE_DOWN){
+                } else if (gesture == Gesture.SWIPE_DOWN){
                     finish();
                 }
                 return false;
@@ -112,7 +99,7 @@ public class MainActivity extends Activity {
         return false;
     }
 
-    private void startCamera(){
+    private void startActivity(){
         Intent intent1 = new Intent(this, camera.class);
         startActivity(intent1);
     }

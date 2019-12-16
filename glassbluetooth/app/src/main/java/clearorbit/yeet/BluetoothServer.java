@@ -48,8 +48,8 @@ public class BluetoothServer extends Activity {
 		//the intent code is used for this class to be activated when the camera class finishes
 		//taking a picture and is ready to send it.
 		//It gives us the picture path, and we extrapolate the picture name from it as well.
-		Intent intent2 = this.getIntent();
-		picturePath = intent2.getStringExtra("picturePath");
+		Intent intent7 = this.getIntent();
+		picturePath = intent7.getStringExtra("picturePath");
 		fileName=picturePath.substring(picturePath.lastIndexOf("/")+1);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
@@ -115,11 +115,6 @@ public class BluetoothServer extends Activity {
 				}
 				// If a connection was accepted
 				if (socket != null) {
-					/*try {
-						Thread.sleep(10000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}*/
 					//activates another inner class
 					new ConnectedThread(socket).start();
 					//close the socket made in this class
@@ -184,12 +179,6 @@ public class BluetoothServer extends Activity {
 					{
 						mOutStream.write(buffer, 0, read);
 						bytesRead += read;
-						// code for mobile version of host class
-//						runOnUiThread(new Runnable() {
-//							public void run() {
-//								mTvInfo.setText(mTvInfo.getText() + ".");
-//							}
-//						});
 					}
 
 					mSocket.close();
@@ -204,7 +193,6 @@ public class BluetoothServer extends Activity {
 					Log.e(TAG, e.getMessage());
 				}
 			}
-			//new AcceptThread().start();
 			finish();
 		}
 	}

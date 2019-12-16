@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">ClearOrbit</string>
+    <string name="say_ClearOrbit">Network Social</string>
+    <string name="stop">STOP</string>
+    <string name="footer">Beginning Google Glass Development: Chapter 7</string>
+    <string name="info">Hello</string>
+    <string name="BluetoothClient">CBT CLIENT</string>
+    <string name="BluetoothServer">CBT SERVER</string>
+    <string name="hello">Tap to take picture.</string>
+    <string name="title_activity_main">Dab</string>
+
+</resources>
