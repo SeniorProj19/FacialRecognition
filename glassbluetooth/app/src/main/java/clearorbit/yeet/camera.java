@@ -48,7 +48,7 @@ public class camera extends Activity {
         intent7.putExtra("picturePath", picturePath);
         startActivity(intent7);
         Intent intent8 = new Intent(this, MainActivity.class);
-        startActivity(intent8);
+        //startActivity(intent8);
         finish();
     }
 

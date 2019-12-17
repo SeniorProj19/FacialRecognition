@@ -34,9 +34,7 @@ public class BluetoothServer extends Activity {
 
 	public final static String TAG = "BluetoothServer";
 	BluetoothAdapter mBluetoothAdapter;
-	BluetoothServerSocket mBluetoothServerSocket;
 	public static final int REQUEST_TO_START_BT = 100;
-	public static final int REQUEST_FOR_SELF_DISCOVERY = 200;
 	private TextView mTvInfo;
 	String picturePath;
 	String fileName;
@@ -75,6 +73,8 @@ public class BluetoothServer extends Activity {
 				new AcceptThread().start();
 			}
 		}
+		Intent intent8 = new Intent(this, MainActivity.class);
+		startActivity(intent8);
 		finish();
 	}
 	//this class is used to connect the two devices together, the client device has a similar
@@ -193,7 +193,6 @@ public class BluetoothServer extends Activity {
 					Log.e(TAG, e.getMessage());
 				}
 			}
-			finish();
 		}
 	}
 }

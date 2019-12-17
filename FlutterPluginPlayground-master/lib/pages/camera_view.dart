@@ -163,7 +163,7 @@ class Camera_viewState extends APIState {
                   content: Center(child: new CircularProgressIndicator()), //(CircularProgressIndicator( )
                   duration: Duration(seconds: 5),
                 ));
-                //runPlayground();
+                runPlayground();
               }, child: Text('Check For Matches', style: TextStyle(color: Colors.white),),
                 color: Color.fromRGBO(46, 108, 164, 1),)
           ),
