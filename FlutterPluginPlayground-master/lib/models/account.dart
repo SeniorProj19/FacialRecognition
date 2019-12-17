@@ -24,13 +24,6 @@ class Account{
   final String email;
   final String company;
   final String job;
-  final String about;
-  final String city;
-  final String state;
-  final String base64Image;
-  final int age;
-  final String education;
-  bool loaded = false;
 
   Account({
     this.usernum,
@@ -39,14 +32,7 @@ class Account{
     this.last_name,
     this.email,
     this.job,
-    this.company,
-    this.about,
-    this.city,
-    this.state,
-    this.base64Image,
-    this.age,
-    this.education
-
+    this.company
   });
 
   factory Account.fromJson(Map<String, dynamic> json){
@@ -58,12 +44,6 @@ class Account{
       email: json['email'],
       company: json['curr_company'],
       job: json['job_title'],
-      about: json['about_me'],
-      city: json['city'],
-      age: json['age'],
-      state: json['state'],
-      education: json['education'],
-      base64Image: json['profile_pic'],
     );
   }
 }

@@ -11,6 +11,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 //import 'package:camera/camera.dart';
 import 'package:image_picker/image_picker.dart';
@@ -28,12 +29,11 @@ class Camera_viewState extends APIState {
   //Need a client call
   //Method that gets image path from server and returns image
   File _image;
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   Future checkDir() async{
-    runPlayground();
+    //runPlayground();
     //20191202_064624.jpg
-    String pafth = '/storage/emulated/0/ClearOrbit/COpic.jpg';
+    String pafth = '/storage/emulated/0/ClearOrbit/COPic.jpg';
     if (await File(pafth).existsSync()){
       File image = new File(pafth);
       usernum = sharedPreferences.getInt("usernum");
@@ -57,10 +57,10 @@ class Camera_viewState extends APIState {
           print(res.body);
           var data = json.decode(res.body);
           var match = data['match'];
-          if(match == null)
+          if(match == 'None')
             matchNotfoundDialog();
           else
-            matchFounddialog(match, _image);
+            matchFounddialog(match);
         }).catchError((err) {
           print(err);
         });
@@ -71,23 +71,10 @@ class Camera_viewState extends APIState {
       print('no');
   }
 
-  Future matchFounddialog(name, image){
+  Future matchFounddialog(name){
     return showDialog(context: context,
         builder: (BuildContext context){
-          return SimpleDialog(
-              title: Text('You Matched With $name. Check Your Connections'),
-            children: <Widget>[
-              //Image.file(image)
-              Container(
-                padding: EdgeInsets.only(left: 12.0),
-                child: SizedBox(
-                    height: 80,
-                    width: 80,
-                    child: Image.memory(imageInBytes, fit: BoxFit.contain,)
-                ),
-              )
-            ],
-          );
+          return SimpleDialog(title: Text('You Matched With $name. Check Your Connections'));
         });
 
   }
@@ -102,7 +89,6 @@ class Camera_viewState extends APIState {
           return SimpleDialog(title: Text('Match Not Found'));
         });
   }
-
 
   getImage() async{
 
@@ -122,7 +108,7 @@ class Camera_viewState extends APIState {
         if(match == null)
           matchNotfoundDialog();
         else
-          matchFounddialog(match, image);
+          matchFounddialog(match);
       }).catchError((err) {
         print(err);
       });
@@ -153,23 +139,21 @@ class Camera_viewState extends APIState {
     // TODO: implement build
     return new MaterialApp(
         home: new Scaffold(
-          key: _scaffoldKey,
           body: new Center(
               child: new FlatButton(onPressed:(){
-                //checkDir()
                 print('Tedt');
-                //loading();
-                Scaffold.of(context).showSnackBar(SnackBar(
-                  content: Center(child: new CircularProgressIndicator()), //(CircularProgressIndicator( )
-                  duration: Duration(seconds: 5),
-                ));
                 runPlayground();
+                Future.delayed(const Duration(seconds: 5), (){
+                  print('--------------------------------------------------------');
+                checkDir();
+                });
+
               }, child: Text('Check For Matches', style: TextStyle(color: Colors.white),),
                 color: Color.fromRGBO(46, 108, 164, 1),)
           ),
-          floatingActionButton: new FloatingActionButton(onPressed:test,
-            tooltip: 'Pick Image',
-            child: new Icon(Icons.camera),),
+          //floatingActionButton: new FloatingActionButton(onPressed:test,
+            //tooltip: 'Pick Image',
+            //child: new Icon(Icons.camera),),
         ));
   }
   void runPlayground() async {

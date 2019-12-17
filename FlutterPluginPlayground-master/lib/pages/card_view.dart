@@ -87,10 +87,7 @@ class card_view_state extends APIState {
 
   @override
   Widget build(BuildContext context) {
-    Widget userid;
     if(imageInBytes != null)
-
-
       return Container(
         child: Container(
           margin: EdgeInsets.all(15.0),
