@@ -142,6 +142,10 @@ class Camera_viewState extends APIState {
           body: new Center(
               child: new FlatButton(onPressed:(){
                 print('Tedt');
+                Scaffold.of(context).showSnackBar(SnackBar(
+                  content: Center(child: new CircularProgressIndicator()), //(CircularProgressIndicator( )
+                  duration: Duration(seconds: 5),
+                ));
                 runPlayground();
                 Future.delayed(const Duration(seconds: 5), (){
                   print('--------------------------------------------------------');
