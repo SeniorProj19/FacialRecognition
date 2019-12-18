@@ -16,6 +16,8 @@ class AccountsList {
   }
 }
 
+//Contains account blueprint
+//Andrew Weatherby
 class Account{
   final int usernum;
   final String username;
@@ -35,6 +37,8 @@ class Account{
     this.company
   });
 
+  //creates account from JSON
+  //Andrew Weatherby
   factory Account.fromJson(Map<String, dynamic> json){
     return new Account(
       usernum: json['usernum'],

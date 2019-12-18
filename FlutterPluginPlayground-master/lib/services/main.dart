@@ -5,6 +5,10 @@ const channel = const MethodChannel('playground');
 
 void main() => runApp(PlaygroundApp());
 
+
+/*
+Page that commnuicates with JAVA classes
+ */
 class PlaygroundApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

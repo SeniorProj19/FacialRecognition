@@ -7,6 +7,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
+/*
+  Contains support for Flutter pages that makes it easier to make calls to flask
+  Andrew Weatherby
+ */
 class API extends StatefulWidget {
   @override
   APIState createState() => APIState();
@@ -20,6 +24,7 @@ class APIState extends State<API> {
   var success = false;
   Map<String, Map<String, String>> messages;
 
+  //Account information
   String username;
   String fullname;
   String password;
@@ -55,6 +60,7 @@ class APIState extends State<API> {
     loadURL();
   }
 
+  //Our websites URL
   void loadURL() async {
     sharedPreferences = await SharedPreferences.getInstance();
     String settingURL =
@@ -84,6 +90,7 @@ class APIState extends State<API> {
     showIndicator();
   }
 
+  //Progress indicator when loading accounts
   void showIndicator() {
     if (apiCall) {
       showDialog(

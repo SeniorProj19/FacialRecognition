@@ -1,6 +1,8 @@
 import 'package:flutter_plugin_playground/models/account.dart';
 
-/*Contains global variables for the app*/
+/*Contains global variables for the app
+* NO LONGER USED
+*/
 
 bool signedin = true;
 Account account_signedin = Account(

@@ -6,10 +6,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+
+/*
+  Main page for mobile application
+ */
 void main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isLogged = (prefs.getBool('isLogged') ?? false);
 
+  //shows different page depending on whether or not an account is logged in
   var home;
   if(isLogged)
     home = app_view();

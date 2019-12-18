@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:expandable/expandable.dart';
 
+//Page containing view for connections
 class connections_view extends API {
   @override
   connections_view_state createState() => connections_view_state();
