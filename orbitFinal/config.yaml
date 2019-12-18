@@ -1,0 +1,5 @@
+host: 'localhost'
+user: 'jefe'
+password: '93paBLOescobar*'
+database: 'OrbitLens'
+secret_key: 'hello'
