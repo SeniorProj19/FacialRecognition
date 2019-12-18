@@ -19,7 +19,7 @@ import java.io.File;
  */
 
 public class camera extends Activity {
-    private static final int TAKE_PICTURE_REQUEST = 1;
+    private static final int PICTURE_REQUEST = 1;
     String picturePath;
 
     protected void onCreate(Bundle savedInstanceState){
@@ -28,14 +28,14 @@ public class camera extends Activity {
     }
     private void takePicture() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, TAKE_PICTURE_REQUEST);
+        startActivityForResult(intent, PICTURE_REQUEST);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == TAKE_PICTURE_REQUEST && resultCode == RESULT_OK) {
+        if (requestCode == PICTURE_REQUEST && resultCode == RESULT_OK) {
             picturePath = data.getStringExtra(Intents.EXTRA_PICTURE_FILE_PATH);
-            processPictureWhenReady(picturePath);
+            processPicture(picturePath);
             Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
             if(picturePath == null){
                 return;
@@ -44,15 +44,14 @@ public class camera extends Activity {
         }
 
         super.onActivityResult(requestCode, resultCode, data);
+        //This activates the bluetoothserver class and sends it the path of the picture taken.
         Intent intent7 = new Intent(this, BluetoothServer.class);
         intent7.putExtra("picturePath", picturePath);
         startActivity(intent7);
-        Intent intent8 = new Intent(this, MainActivity.class);
-        //startActivity(intent8);
         finish();
     }
 
-    private void processPictureWhenReady(final String picturePath) {
+    private void processPicture(final String picturePath) {
         final File pictureFile = new File(picturePath);
 
         if (pictureFile.exists()) {
@@ -75,11 +74,11 @@ public class camera extends Activity {
                             stopWatching();
 
                             // Now that the file is ready, recursively call
-                            // processPictureWhenReady again (on the UI thread).
+                            // processPicture again (on the UI thread).
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    processPictureWhenReady(picturePath);
+                                    processPicture(picturePath);
                                 }
                             });
                         }

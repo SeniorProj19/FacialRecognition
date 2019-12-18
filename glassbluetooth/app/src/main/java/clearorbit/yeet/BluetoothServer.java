@@ -3,7 +3,11 @@ package clearorbit.yeet;
 /*
 Daniel Vega
 Clear Orbit
-Class: Updated Bluetooth Server
+Class: This class uses base android bluetooth code
+to make a connection with the bluetooth device of
+the specified UUID. It will then use more bluetooth code
+along with streaming code to send the image that was taken
+in the camera class.
  */
 
 import java.io.BufferedInputStream;
@@ -12,7 +16,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
 
@@ -23,9 +26,7 @@ import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -73,6 +74,7 @@ public class BluetoothServer extends Activity {
 				new AcceptThread().start();
 			}
 		}
+		//This starts the menu class to repeat the loop once this class is done running.
 		Intent intent8 = new Intent(this, MainActivity.class);
 		startActivity(intent8);
 		finish();

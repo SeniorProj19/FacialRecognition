@@ -160,6 +160,7 @@ class Camera_viewState extends APIState {
             //child: new Icon(Icons.camera),),
         ));
   }
+  //This runs the java class for receiving the image via bluetooth.
   void runPlayground() async {
     print('t');
     var testResult = await channel.invokeMethod("test");

@@ -4,22 +4,24 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-//import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 
-import com.google.android.glass.app.Card;
 import com.google.android.glass.touchpad.Gesture;
 import com.google.android.glass.touchpad.GestureDetector;
-import com.google.android.glass.widget.CardBuilder;
 import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
 
 /**
  * Created by Daniel Vega on 11/10/2019.
+ * This class is the men/ui. Once a tap
+ * is received, it will call the camera class,
+ * which will call the bluetoothserver class.
+ * Then, the bluetoothserver class will go back
+ * to this class to repeat the cycle.
  */
 
 public class MainActivity extends Activity {
@@ -78,9 +80,6 @@ public class MainActivity extends Activity {
                 if (gesture == Gesture.TAP) {
                     startActivity();
                     finish();
-                } else if (gesture == Gesture.TWO_TAP) {
-                    // do something on two finger tap
-                    return true;
                 } else if (gesture == Gesture.SWIPE_DOWN){
                     finish();
                 }

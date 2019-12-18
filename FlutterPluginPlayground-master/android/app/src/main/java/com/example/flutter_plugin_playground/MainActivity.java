@@ -32,14 +32,25 @@ import java.io.InputStream;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * Author: Daniel Vega
+ * This class is similar to the bluetooth server class in the glass app.
+ * It uses base android bluetooth and streaming code to receive
+ * an image from the google glass.
+ */
 public class MainActivity extends FlutterActivity {
   public final static String label = "BluetoothClient";
   public final static int REQUEST_ENABLE_BT =100;//must be greater than 0
   private BluetoothAdapter mBluetoothAdapter;
   //private TextView outPut;
   //the same UUID as server
-  String dab;
   private UUID MY_UUID = UUID.fromString("297e4ec2-01a5-11ea-8d71-362b9e155667");
+  //This is a meaningless string that is here just because it is needed for the method we
+  //used to run java code in flutter.
+  String flutter_output;
+  //The file location that the image will be put in.
+  //This is set up so that the images overwrite the previous one to prevent
+  //this app from taking up infinite space in the phone.
   private final static String filePath = Environment.getExternalStorageDirectory().getPath() +
           "/ClearOrbit/COPic.jpg";
   private final static String serverDName = "Daniel Vega's Glass";
@@ -49,31 +60,9 @@ public class MainActivity extends FlutterActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    //setContentView(R.layout.main);
     final BluetoothManager bluetoothManager =
             (BluetoothManager)getSystemService(Context.BLUETOOTH_SERVICE);
     mBluetoothAdapter = bluetoothManager.getAdapter();
-   /* if(mBluetoothAdapter == null)
-      return;//checks if the device supports bluetooth
-    else{
-      if(!mBluetoothAdapter.isEnabled()) {//checks if bluetooth  is disabled
-        Intent enableBtIntent = new
-                Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);//passes constant int to onActivityResult()
-        //this requests to make the device discoverable
-        //this will call onActivateResult
-        startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-      }else{
-        dab = "the file runs through full onCreate method";
-        //if bluetooth is enabled, it will cut out the step to attempt to enable it.
-        //This uses two different ways to try to find and connect to our server device.
-        //It is more reliable and stable to connect to an already bonded device.
-
-        //Discover bluetooth devices that haven't been bonded to the client device already.
-        //discoverBluetoothDevices();
-        //Searches the list of already bonded devices for the one that we are looking for.
-        getBondedDevices();
-      }
-    }*/
     GeneratedPluginRegistrant.registerWith(this);
 
     // Prepare channel
@@ -110,7 +99,7 @@ public class MainActivity extends FlutterActivity {
     }
   }
   void discoverBluetoothDevices(){
-    dab = "Runs through discoverBluetoothDevices";
+    flutter_output = "Runs through discoverBluetoothDevices";
     //initialize a BroadcastReceiver for the ACTION_FOUND Intent
     //to get info about each Bluetooth device discovered
     IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
@@ -227,17 +216,15 @@ public class MainActivity extends FlutterActivity {
         //this will call onActivateResult
         startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
       }else{
-        dab = "the file runs through full onCreate method";
+        flutter_output = "the file runs through full onCreate method";
         //if bluetooth is enabled, it will cut out the step to attempt to enable it.
-        //This uses two different ways to try to find and connect to our server device.
-        //It is more reliable and stable to connect to an already bonded device.
 
-        //Discover bluetooth devices that haven't been bonded to the client device already.
-        //discoverBluetoothDevices();
         //Searches the list of already bonded devices for the one that we are looking for.
         getBondedDevices();
       }
     }
-    result.success(dab);
+    //this returns a string just because it is needed for the method we used to
+    //run java code in flutter.
+    result.success(flutter_output);
   }
 }
